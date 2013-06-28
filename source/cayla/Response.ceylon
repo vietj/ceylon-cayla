@@ -1,4 +1,5 @@
 import vietj.vertx.http { HttpServerResponse }
+import ceylon.file { current, File }
 
 shared Status ok() {
 	return Status(200);
@@ -41,6 +42,31 @@ shared class Status(shared Integer code) extends Response() {
 			resp.headers(header);
 		}
 	}
+
+    shared Body template(String path, Map<String,Object> values) {
+        if (is File f = current.childPath(path).resource) {
+            value sb = StringBuilder();
+            value r = f.reader();
+            try {
+                while (exists l = r.readLine()) {
+                    sb.append(l);
+                    sb.appendNewline();
+                }
+            } catch (Exception ex) {
+                print("well, fuck.");
+            } finally {
+                r.destroy();
+            }
+            //Now replace the values
+            variable value s = sb.string;
+            for (k->v in values) {
+                s = s.replace("${``k``}", v.string);
+            }
+            return Body(code, "text/html", s);
+        }
+        return Body(code, "text/plain", "TEMPLATE ``path`` NOT FOUND");
+    }
+
 }
 
 doc "The body response extends the [[Status]] with a body"
