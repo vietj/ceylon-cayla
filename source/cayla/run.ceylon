@@ -4,38 +4,20 @@ class MyApp() extends Application() {
 	
 	route "/"
 	shared class Index() extends Controller() {
-		shared actual default Response handle() => ok().body(
-			"<html><body>
-			 <h1>Application index</h1>
-			 <ul>
-			 <li><a href='``Controller1("the_param")``'>Controller 1 with path parameter</a></li>
-			 <li><a href='``Controller2("the_param")``'>Controller 2 with query parameter</a></li>
-			 </ul>
-			 </body></html>");
+		shared actual default Response handle() => ok().template("web/index.html",
+            LazyMap{"c1"->Controller1("the_param"), "c2"->Controller2("the_param")});
 	}
 
 	route "/foo/:param"
 	shared class Controller1(shared String param) extends Controller() {
-		shared actual default Response handle() => ok().body(
-			"<html><body>
-			 <h1>Application controller 1 with parameter ``param``</h1>
-			 <ul>
-			 <li><a href='``Index()``'>Index</a></li>
-			 <li><a href='``Controller2("the_param")``'>Controller 2 with query parameter</a></li>
-			 </ul>
-			 </body></html>");
+		shared actual default Response handle() => ok().template("web/controller1.html",
+            LazyMap{"index"->Index(), "c2"->Controller2(param), "param"->param});
 	}
 	
 	route "/bar"
 	shared class Controller2(shared String param) extends Controller() {
-		shared actual default Response handle() => ok().body(
-			"<html><body>
-			 <h1>Application controller 2 with parameter ``param``</h1>
-			 <ul>
-			 <li><a href='``Index()``'>Index</a></li>
-			 <li><a href='``Controller1("the_param")``'>Controller 1 with path parameter</a></li>
-			 </ul>
-			 </body></html>");
+		shared actual default Response handle() => ok().template("web/controller2.html",
+            LazyMap{"index"->Index(), "c1"->Controller1(param), "param"->param});
 	}
 }
 
