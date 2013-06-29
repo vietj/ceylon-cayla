@@ -8,7 +8,7 @@ shared class Runtime(ApplicationDescriptor _descriptor, Vertx vertx, HttpServer 
 	shared void handle(HttpServerRequest req) {
 		
 		Response response;
-		if (exists match = _descriptor.resolve(req.path)) {
+		if (exists match = _descriptor.resolve(req.uri.path)) {
 			
 			// Merge parameters
 			{<String->String>*} parameters = req.parameters.mapItems(

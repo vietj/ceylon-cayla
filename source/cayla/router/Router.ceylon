@@ -1,4 +1,4 @@
-import ceylon.net.uri { Path, Query, Parameter }
+import ceylon.net.uri { Path, Query, Parameter, PathSegment, parse }
 import ceylon.collection { HashMap }
 
 doc "A router"
@@ -8,6 +8,12 @@ shared class Router(shared [Router,Mount]? rel = null) satisfies Correspondence<
 		switch (path)
 		case (is {String*}) { return path; }
 		case (is String) { return path.split("/").filter((String elem) => !elem.empty); }
+	}
+
+	shared {String*} segmentsOf2(Path|String path) {
+		switch (path)
+		case (is Path) { return path.segments.map((PathSegment elem) => elem.name).filter((String elem) => !elem.empty); }
+		case (is String) { return segmentsOf2(parse(path).path); }
 	}
 
 	variable [Mount,Router][] children = [];
@@ -148,8 +154,8 @@ shared class Router(shared [Router,Mount]? rel = null) satisfies Correspondence<
 		}
 	}
 	
-	shared RouteMatch<Router>? resolve(<String|{String*}> path) {
-		return _match(segmentsOf(path), []);
+	shared RouteMatch<Router>? resolve(<String|Path> path) {
+		return _match(segmentsOf2(path), []);
 	}
 
 	shared RouteMatch<Router>? _match({String*} path, [Mount,String][] matches) {

@@ -28,7 +28,7 @@ shared class ApplicationDescriptor(Application application) {
 	
 	shared {ControllerDescriptor*} controllers = tmp;
 	
-	shared RouteMatch<ControllerDescriptor>? resolve(String path) {
+	shared RouteMatch<ControllerDescriptor>? resolve(Path|String path) {
 		if (exists match = root.resolve(path), exists controller = routers.get(match.target)) {
 			return match.as(controller);
 		}

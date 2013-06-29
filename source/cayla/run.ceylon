@@ -40,10 +40,12 @@ class MyApp() extends Application() {
 }
 
 shared void run(){
+	
 	MyApp app = MyApp();
 	Promise<Runtime> runtime = app.start();
-	runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed"));
+	runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
 	process.readLine();
 	runtime.then_((Runtime runtime) => runtime.stop()).then_((Anything anyting) => print("stopped"));
+
 }
 
