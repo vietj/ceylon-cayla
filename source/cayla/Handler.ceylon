@@ -1,0 +1,3 @@
+shared abstract class Handler() {
+	
+}
