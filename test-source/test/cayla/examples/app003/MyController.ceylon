@@ -2,7 +2,7 @@ import cayla { ... }
 
 shared class MyController() {
 	
-	shared class Index(String s) extends Handler() {
+	shared class Index(shared String s) extends Handler() {
 	}
 	
 }

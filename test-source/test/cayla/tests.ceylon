@@ -24,6 +24,12 @@ test void testApp003() {
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);
-	Object handler = handlerDesc.instantiate();
+	try {
+		handlerDesc.instantiate();
+		fail();
+	} catch (Exception expected) {
+	}
+	Object handler = handlerDesc.instantiate("s"->"s_value");
 	assert(is Controller003.Index handler);
+	assertEquals("s_value", handler.s);
 }
