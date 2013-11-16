@@ -6,6 +6,7 @@ shared void run() {
 		`package test.cayla.router`,
 		`package test.cayla.handler.instantiate`,
 		`package test.cayla.handler.parameters`,
+		`package test.cayla.handler.route`,
 		`package test.cayla.application`
 	]);
     value result = runner.run();

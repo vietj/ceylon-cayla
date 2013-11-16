@@ -1,4 +1,7 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
+import ceylon.language.meta.model { MemberClass }
+import cayla { Route }
+import ceylon.language.meta { annotations }
 
 shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 	
@@ -40,4 +43,6 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 				if (is ValueDeclaration parameterDecl, exists t = parameterDecl.memberGet(handler))
 					parameterDecl.name->t.string
 		});
+	
+	shared Route? route => annotations(`Route`, classDecl);
 }
