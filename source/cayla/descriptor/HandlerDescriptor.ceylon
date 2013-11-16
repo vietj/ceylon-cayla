@@ -1,6 +1,7 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
 
 shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
+	
 	shared Object instantiate(<String->String>* arguments) {
 		Anything[] buildArguments(FunctionOrValueDeclaration[] parametersDecl) {
 			value parameterDecl = parametersDecl.first;
@@ -31,5 +32,12 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 		};
 		assert(exists instance);
 		return instance;
-	}	
+	}
+	
+	shared Map<String, String> parameters(Object handler) => 
+		LazyMap({
+			for (parameterDecl in classDecl.parameterDeclarations)
+				if (is ValueDeclaration parameterDecl, exists t = parameterDecl.memberGet(handler))
+					parameterDecl.name->t.string
+		});
 }
