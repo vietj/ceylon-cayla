@@ -1,11 +1,12 @@
-import cayla.descriptor { ControllerDescriptor }
+import cayla.descriptor { ControllerDescriptor, controller }
 import ceylon.test { test, assertEquals }
 import test.cayla.handler.parameters.support.app001 { Controller001=MyController }
 import test.cayla.handler.parameters.support.app002 { Controller002=MyController }
 import test.cayla.handler.parameters.support.app003 { Controller003=MyController }
 
 shared test void test001() {
-	value desc = ControllerDescriptor(Controller001());
+	value desc = controller(Controller001());
+	assert(exists desc);
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);
@@ -14,7 +15,8 @@ shared test void test001() {
 }
 
 shared test void test002() {
-	value desc = ControllerDescriptor(Controller002());
+	value desc = controller(Controller002());
+	assert(exists desc);
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);
@@ -23,7 +25,8 @@ shared test void test002() {
 }
 
 shared test void test003() {
-	value desc = ControllerDescriptor(Controller003());
+	value desc = controller(Controller003());
+	assert(exists desc);
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);

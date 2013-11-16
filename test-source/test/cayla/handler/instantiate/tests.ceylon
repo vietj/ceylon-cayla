@@ -1,6 +1,6 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { ... }
-import cayla.descriptor { ControllerDescriptor }
+import cayla.descriptor { ControllerDescriptor, controller }
 import test.cayla.handler.instantiate.support.app001 { Controller001=MyController }
 import test.cayla.handler.instantiate.support.app002 { Controller002=MyController }
 import test.cayla.handler.instantiate.support.app003 { Controller003=MyController }
@@ -8,7 +8,8 @@ import test.cayla.handler.instantiate.support.app004 { Controller004=MyControlle
 import test.cayla.handler.instantiate.support.app005 { Controller005=MyController }
 
 shared test void testApp001() {
-	value desc = ControllerDescriptor(Controller001());
+	value desc = controller(Controller001());
+	assert(exists desc);
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);
@@ -17,12 +18,13 @@ shared test void testApp001() {
 }
 
 shared test void testApp002() {
-	value desc = ControllerDescriptor(Controller002());
-	assertEquals(0, desc.handlers.size);
+	value desc = controller(Controller002());
+	assertNull(desc);
 }
 
 shared test void testApp003() {
-	value desc = ControllerDescriptor(Controller003());
+	value desc = controller(Controller003());
+	assert(exists desc);
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);
@@ -37,7 +39,8 @@ shared test void testApp003() {
 }
 
 shared test void testApp004() {
-	value desc = ControllerDescriptor(Controller004());
+	value desc = controller(Controller004());
+	assert(exists desc);
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);
@@ -48,7 +51,8 @@ shared test void testApp004() {
 }
 
 shared test void testApp005() {
-	value desc = ControllerDescriptor(Controller005());
+	value desc = controller(Controller005());
+	assert(exists desc);
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);

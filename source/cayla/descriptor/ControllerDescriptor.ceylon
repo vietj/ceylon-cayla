@@ -3,18 +3,21 @@ import ceylon.language.meta.model { ClassModel, Class, MemberClass }
 import ceylon.language.meta.declaration { ClassDeclaration }
 import cayla { Handler }
 
-shared class ControllerDescriptor(Object controller) {
+shared ControllerDescriptor? controller(Object obj) {
 	
-	ClassModel<Object> classModel = type(controller);
+	ClassModel<Object> classModel = type(obj);
 	value memberDecls = classModel.declaration.memberDeclarations<ClassDeclaration>();	
-//	shared Iterable<MemberClass<Object, Handler>> handlers => { for (memberDecl in memberDecls)
-//		memberDecl.memberClassApply<Object, Handler>(classModel)
-//	};
+	HandlerDescriptor[] handlers = [*{
+		for (memberDecl in memberDecls)
+			if (exists x = memberDecl.extendedType, x.declaration.equals(`class Handler`))
+				HandlerDescriptor(obj, memberDecl)		
+		}];
+	if (nonempty handlers) {
+		return ControllerDescriptor(obj, handlers);
+	} else {
+		return null;
+	}
+}
 
-	shared Iterable<HandlerDescriptor> handlers = { for (memberDecl in memberDecls)
-		if (exists x = memberDecl.extendedType, x.declaration.equals(`class Handler`))
-			HandlerDescriptor(controller, memberDecl)		
-	};
-	// shared Map<ClassDeclaration, HandlerDescriptor> handlers = LazyMap(a);
-	
+shared class ControllerDescriptor(shared Object controller, shared HandlerDescriptor[] handlers) {
 }
