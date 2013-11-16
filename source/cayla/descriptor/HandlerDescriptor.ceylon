@@ -1,4 +1,8 @@
-import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, OpenClassOrInterfaceType, ValueDeclaration }
+import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
+
+String? returnStringOrNull() { return nothing; }
+OpenType stringOrNullType = `function returnStringOrNull`.openType;
+
 shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 	shared Object instantiate(<String->String>* arguments) {
 		Anything[] buildArguments(FunctionOrValueDeclaration[] parametersDecl) {
@@ -16,6 +20,16 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 							throw Exception("Should obtain default argument somehow ``name``");
 						} else {
 							throw Exception("Missing argument ``name``");
+						}
+					}
+				} else if (type.equals(stringOrNullType)) {
+					if (exists argument) {
+						return [argument.item,*rest];
+					} else {
+						if (parameterDecl.defaulted) {
+							throw Exception("Should obtain default argument somehow ``name``");
+						} else {
+							return [null,*rest];
 						}
 					}
 				} else {
