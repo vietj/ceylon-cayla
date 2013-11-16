@@ -1,8 +1,5 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
 
-String? returnStringOrNull() { return nothing; }
-OpenType stringOrNullType = `function returnStringOrNull`.openType;
-
 shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 	shared Object instantiate(<String->String>* arguments) {
 		Anything[] buildArguments(FunctionOrValueDeclaration[] parametersDecl) {
@@ -12,25 +9,14 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 				value type = parameterDecl.openType;
 				String name = parameterDecl.name;
 				value argument = arguments.find((String->String elem) => elem.key.equals(name));
-				if (type.equals(`class String`.openType)) {
-					if (exists argument) {
-						return [argument.item,*rest];
+				Anything(String?)? unmarshaller = unmarshallers.find(type);
+				if (exists unmarshaller) {
+					String? item = argument?.item;
+					if (!(item exists) && parameterDecl.defaulted) {
+						throw Exception("Should obtain default argument somehow ``name``");
 					} else {
-						if (parameterDecl.defaulted) {
-							throw Exception("Should obtain default argument somehow ``name``");
-						} else {
-							throw Exception("Missing argument ``name``");
-						}
-					}
-				} else if (type.equals(stringOrNullType)) {
-					if (exists argument) {
-						return [argument.item,*rest];
-					} else {
-						if (parameterDecl.defaulted) {
-							throw Exception("Should obtain default argument somehow ``name``");
-						} else {
-							return [null,*rest];
-						}
+						Anything unmarshalled = unmarshaller(item);
+						return [unmarshalled,*rest];
 					}
 				} else {
 					throw Exception("Unsupported parameter type ``type``");
