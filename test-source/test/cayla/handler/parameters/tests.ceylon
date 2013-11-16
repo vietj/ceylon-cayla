@@ -1,8 +1,8 @@
 import cayla.descriptor { ControllerDescriptor }
 import ceylon.test { test, assertEquals }
-import test.cayla.support.handler.parameters.app001 { Controller001=MyController }
-import test.cayla.support.handler.parameters.app002 { Controller002=MyController }
-import test.cayla.support.handler.parameters.app003 { Controller003=MyController }
+import test.cayla.handler.parameters.support.app001 { Controller001=MyController }
+import test.cayla.handler.parameters.support.app002 { Controller002=MyController }
+import test.cayla.handler.parameters.support.app003 { Controller003=MyController }
 
 shared test void test001() {
 	value desc = ControllerDescriptor(Controller001());
