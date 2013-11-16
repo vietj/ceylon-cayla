@@ -15,6 +15,8 @@ shared test void testApp001() {
 	assert(exists handlerDesc);
 	Object handler = handlerDesc.instantiate();
 	assert(is Controller001.Index handler);
+	assertTrue(handlerDesc.isInstance(handler));
+	assertFalse(handlerDesc.isInstance("abc"));
 }
 
 shared test void testApp002() {

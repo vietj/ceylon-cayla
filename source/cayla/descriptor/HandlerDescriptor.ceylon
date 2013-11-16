@@ -1,7 +1,7 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
 import ceylon.language.meta.model { MemberClass }
 import cayla { Route }
-import ceylon.language.meta { annotations }
+import ceylon.language.meta { annotations, type }
 
 shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 	
@@ -45,4 +45,7 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 		});
 	
 	shared Route? route => annotations(`Route`, classDecl);
+	
+	shared Boolean isInstance(Object obj) => type(obj).declaration.equals(classDecl);
+	
 }
