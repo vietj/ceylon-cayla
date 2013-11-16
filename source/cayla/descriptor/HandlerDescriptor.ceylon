@@ -7,21 +7,17 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 			if (exists parameterDecl) {
 				Anything[] rest = buildArguments(parametersDecl.rest);
 				value type = parameterDecl.openType;
-				if (is OpenClassOrInterfaceType type) {
-					String name = parameterDecl.name;
-					value argument = arguments.find((String->String elem) => elem.key.equals(name));
-					if (type.declaration.equals(`class String`)) {
-						if (exists argument) {
-							return [argument.item,*rest];
-						} else {
-							if (parameterDecl.defaulted) {
-								throw Exception("Should obtain default argument somehow ``name``");
-							} else {
-								throw Exception("Missing argument ``name``");
-							}
-						}
+				String name = parameterDecl.name;
+				value argument = arguments.find((String->String elem) => elem.key.equals(name));
+				if (type.equals(`class String`.openType)) {
+					if (exists argument) {
+						return [argument.item,*rest];
 					} else {
-						throw Exception("Unsupported parameter type ``type``");
+						if (parameterDecl.defaulted) {
+							throw Exception("Should obtain default argument somehow ``name``");
+						} else {
+							throw Exception("Missing argument ``name``");
+						}
 					}
 				} else {
 					throw Exception("Unsupported parameter type ``type``");
