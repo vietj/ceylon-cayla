@@ -6,6 +6,7 @@ import test.cayla.handler.instantiate.support.app002 { Controller002=MyControlle
 import test.cayla.handler.instantiate.support.app003 { Controller003=MyController }
 import test.cayla.handler.instantiate.support.app004 { Controller004=MyController }
 import test.cayla.handler.instantiate.support.app005 { Controller005=MyController }
+import cayla { Handler }
 
 shared test void testApp001() {
 	value desc = controller(Controller001());
@@ -16,7 +17,8 @@ shared test void testApp001() {
 	Object handler = handlerDesc.instantiate();
 	assert(is Controller001.Index handler);
 	assertTrue(handlerDesc.isInstance(handler));
-	assertFalse(handlerDesc.isInstance("abc"));
+	object h extends Handler() {}
+	assertFalse(handlerDesc.isInstance(h));
 }
 
 shared test void testApp002() {

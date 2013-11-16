@@ -1,11 +1,11 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
 import ceylon.language.meta.model { MemberClass }
-import cayla { Route }
+import cayla { Route, Handler }
 import ceylon.language.meta { annotations, type }
 
 shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 	
-	shared Object instantiate(<String->String>* arguments) {
+	shared Handler instantiate(<String->String>* arguments) {
 		Anything[] buildArguments(FunctionOrValueDeclaration[] parametersDecl) {
 			value parameterDecl = parametersDecl.first;
 			if (is ValueDeclaration parameterDecl) {
@@ -33,7 +33,7 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 			container = controller;
 			arguments = buildArguments(classDecl.parameterDeclarations);
 		};
-		assert(exists instance);
+		assert(is Handler instance);
 		return instance;
 	}
 	
