@@ -1,10 +1,9 @@
-import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, OpenClassOrInterfaceType }
+import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, OpenClassOrInterfaceType, ValueDeclaration }
 shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
-	
 	shared Object instantiate(<String->String>* arguments) {
 		Anything[] buildArguments(FunctionOrValueDeclaration[] parametersDecl) {
 			value parameterDecl = parametersDecl.first;
-			if (exists parameterDecl) {
+			if (is ValueDeclaration parameterDecl) {
 				Anything[] rest = buildArguments(parametersDecl.rest);
 				value type = parameterDecl.openType;
 				String name = parameterDecl.name;
