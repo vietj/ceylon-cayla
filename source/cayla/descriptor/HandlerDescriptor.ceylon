@@ -14,7 +14,11 @@ shared class HandlerDescriptor(Object controller, ClassDeclaration classDecl) {
 						if (exists argument) {
 							return [argument.item,*rest];
 						} else {
-							throw Exception("Missing argument ``name``");
+							if (parameterDecl.defaulted) {
+								throw Exception("Should obtain default argument somehow ``name``");
+							} else {
+								throw Exception("Missing argument ``name``");
+							}
 						}
 					} else {
 						throw Exception("Unsupported parameter type ``type``");
