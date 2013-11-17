@@ -13,18 +13,12 @@ shared class ApplicationDescriptor(Package pkg) {
 			decl.get()
 	};
 	
-	// Now filter those that contain at least an handler
-	shared ControllerDescriptor[] controllers = [*{
-		for (val in values)
-			if (is Object val, exists c = controller(val))
-				c
-	}];
-	
 	//
 	shared HandlerDescriptor[] handlers = [*{
-		for (controller in controllers)
-			for (handler in controller.handlers)
-				handler
+		for (val in values)
+			if (is Object val)
+				for (handler in scanHandlersInObject(val))
+					handler
 	}];
 
 	// Router

@@ -1,13 +1,12 @@
-import cayla.descriptor { controller }
+import cayla.descriptor { scanHandlersInObject }
 import ceylon.test { test, assertEquals }
 import test.cayla.descriptor.handler.route.support.app001 { Controller001=MyController }
 import cayla { Route }
 
 shared test void test001() {
-	value desc = controller(Controller001());
-	assert(exists desc);
-	assertEquals(1, desc.handlers.size);
-	value handlerDesc = desc.handlers.first;
+	value handlers = scanHandlersInObject(Controller001());
+	assertEquals(1, handlers.size);
+	value handlerDesc = handlers.first;
 	assert(exists handlerDesc);
 	Route? route = handlerDesc.route;
 	assert(exists route);

@@ -1,16 +1,16 @@
 import ceylon.test { test, assertEquals }
 import ceylon.language.meta.declaration { Package }
-import cayla.descriptor { ApplicationDescriptor, ControllerDescriptor }
+import cayla.descriptor { ApplicationDescriptor, HandlerDescriptor }
 import test.cayla.descriptor.application.support.app001 { controller001=mycontroller }
 import test.cayla.descriptor.application.support.app002 { controller002=mycontroller }
 
 shared test void test001() {
 	Package pkg = `package test.cayla.descriptor.application.support.app001`;
 	ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-	assertEquals(1, desc.controllers.size);
-	ControllerDescriptor? controller = desc.controllers[0];
-	assert(exists controller);
-	assertEquals(controller001, controller.controller);
+	assertEquals(1, desc.handlers.size);
+	HandlerDescriptor? handler = desc.handlers[0];
+	assert(exists handler);
+	assertEquals(controller001, handler.controller);
 }
 
 shared test void test002() {

@@ -3,7 +3,7 @@ import cayla { Route, Handler }
 import ceylon.language.meta { annotations, type }
 import ceylon.collection { HashMap }
 
-shared class HandlerDescriptor(Object controller, shared ClassDeclaration classDecl) {
+shared class HandlerDescriptor(shared Object controller, shared ClassDeclaration classDecl) {
 	
 	// Determine default parameters using the minimal constructor we can find
 	// and then reading the values
