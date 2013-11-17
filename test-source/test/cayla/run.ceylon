@@ -4,9 +4,9 @@ shared void run() {
 	value runner = createTestRunner([
 		`package test.cayla.pattern`,
 		`package test.cayla.router`,
-		`package test.cayla.descriptor.handler.instantiate`,
-		`package test.cayla.descriptor.handler.parameters`,
-		`package test.cayla.descriptor.handler.route`,
+		`package test.cayla.descriptor.controller.instantiate`,
+		`package test.cayla.descriptor.controller.parameters`,
+		`package test.cayla.descriptor.controller.route`,
 		`package test.cayla.descriptor.application`,
 		`package test.cayla.runtime.route`
 	]);

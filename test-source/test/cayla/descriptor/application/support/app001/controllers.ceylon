@@ -1,6 +1,6 @@
-import cayla { Handler }
+import cayla { Controller }
 
-shared object mycontroller {
-	shared class Index() extends Handler() {
+shared object controllers {
+	shared class Index() extends Controller() {
 	}
 }

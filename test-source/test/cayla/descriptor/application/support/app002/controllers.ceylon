@@ -1,13 +1,13 @@
-import cayla { Handler, route }
+import cayla { Controller, route }
 
-shared object mycontroller {
+shared object controllers {
 	route("/:foo/bar")
-	shared class Index(shared String foo, shared String bar = "default_bar") extends Handler() {
+	shared class Index(shared String foo, shared String bar = "default_bar") extends Controller() {
 	}
 	
-	shared Index? isInstance(Handler handler) {
-		if (is Index handler) {
-			return handler;
+	shared Index? isInstance(Controller controller) {
+		if (is Index controller) {
+			return controller;
 		} else {
 			return null;
 		}

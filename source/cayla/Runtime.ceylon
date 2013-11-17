@@ -10,8 +10,8 @@ shared class Runtime(Application application, Vertx vertx) {
 				(String key, {String+} item) => item.first
 			).chain(match.params);
 			
-			// Attempt to create handler
-			Handler? controller = match.target.instantiate(*parameters);
+			// Attempt to create controller
+			Controller? controller = match.target.instantiate(*parameters);
 			
 			//
 			if (exists controller) {
