@@ -48,10 +48,12 @@ shared test void testApp004() {
 	assertEquals(1, desc.handlers.size);
 	value handlerDesc = desc.handlers.first;
 	assert(exists handlerDesc);
-	handlerDesc.instantiate();
-	Object handler = handlerDesc.instantiate("s"->"s_value");
-	assert(is Controller004.Index handler);
-	assertEquals("s_value", handler.s);
+	Object handler1 = handlerDesc.instantiate();
+	assert(is Controller004.Index handler1);
+	assertEquals("default_s_value", handler1.s);
+	Object handler2 = handlerDesc.instantiate("s"->"s_value");
+	assert(is Controller004.Index handler2);
+	assertEquals("s_value", handler2.s);
 }
 
 shared test void testApp005() {

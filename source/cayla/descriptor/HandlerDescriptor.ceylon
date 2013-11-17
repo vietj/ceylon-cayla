@@ -1,8 +1,26 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration }
 import cayla { Route, Handler }
 import ceylon.language.meta { annotations, type }
+import ceylon.collection { HashMap }
 
 shared class HandlerDescriptor(Object controller, shared ClassDeclaration classDecl) {
+	
+	// Determine default parameters using the minimal constructor we can find
+	// and then reading the values
+	value min = classDecl.memberInstantiate {
+		container = controller;
+		arguments = [
+			for (parameterDecl in classDecl.parameterDeclarations)
+				if (!parameterDecl.defaulted)
+					"foo"];
+	};
+	assert(is Object min);
+	Map<String, Object> defaultParameters = HashMap([
+		for (parameterDecl in classDecl.parameterDeclarations)
+			if (is ValueDeclaration parameterDecl, parameterDecl.defaulted)
+				if (is Object aaa = parameterDecl.memberGet(min))
+					parameterDecl.name->aaa
+	]);
 	
 	shared Handler instantiate(<String->String>* arguments) {
 		Anything[] buildArguments(FunctionOrValueDeclaration[] parametersDecl) {
@@ -16,7 +34,12 @@ shared class HandlerDescriptor(Object controller, shared ClassDeclaration classD
 				if (exists unmarshaller) {
 					String? item = argument?.item;
 					if (!(item exists) && parameterDecl.defaulted) {
-						throw Exception("Should obtain default argument somehow ``name``");
+						value default = defaultParameters[parameterDecl.name];
+						if (exists default) {
+							return [default,*rest];
+						} else {
+							throw Exception("Should obtain default argument somehow ``name``");
+						}
 					} else {
 						Anything unmarshalled = unmarshaller(item);
 						return [unmarshalled,*rest];
