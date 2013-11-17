@@ -1,5 +1,5 @@
 import ceylon.language.meta { type }
-import ceylon.language.meta.model { ClassModel, Class, MemberClass }
+import ceylon.language.meta.model { ClassModel }
 import ceylon.language.meta.declaration { ClassDeclaration }
 import cayla { Handler }
 

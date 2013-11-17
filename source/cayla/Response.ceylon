@@ -46,7 +46,7 @@ shared class Status(shared Integer code) extends Response() {
     shared Body template(String path, {<String->Object>*} values) {
         if (is File f = current.childPath(path).resource) {
             value sb = StringBuilder();
-            value r = f.reader();
+            value r = f.Reader();
             try {
                 while (exists l = r.readLine()) {
                     sb.append(l);

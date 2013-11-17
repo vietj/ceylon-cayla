@@ -1,6 +1,6 @@
 import ceylon.language.meta.declaration { OpenType }
 
-String? returnStringOrNull() { return nothing; }
+String? returnStringOrNull() { return "foo"; }
 OpenType stringOrNullType = `function returnStringOrNull`.openType;
 object unmarshallers {
 	shared Anything(String?)? find(OpenType type) {

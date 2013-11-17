@@ -1,5 +1,4 @@
-import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
-import ceylon.language.meta.model { MemberClass }
+import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration }
 import cayla { Route, Handler }
 import ceylon.language.meta { annotations, type }
 
