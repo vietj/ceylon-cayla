@@ -1,5 +1,6 @@
 import cayla.router { ... }
 import ceylon.test { ... }
+import ceylon.collection { HashMap }
 
 shared test void testComplexRoute() {
 	Router root = Router();
@@ -27,6 +28,27 @@ shared test void testComplexRoute() {
 	} else {
 		fail();
 	}
+}
+
+shared test void testRoot() {
+	Router root = Router();
+	value match1 = root.resolve("/");
+	assert(!match1 exists);
+	Router route = root.addRoute("/");
+	assertEquals(route, root);
+	value match2 = root.resolve("/");
+	assert(exists match2);
+	assertEquals(root, match2.target);
+}
+
+shared test void testPatternRoute() {
+	Router root = Router();
+	Router route = root.addRoute("/:foo");
+	value match1 = root.resolve("/");
+	assert(!match1 exists);
+	assert(exists match2 = root.resolve("/bar"));
+	assertEquals(route, match2.target);
+	assertEquals(HashMap({"foo"->"bar"}), match2.params);
 }
 
 shared test void testSimpleRoute() {
@@ -58,8 +80,6 @@ shared test void testSimpleRoute() {
 	//
 	RouteMatch<Router>? m1 = root.resolve("/");
 	if (exists m1) {
-		assertEquals(root, m1.target);
-	} else {
 		fail();
 	}
 		

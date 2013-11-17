@@ -2,7 +2,8 @@ import ceylon.net.uri { Path, Query, Parameter, PathSegment, parse }
 import ceylon.collection { HashMap }
 
 "A router"
-shared class Router(shared [Router,Mount]? rel = null) satisfies Correspondence<Integer, Router> & Iterable<Router, Nothing> {
+shared class Router(shared [Router,Mount]? rel = null)
+	satisfies Correspondence<Integer, Router> & Iterable<Router, Nothing> {
 	
 	{String*} segmentsOf({String*}|String path) {
 		switch (path)
@@ -17,6 +18,7 @@ shared class Router(shared [Router,Mount]? rel = null) satisfies Correspondence<
 	}
 
 	variable [Mount,Router][] children = [];
+	variable Boolean terminator = false;
 	
 	shared Router addRoute({String*}|String path) {
 		{String*} a = segmentsOf(path);
@@ -37,6 +39,8 @@ shared class Router(shared [Router,Mount]? rel = null) satisfies Correspondence<
 			}
 			return child._addRoute(path.rest);
 		} else {
+			// Should set terminator to true
+			terminator = true;
 			return this;
 		}
 	}
@@ -169,8 +173,7 @@ shared class Router(shared [Router,Mount]? rel = null) satisfies Correspondence<
 					}
 				}
 			}
-			return null;
-		} else {
+		} else if (terminator) {
 			{<String->String>*} foo({<String->String>*} partial, [Mount, String] elem) {
 				Mount mount = elem.first;
 				if (is Expression mount) {
@@ -183,6 +186,7 @@ shared class Router(shared [Router,Mount]? rel = null) satisfies Correspondence<
 			String[] p = matches.fold([], (String[] partial, [Mount, String] elem) => [elem.rest.first,*partial]);
 			return RouteMatch(this, p, params);
 		}
+		return null;
 	}
 	
 	
