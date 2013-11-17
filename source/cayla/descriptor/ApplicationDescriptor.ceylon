@@ -1,13 +1,20 @@
-import ceylon.language.meta.declaration { Package }
+import ceylon.language.meta.declaration { Package, ClassDeclaration }
 import cayla.router { Router, RouteMatch }
 import ceylon.collection { HashMap }
 import ceylon.net.uri { Path, Query }
 import cayla { Controller }
 
-shared class ApplicationDescriptor(Package pkg) {
+shared class ApplicationDescriptor(Package|Object container) {
 	
 	//
-	shared ControllerDescriptor[] controllers = scanControllersInPackage(pkg);
+	shared ControllerDescriptor[] controllers;
+	switch (container)
+	case (is Package) {
+		controllers = scanControllersInPackage(container);
+	}
+	else {
+		controllers = scanControllersInObject(container);
+	}
 
 	// Router
 	Router root = Router();

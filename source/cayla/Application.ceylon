@@ -4,9 +4,9 @@ import ceylon.language.meta.declaration { Package }
 import vietj.vertx { Vertx }
 import vietj.vertx.http { HttpServer }
 
-shared class Application(Package pkg) {
+shared class Application(Package|Object container) {
 
-	shared ApplicationDescriptor descriptor = ApplicationDescriptor(pkg);
+	shared ApplicationDescriptor descriptor = ApplicationDescriptor(container);
 	
 	shared Promise<Runtime> start() {
 		Vertx vertx = Vertx();
