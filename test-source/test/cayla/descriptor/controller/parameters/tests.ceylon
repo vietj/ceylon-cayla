@@ -1,5 +1,5 @@
 import cayla.descriptor { scanControllersInObject, scanControllersInPackage }
-import ceylon.test { test, assertEquals }
+import ceylon.test { ... }
 import test.cayla.descriptor.controller.parameters.support.app001 { Controllers001=Controllers }
 import test.cayla.descriptor.controller.parameters.support.app002 { Controllers002=Controllers }
 import test.cayla.descriptor.controller.parameters.support.app003 { Controllers003=Controllers }
@@ -43,4 +43,12 @@ shared test void test004() {
 	assertEquals(LazyMap({"s"->"s_value"}), controllerDesc.parameters(controller1));
 	Index004 controller2 = Index004(null);
 	assertEquals(LazyMap({}), controllerDesc.parameters(controller2));
+}
+
+shared test void test005() {
+	try {
+		scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app005`);
+		fail();
+	} catch (Exception expected) {
+	}
 }

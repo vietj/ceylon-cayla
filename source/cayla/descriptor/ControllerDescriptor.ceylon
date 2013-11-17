@@ -6,6 +6,14 @@ import cayla.descriptor { unmarshallers }
 
 shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDeclaration classDecl) {
 	
+	// Checks
+	for (parameterDecl in classDecl.parameterDeclarations) {
+		// Must be shared
+		if (!parameterDecl.shared) {
+			throw Exception("Parameter ``parameterDecl.name`` of ``classDecl`` must be shared");
+		}
+	}
+	
 	// Determine default parameters using the minimal constructor we can find
 	// and then reading the values
 	value min = factory([
