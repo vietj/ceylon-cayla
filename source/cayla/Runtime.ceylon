@@ -1,6 +1,6 @@
 import vietj.vertx { Vertx }
 import vietj.vertx.http { HttpServerRequest }
-shared class Runtime(Application application, Vertx vertx) {
+shared class Runtime(shared Application application, Vertx vertx) {
 	shared void handle(HttpServerRequest req) {
 		Response response;
 		if (exists match = application.descriptor.resolve(req.uri.path)) {
@@ -15,12 +15,12 @@ shared class Runtime(Application application, Vertx vertx) {
 			
 			//
 			if (exists controller) {
-				// current.set(RequestContext(this, req));
+				current.set(RequestContext(this, req));
 				try {
 					response = controller.handle();
 				}
 				finally {
-					// current.set(null);
+					current.set(null);
 				}
 			} else {
 				response = error().body("Could not create controller for ``req.path`` with ``parameters``");

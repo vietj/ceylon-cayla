@@ -1,8 +1,9 @@
-import cayla.descriptor { scanControllersInObject }
+import cayla.descriptor { scanControllersInObject, scanControllersInPackage }
 import ceylon.test { test, assertEquals }
 import test.cayla.descriptor.controller.parameters.support.app001 { Controllers001=Controllers }
 import test.cayla.descriptor.controller.parameters.support.app002 { Controllers002=Controllers }
 import test.cayla.descriptor.controller.parameters.support.app003 { Controllers003=Controllers }
+import test.cayla.descriptor.controller.parameters.support.app004 { Index004=Index }
 
 shared test void test001() {
 	value controllers = scanControllersInObject(Controllers001());
@@ -30,5 +31,16 @@ shared test void test003() {
 	Controllers003.Index controller1 = Controllers003().create("s_value");
 	assertEquals(LazyMap({"s"->"s_value"}), controllerDesc.parameters(controller1));
 	Controllers003.Index controller2 = Controllers003().create(null);
+	assertEquals(LazyMap({}), controllerDesc.parameters(controller2));
+}
+
+shared test void test004() {
+	value controllers = scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app004`);
+	assertEquals(1, controllers.size);
+	value controllerDesc = controllers.first;
+	assert(exists controllerDesc);
+	Index004 controller1 = Index004("s_value");
+	assertEquals(LazyMap({"s"->"s_value"}), controllerDesc.parameters(controller1));
+	Index004 controller2 = Index004(null);
 	assertEquals(LazyMap({}), controllerDesc.parameters(controller2));
 }
