@@ -1,4 +1,4 @@
-import ceylon.language.meta.declaration { Package, NestableDeclaration, ValueDeclaration }
+import ceylon.language.meta.declaration { Package }
 import cayla.router { Router, RouteMatch }
 import ceylon.collection { HashMap }
 import ceylon.net.uri { Path, Query }
@@ -6,20 +6,8 @@ import cayla { Handler }
 
 shared class ApplicationDescriptor(Package pkg) {
 	
-	// Get top level values
-	{Anything*} values = {
-		for (decl in pkg.members<NestableDeclaration>())
-		if (is ValueDeclaration decl)
-			decl.get()
-	};
-	
 	//
-	shared HandlerDescriptor[] handlers = [*{
-		for (val in values)
-			if (is Object val)
-				for (handler in scanHandlersInObject(val))
-					handler
-	}];
+	shared HandlerDescriptor[] handlers = scanHandlersInPackage(pkg);
 
 	// Router
 	Router root = Router();
