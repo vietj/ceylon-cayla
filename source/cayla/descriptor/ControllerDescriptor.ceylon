@@ -12,6 +12,10 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 		if (!parameterDecl.shared) {
 			throw Exception("Parameter ``parameterDecl.name`` of ``classDecl`` must be shared");
 		}
+		// Must be unshmarshallable
+		if (!unmarshallers.find(parameterDecl.openType) exists) {
+			throw Exception("Type ``parameterDecl.openType`` of parameter ``parameterDecl.name`` of ``classDecl`` is not yet supported");
+		}
 	}
 	
 	// Determine default parameters using the minimal constructor we can find

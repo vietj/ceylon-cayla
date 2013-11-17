@@ -46,9 +46,15 @@ shared test void test004() {
 }
 
 shared test void test005() {
-	try {
+	void f() {
 		scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app005`);
-		fail();
-	} catch (Exception expected) {
 	}
+	assertThatException(f);
+}
+
+shared test void test006() {
+	void f() {
+		scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app006`);
+	}
+	assertThatException(f);
 }
