@@ -66,6 +66,8 @@ shared class Status(shared Integer code) extends Response() {
         }
         return Body(code, "text/plain", "TEMPLATE ``path`` NOT FOUND");
     }
+    
+    shared actual default String string => "Status[``code``]";
 
 }
 
@@ -77,4 +79,6 @@ shared class Body(Integer code, String mimeType, String data) extends Status(cod
 		resp.contentType(mimeType);
 		resp.end(data);
 	}
+
+	shared actual default String string => "Body[code=``code``,mimeType=``mimeType``]";
 }
