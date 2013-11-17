@@ -1,4 +1,4 @@
-import cayla.descriptor { ControllerDescriptor, controller }
+import cayla.descriptor { controller }
 import ceylon.test { test, assertEquals }
 import test.cayla.descriptor.handler.parameters.support.app001 { Controller001=MyController }
 import test.cayla.descriptor.handler.parameters.support.app002 { Controller002=MyController }

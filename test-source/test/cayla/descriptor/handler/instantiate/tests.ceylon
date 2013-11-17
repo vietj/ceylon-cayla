@@ -1,6 +1,6 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { ... }
-import cayla.descriptor { ControllerDescriptor, controller }
+import cayla.descriptor { controller }
 import test.cayla.descriptor.handler.instantiate.support.app001 { Controller001=MyController }
 import test.cayla.descriptor.handler.instantiate.support.app002 { Controller002=MyController }
 import test.cayla.descriptor.handler.instantiate.support.app003 { Controller003=MyController }
