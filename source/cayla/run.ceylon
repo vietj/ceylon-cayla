@@ -21,7 +21,7 @@ object sample {
 	}
 }
 
-doc("Run the module `cayla`." )
+doc("Run a basic application example." )
 shared void run(){
 	value application = Application(sample);
 	Promise<Runtime> runtime = application.start();

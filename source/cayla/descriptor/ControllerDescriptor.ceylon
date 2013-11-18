@@ -4,6 +4,7 @@ import ceylon.language.meta { annotations, type }
 import ceylon.collection { HashMap }
 import cayla.descriptor { unmarshallers }
 
+"""Describes a controller."""
 shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDeclaration classDecl) {
 	
 	// Checks
@@ -32,7 +33,9 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 					parameterDecl.name->aaa
 	]);
 	
-	shared Controller instantiate(<String->String>* arguments) {
+	"Instantiate a controller"
+	throws(`class Exception`, "when the controller cannot be instantiated")
+	shared Controller instantiate("The arguments" <String->String>* arguments) {
 		Anything[] buildArguments(FunctionOrValueDeclaration[] parametersDecl) {
 			value parameterDecl = parametersDecl.first;
 			if (is ValueDeclaration parameterDecl) {
@@ -66,15 +69,18 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 		return instance;
 	}
 	
-	shared Map<String, String> parameters(Object controller) => 
+	"Extract the request parameters of a controller"
+	shared Map<String, String> parameters("The controller to examine" Controller controller) => 
 		LazyMap({
 			for (parameterDecl in classDecl.parameterDeclarations)
 				if (is ValueDeclaration parameterDecl, exists t = parameterDecl.memberGet(controller))
 					parameterDecl.name->t.string
 		});
 	
+	"Returns the [[Route]] of this controller, it may be null"
 	shared Route? route => annotations(`Route`, classDecl);
 	
-	shared Boolean isInstance(Controller controller) => type(controller).declaration.equals(classDecl);
+	"Test if the specified controller is described by this descriptor instance"
+	shared Boolean isInstance("The controller to test" Controller controller) => type(controller).declaration.equals(classDecl);
 	
 }

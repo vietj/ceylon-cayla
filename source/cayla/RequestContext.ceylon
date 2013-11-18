@@ -1,5 +1,5 @@
 import java.lang { ThreadLocal }
-import ceylon.net.uri { Path, Query, Uri, Authority }
+import ceylon.net.uri { Uri, Authority }
 import vietj.vertx.http { HttpServerRequest }
 
 object current {
@@ -14,9 +14,14 @@ object current {
 	
 }
 
-shared class RequestContext(Runtime runtime, HttpServerRequest req) {
+"""The request context provides the information available during a request such as:
+   - the Vert.x request
+   - generating an URL for a controller
+   """
+shared class RequestContext(Runtime runtime, "The Vert.x request" shared HttpServerRequest request) {
 	
-	shared String url(Controller controller) {
+	"Render an URL for the specified controller"
+	shared String url("The controller to create an URL for" Controller controller) {
 		if (exists path = runtime.application.descriptor.path(controller)) {
 			value uri = Uri {
 				scheme = "http";

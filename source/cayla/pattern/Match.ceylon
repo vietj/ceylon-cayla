@@ -1,3 +1,4 @@
+"A pattern match"
 shared class Match(String seq, Array<[Integer,Integer]> bounds) satisfies Correspondence<Integer, String> {
 	
 	"The group count"
