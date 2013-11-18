@@ -7,21 +7,23 @@
    ### Import the Cayla module
    
        module my.module "1.0.0" {
-         import cayla "0.2.0"
+         import cayla "0.2.0";
        }
    
    ### Write the controller
    
        import cayla { ... }
-   
-       route("/")
-       shared class Index() extends Controller() {
-         shared actual default Response handle() => Response.ok().body("Hello World");
+
+       object controllers {
+         route("/")
+         shared class Index() extends Controller() {
+           shared actual default Response handle() => ok().body("Hello World");
+         }
        }
-   
+ 
        shared void run() {
-         value application = Application(sample);
-         runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
+         value application = Application(controllers);
+         application.start().always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
          process.readLine();
        }
    
