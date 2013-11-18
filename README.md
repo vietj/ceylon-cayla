@@ -6,13 +6,11 @@ Build on top of
 * Vert.x
 * Promises
 
-# Status
-
-Early stage.
+Current deployed version 0.1.0, read the module [Documentation](https://ceylon-lang.org/modules/cayla/0.1.0/doc).
 
 # Application
 
-A web application is started in a few steps:
+A web application is created in a few steps:
 
     value application = Application(`package myapplication`);
     Promise<Runtime> runtime = application.start();
@@ -22,7 +20,7 @@ A web application is started in a few steps:
 
 # Controllers
 
-Controllers are class in your application and must extends the Controller class. A controller handle a request with its `handle` method.
+Controllers are classes in your application that extends the Controller class. A controller handle a request with its `handle` method.
 
 Controllers use the `route` annotation and are parameterized by `String` parameters, each parameter must be a shared parameter:
 
