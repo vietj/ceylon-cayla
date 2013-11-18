@@ -15,9 +15,10 @@ shared class Runtime(shared Application application, Vertx vertx) {
 			
 			//
 			if (exists controller) {
-				current.set(RequestContext(this, req));
+				value context = RequestContext(this, req);
+				current.set(context);
 				try {
-					response = controller.handle();
+					response = controller.invoke(context);
 				}
 				finally {
 					current.set(null);

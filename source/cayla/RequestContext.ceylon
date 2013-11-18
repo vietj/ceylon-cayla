@@ -14,7 +14,7 @@ object current {
 	
 }
 
-class RequestContext(Runtime runtime, HttpServerRequest req) {
+shared class RequestContext(Runtime runtime, HttpServerRequest req) {
 	
 	shared String url(Controller controller) {
 		if (exists path = runtime.application.descriptor.path(controller)) {
