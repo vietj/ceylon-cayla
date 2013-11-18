@@ -6,7 +6,7 @@ Build on top of
 * Vert.x
 * Promises
 
-Current deployed version 0.1.0, read the module [Documentation](https://ceylon-lang.org/modules/cayla/0.1.0/doc).
+Current deployed version 0.2.0, read the module [Documentation](https://ceylon-lang.org/modules/cayla/0.2.0/doc).
 
 # Application
 
