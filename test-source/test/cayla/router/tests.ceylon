@@ -11,8 +11,8 @@ shared test void testComplexRoute() {
 	assertEquals("/foo", foo.string);
 	assertEquals("/foo/:bar", bar.string);
 	
-	RouteMatch<Router>? match = root.resolve("/foo/tutu");
-	if (exists match) {
+	{RouteMatch<Router>*} matches = root.resolve("/foo/tutu");
+	if (exists match = matches.first) {
 		assertEquals(bar, match.target);
 		assertEquals(["foo", "tutu"], match.path);
 		assertEquals(LazyMap({"bar"->"tutu"}), match.params);
@@ -33,11 +33,11 @@ shared test void testComplexRoute() {
 shared test void testRoot() {
 	Router root = Router();
 	value match1 = root.resolve("/");
-	assert(!match1 exists);
+	assertEquals({}, match1);
 	Router route = root.addRoute("/");
 	assertEquals(route, root);
-	value match2 = root.resolve("/");
-	assert(exists match2);
+	value matches2 = root.resolve("/");
+	assert(exists match2 = matches2.first);
 	assertEquals(root, match2.target);
 }
 
@@ -45,8 +45,8 @@ shared test void testPatternRoute() {
 	Router root = Router();
 	Router route = root.addRoute("/:foo");
 	value match1 = root.resolve("/");
-	assert(!match1 exists);
-	assert(exists match2 = root.resolve("/bar"));
+	assertEquals({}, match1);
+	assert(exists match2 = root.resolve("/bar").first);
 	assertEquals(route, match2.target);
 	assertEquals(HashMap({"foo"->"bar"}), match2.params);
 }
@@ -78,36 +78,43 @@ shared test void testSimpleRoute() {
 	assertEquals(null, juu.sibling);
 	
 	//
-	RouteMatch<Router>? m1 = root.resolve("/");
-	if (exists m1) {
-		fail();
-	}
+	value m1 = root.resolve("/");
+	assertEquals(0, m1.size);
 		
 	//
-	RouteMatch<Router>? m2 = root.resolve("/foo");
-	if (exists m2) {
-		assertEquals(foo, m2.target);
+	value m2 = root.resolve("/foo");
+	if (exists m = m2.first) {
+		assertEquals(foo, m.target);
 	} else {
 		fail();
 	}
 	
 	//
-	RouteMatch<Router>? m3 = root.resolve("/foo/bar");
-	if (exists m3) {
-		assertEquals(bar, m3.target);
+	value m3 = root.resolve("/foo/bar");
+	if (exists m = m3.first) {
+		assertEquals(bar, m.target);
 	} else {
 		fail();
 	}
 
 	//
-	RouteMatch<Router>? m4 = root.resolve("/foo/juu");
-	if (exists m4) {
-		assertEquals(juu, m4.target);
+	value m4 = root.resolve("/foo/juu");
+	if (exists m = m4.first) {
+		assertEquals(juu, m.target);
 	} else {
 		fail();
 	}
 
 		//
-	RouteMatch<Router>? m5 = root.resolve("/foo/whatever");
-	assertNull(m5);
+	value m5 = root.resolve("/foo/whatever");
+	assertEquals(0, m5.size);
 }
+
+shared test void testMultiMatches() {
+	Router root = Router();
+	Router route1 = root.addRoute("/foo");
+	Router route2 = root.addRoute("/:foo");
+	value match = [*root.resolve("/foo").map((RouteMatch<Router> elem) => elem.target)];
+	assertEquals([route1,route2], match);
+}
+

@@ -158,21 +158,19 @@ shared class Router(shared [Router,Mount]? rel = null)
 		}
 	}
 	
-	shared RouteMatch<Router>? resolve(<String|Path> path) {
-		return _match(segmentsOf2(path), []);
+	shared {RouteMatch<Router>*} resolve(<String|Path> path) {
+		return matches(segmentsOf2(path), []);
 	}
 
-	shared RouteMatch<Router>? _match({String*} path, [Mount,String][] matches) {
+	shared {RouteMatch<Router>*} matches({String*} path, [Mount,String][] matches) {
 		if (exists segment = path.first) {
-			for (entry in children.reversed) {
-				Mount mount = entry.first;
-				if (mount.match(segment)) {
-					Router child = entry.rest.first;
-					if (exists tmp = child._match(path.rest, [[mount,segment],*matches])) {
-						return tmp;
-					}
-				}
-			}
+			{RouteMatch<Router>*} result = {
+			for (entry in children.reversed)
+				if (entry.first.match(segment))
+					for (abc in entry.rest.first.matches(path.rest, [[entry.first,segment],*matches]))
+						abc
+			};
+			return result;
 		} else if (terminator) {
 			{<String->String>*} foo({<String->String>*} partial, [Mount, String] elem) {
 				Mount mount = elem.first;
@@ -184,9 +182,10 @@ shared class Router(shared [Router,Mount]? rel = null)
 			}
 			LazyMap<String, String> params = LazyMap(matches.fold({}, foo));
 			String[] p = matches.fold([], (String[] partial, [Mount, String] elem) => [elem.rest.first,*partial]);
-			return RouteMatch(this, p, params);
+			return {RouteMatch(this, p, params)};
+		} else {
+			return {};
 		}
-		return null;
 	}
 	
 	
