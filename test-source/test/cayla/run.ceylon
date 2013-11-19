@@ -10,6 +10,7 @@ shared void run() {
 		`package test.cayla.descriptor.controller.route`,
 		`package test.cayla.descriptor.application`,
 		`package test.cayla.runtime.route`,
+		`package test.cayla.runtime.method`,
 		`package test.cayla.runtime.url`
 	]);
     value _result = runner.run();

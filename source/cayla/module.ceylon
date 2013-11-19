@@ -91,6 +91,16 @@
    [[error]].
    
        return notFound().body("Not found!!!!");
+   
+   ## Http methods
+   
+   By default a controller is bound to a route for all Http methods. This can be restricted by using annotations like
+   [[get]], [[post]], [[head]], [[put]], etc...
+
+       get route("/greeter")
+       shared clas Greeter(String name) extends Controller() {
+         shared actual default Response handle() => ok().body("Hello ``name``");
+       }
 
   """
 module cayla "0.3.0" {

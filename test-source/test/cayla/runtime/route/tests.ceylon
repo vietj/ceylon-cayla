@@ -1,9 +1,8 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { Package }
 import cayla { Application, Runtime }
-import ceylon.net.http.client { Response, Parser, Request }
+import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse }
-import java.lang { Thread { currentThread } }
 
 shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}) {
     Uri tmp = parse(uri);

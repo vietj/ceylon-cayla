@@ -16,8 +16,8 @@ shared test void test001() {
 shared test void test002() {
 	Package pkg = `package test.cayla.descriptor.application.support.app002`;
 	ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-	value match = desc.resolve("/foo_value/bar");
-	assert(exists match);
+	value matches = desc.resolve("/foo_value/bar");
+	assert(exists match = matches.first);
 	assertEquals(LazyMap({"foo"->"foo_value"}), match.params);
 	value controller = match.target.instantiate(*match.params);
 	assert(exists index = controller002.isInstance(controller));
@@ -28,8 +28,8 @@ shared test void test002() {
 shared test void test003() {
 	Package pkg = `package test.cayla.descriptor.application.support.app003`;
 	ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-	value match = desc.resolve("/foo_value/bar");
-	assert(exists match);
+	value matches = desc.resolve("/foo_value/bar");
+	assert(exists match = matches.first);
 	assertEquals(LazyMap({"foo"->"foo_value"}), match.params);
 	value controller = match.target.instantiate(*match.params);
 	assert(is Index003 controller);
