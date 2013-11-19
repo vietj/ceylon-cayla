@@ -23,11 +23,18 @@
    Mapping a request parameter to the controller can be achieved by declaring a corresponding attribute:
    
        route("/greeter")
-       shared class Greeter(String name) {
+       shared class Greeter(String name) extends Controller() {
          shared actual default Response handle() => Response.ok().body("Hello ``name``");
        }
    
    The *Greeter* controller is mapped to the */greeter* path and can be invoked with an URL like */greeter?name=Cayla*.
+   
+   The parameter can also be mapped to a path parameter by specifying it in the path:
+   
+       route("/greeter/:name")
+       shared class Greeter(String name) extends Controller() {
+         shared actual default Response handle() => Response.ok().body("Hello ``name``");
+       }
    
    The controller [[string]] produces an URL for invoking this controller, the URL is generated using:
    - the path declared by the [[route]] annotation
@@ -40,8 +47,10 @@
          shared actual default Response handle() => Response.ok().body("Say hello to <a href="``Greeter("Cayla")``">Cayla</a>");
        }
    
-   The response body will contain an URL that will look like *http://localhost:8080/greeter?name=Cayla*. The [[string]] method
-   redefined by the base [[Controller]] class:
+   The response body will contain an URL that will look like *http://localhost:8080/greeter?name=Cayla*. The URL would be
+   *http://localhost:8080/greeter/Cayla* when using path parameter mapping.
+   
+   The [[string]] method redefined by the base [[Controller]] class:
    
    - takes care of generating the correct URL, including the parameter encoding
    - provides a safe way for generating URL that is enforced by the Ceylon compiler and is refactorable in the Ceylon IDE
