@@ -6,7 +6,7 @@
    
    ### Import the Cayla module
    
-       module my.module "1.0.0" {
+       module my.app "1.0.0" {
          import cayla "0.3.0";
        }
    
@@ -29,9 +29,9 @@
    
    ### Build and run!
    
-       > ceylon compile my.module
+       > ceylon compile my.app
        ...
-       > ceylon run my.module/1.0
+       > ceylon run my.app/1.0
        started
    
    """
