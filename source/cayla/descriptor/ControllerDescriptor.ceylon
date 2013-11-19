@@ -1,8 +1,9 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration }
-import cayla { Route, Controller }
+import cayla { Route, Controller, Get, Put, Post, Trace, Head, Delete, Options, Connect }
 import ceylon.language.meta { annotations, type }
 import ceylon.collection { HashMap }
 import cayla.descriptor { unmarshallers }
+import ceylon.net.http { Method, get, put, post, trace, head, delete, options, connect }
 
 """Describes a controller."""
 shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDeclaration classDecl) {
@@ -19,6 +20,17 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 		}
 	}
 	
+	// Methods or empty (i.e all)
+	{Method*} m0 = annotations(`Get`, classDecl) exists then {get} else {};
+	{Method*} m1 = annotations(`Put`, classDecl) exists then {put,*m0} else {*m0};
+	{Method*} m2 = annotations(`Post`, classDecl) exists then {post,*m1} else {*m1};
+	{Method*} m3 = annotations(`Trace`, classDecl) exists then {trace,*m2} else {*m2};
+	{Method*} m4 = annotations(`Head`, classDecl) exists then {head,*m3} else {*m3};
+	{Method*} m5 = annotations(`Delete`, classDecl) exists then {delete,*m4} else {*m4};
+	{Method*} m6 = annotations(`Options`, classDecl) exists then {options,*m5} else {*m5};
+	{Method*} m7 = annotations(`Connect`, classDecl) exists then {connect,*m6} else {*m6};
+	shared {Method*} methods = m7;
+	
 	// Determine default parameters using the minimal constructor we can find
 	// and then reading the values
 	value min = factory([
@@ -32,6 +44,9 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 				if (is Object aaa = parameterDecl.memberGet(min))
 					parameterDecl.name->aaa
 	]);
+	
+	// Methods
+	
 	
 	"Instantiate a controller"
 	throws(`class Exception`, "when the controller cannot be instantiated")
@@ -82,5 +97,5 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 	
 	"Test if the specified controller is described by this descriptor instance"
 	shared Boolean isInstance("The controller to test" Controller controller) => type(controller).declaration.equals(classDecl);
-	
+
 }
