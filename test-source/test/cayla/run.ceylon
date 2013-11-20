@@ -11,7 +11,8 @@ shared void run() {
 		`package test.cayla.descriptor.application`,
 		`package test.cayla.runtime.route`,
 		`package test.cayla.runtime.method`,
-		`package test.cayla.runtime.url`
+		`package test.cayla.runtime.url`,
+		`package test.cayla.runtime.response`
 	]);
     value _result = runner.run();
     print(_result);

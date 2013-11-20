@@ -18,7 +18,7 @@ object current {
    - the Vert.x request
    - generating an URL for a controller
    """
-shared class RequestContext(Runtime runtime, "The Vert.x request" shared HttpServerRequest request) {
+shared class RequestContext(shared Runtime runtime, "The Vert.x request" shared HttpServerRequest request) {
 	
 	"Render an URL for the specified controller"
 	shared String url("The controller to create an URL for" Controller controller) {

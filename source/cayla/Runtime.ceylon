@@ -1,6 +1,7 @@
 import vietj.vertx { Vertx }
 import vietj.vertx.http { HttpServerRequest }
 import ceylon.net.http { parseMethod }
+import vietj.promises { Promise }
 """The application runtime.
    
    The runtime is obtained from the [[Application.start]] method.
@@ -9,16 +10,24 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 	
 	"Handles the Vert.x request and dispatch it to a controller"
 	shared void handle(HttpServerRequest request) {
-		
-		// Get response
-		value response = _handle(request);
-
-				// Send through vert.x
-		response.send(request.response);
+		value result = _handle(request);
+		switch (result)
+		case (is Response) {
+			result.send(request.response);
+		}
+		case (is Promise<Response>) {
+			void f(Response response) {
+				response.send(request.response);
+			}
+			void g(Exception reason) {
+				error().body(reason.message).send(request.response);
+			}
+			result.then_(f, g);
+		}
 	}
 
 	"Handles the Vert.x request and dispatch it to a controller"
-	Response _handle(HttpServerRequest request) {
+	Promise<Response>|Response _handle(HttpServerRequest request) {
 
 		for (match in application.descriptor.resolve(request.uri.path)) {
 			

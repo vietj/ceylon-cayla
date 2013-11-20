@@ -1,3 +1,4 @@
+import vietj.promises { Promise }
 """The base class for web controllers. A controller must extend this class, its attributes are mapped to
    the request parameters.
    
@@ -61,12 +62,12 @@
 shared abstract class Controller() {
 	
 	"Invoke the controller with the specified request context"
-	shared default Response invoke(RequestContext context) {
+	shared default Promise<Response>|Response invoke(RequestContext context) {
 		return handle();
 	}
 	
 	"Handle the request and return a response"
-	shared default Response handle() {
+	shared default Promise<Response>|Response handle() {
 		return ok();
 	}
 

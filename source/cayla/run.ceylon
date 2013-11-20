@@ -1,4 +1,5 @@
 import vietj.promises { Promise }
+import vietj.vertx.http { HttpClientResponse, textBody }
 
 object sample {
 	
@@ -18,6 +19,18 @@ object sample {
 	shared class Controller2(shared String param) extends Controller() {
 		shared actual default Response handle() => ok().template("web/controller2.html",
 		{"index"->Index(), "c1"->Controller1(param), "param"->param});
+	}
+
+	// Get some markup via the client and return it
+	route("/proxy")
+	shared class ProxyController() extends Controller() {
+		shared actual default Promise<Response> invoke(RequestContext context) {
+			value client = context.runtime.vertx.createHttpClient(80, "portail.free.fr");
+			value request = client.request("GET", "/index.html").end();
+			return request.response.
+				then__((HttpClientResponse response) => response.parseBody(textBody)).
+				then_((String body) => ok().body(body));
+		}
 	}
 }
 
