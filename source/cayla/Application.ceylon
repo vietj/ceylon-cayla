@@ -47,14 +47,13 @@ import vietj.vertx.http { HttpServer }
        Promise<Runtime> runtime = application.start(); 
        runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
    """
-shared class Application(Package|Object container) {
+shared class Application(Package|Object container, Vertx vertx = Vertx()) {
 
 	"The application descriptor"
 	shared ApplicationDescriptor descriptor = ApplicationDescriptor(container);
 	
 	"Start the application and returns a [[Runtime]] [[Promise]]"
 	shared Promise<Runtime> start() {
-		Vertx vertx = Vertx();
 		HttpServer server = vertx.createHttpServer();
 		Runtime runtime = Runtime(this, vertx);
 		server.requestHandler(runtime.handle);
