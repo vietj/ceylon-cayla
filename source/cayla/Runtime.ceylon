@@ -52,6 +52,9 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 					try {
 						return controller.invoke(context);
 					}
+					catch (Exception e) {
+						return error().body(e.message);
+					}
 					finally {
 						current.set(null);
 					}

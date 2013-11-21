@@ -23,7 +23,6 @@ shared test void test001() {
 		assertEquals(200, response.status);
 		assertEquals("text/html", response.contentType);
 		assertEquals("hello_promise", response.contents);
-		Response error = assertRequest("http://localhost:8080/");
 	} finally {
 		runtime.stop();
 	}
@@ -31,6 +30,19 @@ shared test void test001() {
 
 shared test void test002() {
 	Package pkg = `package test.cayla.runtime.response.support.app002`;
+	Application app = Application(pkg);
+	value runtime = app.start().future.get(1000);
+	assert(is Runtime runtime);
+	try {
+		Response response = assertRequest("http://localhost:8080/");
+		assertEquals(500, response.status);
+	} finally {
+		runtime.stop();
+	}
+}
+
+shared test void test003() {
+	Package pkg = `package test.cayla.runtime.response.support.app003`;
 	Application app = Application(pkg);
 	value runtime = app.start().future.get(1000);
 	assert(is Runtime runtime);
