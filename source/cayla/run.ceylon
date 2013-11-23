@@ -1,23 +1,27 @@
 import vietj.promises { Promise }
 import vietj.vertx.http { HttpClientResponse, textBody }
+import cayla.template { Template, loadSimpleTemplate }
 
 object sample {
+    
+    Template index = loadSimpleTemplate("web/index.html");
+    Template controller1 = loadSimpleTemplate("web/controller1.html");
+    Template controller2 = loadSimpleTemplate("web/controller2.html");
 	
 	route("/")
 	shared class Index() extends Controller() {
-		shared actual default Response handle() => ok().template("web/index.html",
-		{"c1"->Controller1("the_param"), "c2"->Controller2("the_param")});
+		shared actual default Response handle() => index.ok({"c1"->Controller1("the_param"), "c2"->Controller2("the_param")});
 	}
 	
 	route("/foo/:param")
 	shared class Controller1(shared String param) extends Controller() {
-		shared actual default Response handle() => ok().template("web/controller1.html",
+		shared actual default Response handle() => controller1.ok(
 		{"index"->Index(), "c2"->Controller2(param), "param"->param});
 	}
 	
 	route("/bar")
 	shared class Controller2(shared String param) extends Controller() {
-		shared actual default Response handle() => ok().template("web/controller2.html",
+		shared actual default Response handle() => controller2.ok(
 		{"index"->Index(), "c1"->Controller1(param), "param"->param});
 	}
 

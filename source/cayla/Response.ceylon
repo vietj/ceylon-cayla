@@ -1,5 +1,5 @@
 import vietj.vertx.http { HttpServerResponse }
-import ceylon.file { current, File }
+import cayla.template { Template }
 
 "Create an 200 status response"
 shared Status ok() {
@@ -58,28 +58,8 @@ shared class Status(shared Integer code) extends Response() {
 		}
 	}
 
-    shared Body template(String path, {<String->Object>*} values) {
-        if (is File f = current.childPath(path).resource) {
-            value sb = StringBuilder();
-            value r = f.Reader();
-            try {
-                while (exists l = r.readLine()) {
-                    sb.append(l);
-                    sb.appendNewline();
-                }
-            } catch (Exception ex) {
-                print("well, fuck.");
-            } finally {
-                r.destroy();
-            }
-            //Now replace the values
-            variable value s = sb.string;
-            for (k->v in values) {
-                s = s.replace("${``k``}", v.string);
-            }
-            return Body(code, "text/html", s);
-        }
-        return Body(code, "text/plain", "TEMPLATE ``path`` NOT FOUND");
+    shared Body template(Template templateObject, {<String->Object>*} values) {
+        return templateObject.status(200, values);
     }
     
     shared actual default String string => "Status[``code``]";
