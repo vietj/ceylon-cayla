@@ -28,6 +28,80 @@ shared test void testRoot001() {
 	}
 }
 
+shared test void testRoot002() {
+    Package pkg = `package test.cayla.runtime.route.support.root002`;
+    Application app = Application(pkg);
+    value runtime = app.start().future.get(1000);
+    assert(is Runtime runtime);
+    try {
+        Response response1 = assertRequest("http://localhost:8080/?foo=HellO");
+        assertEquals(200, response1.status);
+        assertEquals("text/html", response1.contentType);
+        assertEquals(">HellO<", response1.contents);
+        Response response2 = assertRequest("http://localhost:8080/");
+        assertEquals(500, response2.status);
+    } finally {
+        runtime.stop();
+    }
+}
+
+shared test void testRoot003() {
+    Package pkg = `package test.cayla.runtime.route.support.root003`;
+    Application app = Application(pkg);
+    value runtime = app.start().future.get(1000);
+    assert(is Runtime runtime);
+    try {
+        Response response1 = assertRequest("http://localhost:8080/?foo=HellO");
+        assertEquals(200, response1.status);
+        assertEquals("text/html", response1.contentType);
+        assertEquals(">HellO<", response1.contents);
+        Response response2 = assertRequest("http://localhost:8080/");
+        assertEquals(200, response2.status);
+        assertEquals("text/html", response2.contentType);
+        assertEquals("null", response2.contents);
+    } finally {
+        runtime.stop();
+    }
+}
+
+shared test void testRoot004() {
+    Package pkg = `package test.cayla.runtime.route.support.root004`;
+    Application app = Application(pkg);
+    value runtime = app.start().future.get(1000);
+    assert(is Runtime runtime);
+    try {
+        Response response1 = assertRequest("http://localhost:8080/?foo=HellO");
+        assertEquals(200, response1.status);
+        assertEquals("text/html", response1.contentType);
+        assertEquals(">HellO<", response1.contents);
+        Response response2 = assertRequest("http://localhost:8080/");
+        assertEquals(200, response2.status);
+        assertEquals("text/html", response2.contentType);
+        assertEquals(">the_default<", response2.contents);
+    } finally {
+        runtime.stop();
+    }
+}
+
+shared test void testRoot005() {
+    Package pkg = `package test.cayla.runtime.route.support.root005`;
+    Application app = Application(pkg);
+    value runtime = app.start().future.get(1000);
+    assert(is Runtime runtime);
+    try {
+        Response response1 = assertRequest("http://localhost:8080/?foo=HellO");
+        assertEquals(200, response1.status);
+        assertEquals("text/html", response1.contentType);
+        assertEquals(">HellO<", response1.contents);
+        Response response2 = assertRequest("http://localhost:8080/");
+        assertEquals(200, response2.status);
+        assertEquals("text/html", response2.contentType);
+        assertEquals("null", response2.contents);
+    } finally {
+        runtime.stop();
+    }
+}
+
 shared test void testSegment001() {
 	Package pkg = `package test.cayla.runtime.route.support.segment001`;
 	Application app = Application(pkg);

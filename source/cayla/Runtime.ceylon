@@ -43,23 +43,29 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 				).chain(match.params);
 				
 				// Attempt to create controller
-				Controller? controller = match.target.instantiate(*parameters);
+				Controller controller;
+				try {
+					controller = match.target.instantiate(*parameters);
+				} catch (Exception e) {
+					// Somehow should distinguish the kind of error
+					// and return an appropriate status code
+					// missing parameter    -> 400
+					// invocation exception -> 500
+					// etc...
+					return error().body("Could not create controller for ``request.path`` with ``parameters``: ``e.message``");
+				}
 				
 				//
-				if (exists controller) {
-					value context = RequestContext(this, request);
-					current.set(context);
-					try {
-						return controller.invoke(context);
-					}
-					catch (Exception e) {
-						return error().body(e.message);
-					}
-					finally {
-						current.set(null);
-					}
-				} else {
-					return error().body("Could not create controller for ``request.path`` with ``parameters``");
+				value context = RequestContext(this, request);
+				current.set(context);
+				try {
+					return controller.invoke(context);
+				}
+				catch (Exception e) {
+					return error().body(e.message);
+				}
+				finally {
+					current.set(null);
 				}
 			}
 		}		

@@ -6,6 +6,8 @@ import test.cayla.descriptor.controller.instantiate.support.app002 { Controllers
 import test.cayla.descriptor.controller.instantiate.support.app003 { Controllers003=Controllers }
 import test.cayla.descriptor.controller.instantiate.support.app004 { Controllers004=Controllers }
 import test.cayla.descriptor.controller.instantiate.support.app005 { Controllers005=Controllers }
+import test.cayla.descriptor.controller.instantiate.support.app006 { Controllers006=Controllers }
+import test.cayla.descriptor.controller.instantiate.support.app007 { Controllers007=Controllers }
 import cayla { Controller }
 
 shared test void testApp001() {
@@ -64,4 +66,30 @@ shared test void testApp005() {
 	Object controller2 = controllerDesc.instantiate("s"->"s_value");
 	assert(is Controllers005.Index controller2);
 	assertEquals("s_value", controller2.s);
+}
+
+shared test void testApp006() {
+    value controllers = scanControllersInObject(Controllers006());
+    assertEquals(1, controllers.size);
+    value controllerDesc = controllers.first;
+    assert(exists controllerDesc);
+    Object controller1 = controllerDesc.instantiate();
+    assert(is Controllers006.Index controller1);
+    assertEquals("default_value", controller1.s);
+    Object controller2 = controllerDesc.instantiate("s"->"s_value");
+    assert(is Controllers006.Index controller2);
+    assertEquals("s_value", controller2.s);
+}
+
+shared test void testApp007() {
+    value controllers = scanControllersInObject(Controllers007());
+    assertEquals(1, controllers.size);
+    value controllerDesc = controllers.first;
+    assert(exists controllerDesc);
+    Object controller1 = controllerDesc.instantiate();
+    assert(is Controllers007.Index controller1);
+    assertEquals(null, controller1.s);
+    Object controller2 = controllerDesc.instantiate("s"->"s_value");
+    assert(is Controllers007.Index controller2);
+    assertEquals("s_value", controller2.s);
 }

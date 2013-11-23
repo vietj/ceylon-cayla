@@ -63,11 +63,7 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 					String? item = argument?.item;
 					if (!(item exists) && parameterDecl.defaulted) {
 						value default = defaultParameters[parameterDecl.name];
-						if (exists default) {
-							return [default,*rest];
-						} else {
-							throw Exception("Should obtain default argument somehow ``name``");
-						}
+						return [default,*rest];
 					} else {
 						Anything unmarshalled = unmarshaller(item);
 						return [unmarshalled,*rest];
