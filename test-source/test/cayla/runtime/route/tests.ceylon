@@ -13,8 +13,8 @@ shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}) {
     return req.execute();
 }
 
-shared test void test001() {
-	Package pkg = `package test.cayla.runtime.route.support.app001`;
+shared test void testRoot001() {
+	Package pkg = `package test.cayla.runtime.route.support.root001`;
 	Application app = Application(pkg);
 	value runtime = app.start().future.get(1000);
 	assert(is Runtime runtime);
@@ -28,8 +28,8 @@ shared test void test001() {
 	}
 }
 
-shared test void test002() {
-	Package pkg = `package test.cayla.runtime.route.support.app002`;
+shared test void testSegment001() {
+	Package pkg = `package test.cayla.runtime.route.support.segment001`;
 	Application app = Application(pkg);
 	value runtime = app.start().future.get(1000);
 	assert(is Runtime runtime);
@@ -45,8 +45,8 @@ shared test void test002() {
 	}
 }
 
-shared test void test003() {
-	Package pkg = `package test.cayla.runtime.route.support.app003`;
+shared test void testPathParam001() {
+	Package pkg = `package test.cayla.runtime.route.support.pathparam001`;
 	Application app = Application(pkg);
 	value runtime = app.start().future.get(1000);
 	assert(is Runtime runtime);
