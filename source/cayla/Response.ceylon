@@ -82,9 +82,13 @@ shared class Body(Integer code, String mimeType, String data) extends Status(cod
 	}
 
 	shared actual default void send(HttpServerResponse resp) {
-		super.send(resp);
-		resp.contentType(mimeType);
-		resp.end(data);
+		try {
+			super.send(resp);
+			resp.contentType(mimeType);
+			resp.end(data);
+		} finally {
+			resp.close();
+		}
 	}
 
 	shared actual default String string => "Body[code=``code``,mimeType=``mimeType``]";
