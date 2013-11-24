@@ -80,6 +80,12 @@
          shared actual default Response handle() => ok().body("Hello ``name``");
        }
    
+   Path parameters can match 
+   
+   * a single path segment (i.e that does not contain any `/` chars) declared with the `:` prefix like `:name`
+   * zero or more segments `*` prefix like `*name`
+   * one or more segments `+` prefix like `+name`
+   
    ### Controller URL
    
    Controllers can be addressed using the redefined [[Controller.string]] method. In a controller the expression

@@ -1,7 +1,7 @@
 import ceylon.language.meta.declaration { Package }
 import cayla.router { Router, RouteMatch }
 import ceylon.collection { HashMap }
-import ceylon.net.uri { Path, Query }
+import ceylon.net.uri { Path, Query, Parameter }
 import cayla { Controller }
 
 """Describes the application.
@@ -23,23 +23,34 @@ shared class ApplicationDescriptor(Package|Object container) {
 	value routers = HashMap({
 		for (controller in controllers)
 			if (exists route = controller.route)
-				root.addRoute(route.path)->controller
+				root.mount(route.path)->controller
 	});
 	
 	"Resolves a controller descriptor for a path"
-	shared {RouteMatch<ControllerDescriptor>*} resolve("The path" Path|String path) {
+	shared {RouteMatch<ControllerDescriptor>*} resolve("The path" String path) {
 		return {
-			for (match in root.resolve(path))
+			for (match in root.matches(path))
 				if (exists controller = routers.get(match.target))
 					match.as(controller)
 		};
 	}
 	
-	"Renders the path of the specified controller, returns null when the controller does not belong to this application."
+	"Renders the path of the specified controller, returns null when the controller does not belong to this application
+	 or the path could not be rendered."
 	shared [Path,Query]? path("The controller to render a path for" Controller controller) {
 		if (exists found = routers.find((Router->ControllerDescriptor elem) => elem.item.isInstance(controller))) {
 			Map<String, String> parameters = found.item.parameters(controller);
-			return found.key.path(parameters);
+			if (exists render = found.key.path(parameters)) {
+				value path = Path(true);
+				for (segment in render[0]) {
+					path.add(segment);
+				}
+				Query query = Query();
+				for (parameter in render[1]) {
+					query.add(Parameter(parameter.key, parameter.item));
+				}
+				return [path, query];
+			}
 		}
 		return null;
 	}

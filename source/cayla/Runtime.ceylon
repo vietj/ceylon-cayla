@@ -29,7 +29,7 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 	"Handles the Vert.x request and dispatch it to a controller"
 	Promise<Response>|Response _handle(HttpServerRequest request) {
 
-		for (match in application.descriptor.resolve(request.uri.path)) {
+		for (match in application.descriptor.resolve(request.uri.path.string)) {
 			
 			value desc = match.target;
 			

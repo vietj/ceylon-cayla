@@ -1,4 +1,4 @@
-import ceylon.test { createTestRunner }
+import ceylon.test { createTestRunner, SimpleLoggingListener }
 "Run the module `test.cayla`."
 shared void run() {
 	value runner = createTestRunner([
@@ -13,7 +13,7 @@ shared void run() {
 		`package test.cayla.runtime.method`,
 		`package test.cayla.runtime.url`,
 		`package test.cayla.runtime.response`
-	]);
+	], [SimpleLoggingListener()]);
     value _result = runner.run();
     print(_result);
     /*

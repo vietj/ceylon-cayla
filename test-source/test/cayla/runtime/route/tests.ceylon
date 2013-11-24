@@ -119,8 +119,8 @@ shared test void testSegment001() {
 	}
 }
 
-shared test void testPathParam001() {
-	Package pkg = `package test.cayla.runtime.route.support.pathparam001`;
+shared test void testExpression001() {
+	Package pkg = `package test.cayla.runtime.route.support.expression001`;
 	Application app = Application(pkg);
 	value runtime = app.start().future.get(1000);
 	assert(is Runtime runtime);
@@ -134,4 +134,48 @@ shared test void testPathParam001() {
 	} finally {
 		runtime.stop();
 	}
+}
+
+shared test void testAny001() {
+    Package pkg = `package test.cayla.runtime.route.support.any001`;
+    Application app = Application(pkg);
+    value runtime = app.start().future.get(1000);
+    assert(is Runtime runtime);
+    try {
+        Response response1 = assertRequest("http://localhost:8080/");
+        assertEquals(200, response1.status);
+        assertEquals("text/html", response1.contentType);
+        assertEquals("><", response1.contents);
+        Response response2 = assertRequest("http://localhost:8080/bar");
+        assertEquals(200, response2.status);
+        assertEquals("text/html", response2.contentType);
+        assertEquals(">bar<", response2.contents);
+        Response response3 = assertRequest("http://localhost:8080/bar/juu");
+        assertEquals(200, response3.status);
+        assertEquals("text/html", response3.contentType);
+        assertEquals(">bar/juu<", response3.contents);
+    } finally {
+        runtime.stop();
+    }
+}
+
+shared test void testOneOrMore001() {
+    Package pkg = `package test.cayla.runtime.route.support.oneormore001`;
+    Application app = Application(pkg);
+    value runtime = app.start().future.get(1000);
+    assert(is Runtime runtime);
+    try {
+        Response response1 = assertRequest("http://localhost:8080/");
+        assertEquals(404, response1.status);
+        Response response2 = assertRequest("http://localhost:8080/bar");
+        assertEquals(200, response2.status);
+        assertEquals("text/html", response2.contentType);
+        assertEquals(">bar<", response2.contents);
+        Response response3 = assertRequest("http://localhost:8080/bar/juu");
+        assertEquals(200, response3.status);
+        assertEquals("text/html", response3.contentType);
+        assertEquals(">bar/juu<", response3.contents);
+    } finally {
+        runtime.stop();
+    }
 }
