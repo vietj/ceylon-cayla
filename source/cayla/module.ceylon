@@ -23,8 +23,7 @@
  
        shared void run() {
          value application = Application(controllers);
-         application.start().always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
-         process.readLine();
+         application.run();
        }
    
    ### Build and run!
@@ -46,6 +45,14 @@
    ### Object applications
 
        Application(controllers)
+   
+   ### Application life cycle
+   
+   Application can be started with [[Application.run]] or [[Application.start]]:
+   
+   - `run` run the application and blocks until the current process reads a line (like enter keystroke).
+   - `start` starts the application asynchronously and returns a `Promise<Runtime>` providing a fine grained control over
+     the application life cycle.
 
    ## Controllers 
    

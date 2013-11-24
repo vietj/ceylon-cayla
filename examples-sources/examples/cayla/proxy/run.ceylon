@@ -1,4 +1,4 @@
-import cayla { Response, route, Controller, Runtime, Application, RequestContext, ok }
+import cayla { Response, route, Controller, Application, RequestContext, ok }
 import vietj.promises { Promise }
 import vietj.vertx.http { HttpClientResponse, textBody }
 "Run the module `examples.cayla.proxy`."
@@ -16,9 +16,5 @@ class ProxyController() extends Controller() {
 }
 
 shared void run() {
-    value application = Application(`package examples.cayla.proxy`);
-    Promise<Runtime> runtime = application.start();
-    runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
-    process.readLine();
-    runtime.then_((Runtime runtime) => runtime.stop()).then_((Anything anyting) => print("stopped"));
+    Application(`package examples.cayla.proxy`).run();
 }

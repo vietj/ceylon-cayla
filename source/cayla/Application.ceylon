@@ -59,5 +59,13 @@ shared class Application(Package|Object container, Vertx vertx = Vertx()) {
 		server.requestHandler(runtime.handle);
 		Promise<HttpServer> promise = server.listen(8080);
 		return promise.then_((HttpServer n) => runtime);
-	}	
+	}
+
+    "Run the application"
+	shared void run("Current thread is blocked until the console reads a line" Boolean block = true) {
+		Promise<Runtime> runtime = start();
+		runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
+		process.readLine();
+		runtime.then_((Runtime runtime) => runtime.stop()).then_((Anything anyting) => print("stopped"));
+	}
 }

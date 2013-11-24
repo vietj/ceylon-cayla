@@ -1,5 +1,4 @@
-import cayla { Response, route, Controller, Runtime, Application }
-import vietj.promises { Promise }
+import cayla { Response, route, Controller, Application }
 import cayla.template { Template, SimpleTemplate }
 "Run the module `examples.cayla.helloworld`."
 
@@ -47,9 +46,5 @@ class Index(shared String? name = null) extends Controller() {
 }
 
 shared void run() {
-    value application = Application(`package examples.cayla.helloworld`);
-    Promise<Runtime> runtime = application.start();
-    runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
-    process.readLine();
-    runtime.then_((Runtime runtime) => runtime.stop()).then_((Anything anyting) => print("stopped"));
+    Application(`package examples.cayla.helloworld`).run();
 }
