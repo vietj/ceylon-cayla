@@ -53,6 +53,13 @@
    - `run` run the application and blocks until the current process reads a line (like enter keystroke).
    - `start` starts the application asynchronously and returns a `Promise<Runtime>` providing a fine grained control over
      the application life cycle.
+   
+   ### Application configuration
+   
+   Configuration is handled by the [[Config]] class. By default the appliation is bound on the 8080 port
+   and on all available interfaces. Explicit config can be provided when the application is created:
+   
+       Application(`package my.controllers`, Config{port = 80;});
 
    ## Controllers 
    

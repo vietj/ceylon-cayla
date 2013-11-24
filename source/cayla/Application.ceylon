@@ -47,7 +47,7 @@ import vietj.vertx.http { HttpServer }
        Promise<Runtime> runtime = application.start(); 
        runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
    """
-shared class Application(Package|Object container, Vertx vertx = Vertx()) {
+shared class Application(Package|Object container, Config config = Config(), Vertx vertx = Vertx()) {
 
 	"The application descriptor"
 	shared ApplicationDescriptor descriptor = ApplicationDescriptor(container);
@@ -57,14 +57,14 @@ shared class Application(Package|Object container, Vertx vertx = Vertx()) {
 		HttpServer server = vertx.createHttpServer();
 		Runtime runtime = Runtime(this, vertx);
 		server.requestHandler(runtime.handle);
-		Promise<HttpServer> promise = server.listen(8080);
+		Promise<HttpServer> promise = server.listen(config.port, config.hostName);
 		return promise.then_((HttpServer n) => runtime);
 	}
 
     "Run the application"
 	shared void run("Current thread is blocked until the console reads a line" Boolean block = true) {
 		Promise<Runtime> runtime = start();
-		runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
+		runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started on port ``config.port``" else "failed: ``arg.string``"));
 		process.readLine();
 		runtime.then_((Runtime runtime) => runtime.stop()).then_((Anything anyting) => print("stopped"));
 	}

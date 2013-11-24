@@ -1,4 +1,4 @@
-import cayla { Response, route, Controller, Application, RequestContext, ok }
+import cayla { Response, route, Controller, Application, RequestContext, ok, Config }
 import vietj.promises { Promise }
 import vietj.vertx.http { HttpClientResponse, textBody }
 "Run the module `examples.cayla.proxy`."
@@ -16,5 +16,5 @@ class ProxyController() extends Controller() {
 }
 
 shared void run() {
-    Application(`package examples.cayla.proxy`).run();
+    Application(`package examples.cayla.proxy`, Config{port = 8080;}).run();
 }
