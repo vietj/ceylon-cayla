@@ -6,49 +6,35 @@ Build on top of
 * Vert.x
 * Promises
 
-Current deployed version 0.2.1, read the module [Documentation](https://modules.ceylon-lang.org/repo/1/cayla/0.2.1).
+Current deployed version 0.2.2, read the module [Documentation](https://modules.ceylon-lang.org/repo/1/cayla/0.2.2).
 
-# Application
+# Building
 
-A web application is created in a few steps:
+    ceylon compile cayla
 
-    value application = Application(`package myapplication`);
-    Promise<Runtime> runtime = application.start();
-    runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
-    process.readLine();
-    runtime.then_((Runtime runtime) => runtime.stop()).then_((Anything anyting) => print("stopped"));
+# Testing
 
-# Controllers
+    ceylon compile --source test-source test.cayla
+    ceylon run test.cayla/0.2.2
 
-Controllers are classes in your application that extends the Controller class. A controller handle a request with its `handle` method.
+# Example
 
-Controllers use the `route` annotation and are parameterized by `String` parameters, each parameter must be a shared parameter:
+## Hello World
 
-    route "/"
-    shared class MyController(shared String color) extends Controller() { ... }
+    ceylon compile --source=examples-sources examples.cayla.helloworld
+    ceylon run examples.cayla.helloworld/1.0.0
 
-Controller urls can be easily constructed via the `string` method.
+## Parameters
 
-    value url = MyController("red").string;
+    ceylon compile --source=examples-sources examples.cayla.parameters
+    ceylon run examples.cayla.parameters/1.0.0
+    
+## Proxy
 
-Request handling is implemented via the `handle` method:
+    ceylon compile --source=examples-sources examples.cayla.proxy
+    ceylon run examples.cayla.proxy/1.0.0
+    
+## Rythm Engine
 
-    shared class MyController() extends Controller() {
-      shared actual default Response handle() => ok().body("<html><body>Hello World</body></html>");
-    }
-
-## Top level controllers
-
-    route("/")
-    shared class Index() {
-      shared actual default Response handle() => ok().body("<html><body>Hello World</body></html>");
-    }
-
-## Nested controllers
-
-    shared object controllers {
-      route("/")
-      shared class Index() {
-        shared actual default Response handle() => ok().body("<html><body>Hello World</body></html>");
-      }
-    }
+    ceylon compile --source=examples-sources examples.cayla.rythm
+    ceylon run examples.cayla.rythm/1.0.0
