@@ -15,7 +15,7 @@ Current deployed version 0.2.2, read the module [Documentation](https://modules.
 # Testing
 
     ceylon compile --source test-source test.cayla
-    ceylon run test.cayla/0.2.2
+    ceylon run test.cayla/0.2.3
 
 # Example
 
