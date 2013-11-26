@@ -19,22 +19,20 @@ Current deployed version 0.2.2, read the module [Documentation](https://modules.
 
 # Example
 
+    ceylon compile --source=examples-source examples.cayla
+
 ## Hello World
 
-    ceylon compile --source=examples-sources examples.cayla.helloworld
-    ceylon run examples.cayla.helloworld/1.0.0
+    ceylon run --run=examples.cayla.helloworld.run examples.cayla/1.0.0
 
 ## Parameters
 
-    ceylon compile --source=examples-sources examples.cayla.parameters
-    ceylon run examples.cayla.parameters/1.0.0
+    ceylon run --run=examples.cayla.parameters.run examples.cayla/1.0.0
     
 ## Proxy
 
-    ceylon compile --source=examples-sources examples.cayla.proxy
-    ceylon run examples.cayla.proxy/1.0.0
+    ceylon run --run=examples.cayla.proxy.run examples.cayla/1.0.0
     
 ## Rythm Engine
 
-    ceylon compile --source=examples-sources examples.cayla.rythm
-    ceylon run examples.cayla.rythm/1.0.0
+    ceylon run --run=examples.cayla.rythm.run examples.cayla/1.0.0
