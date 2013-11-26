@@ -4,6 +4,6 @@
    """
 module examples.cayla.proxy "1.0.0" {
 	
-	import "cayla" "0.3.0";
+	import "cayla" "0.2.2";
 
 }
