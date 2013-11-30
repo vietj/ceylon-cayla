@@ -8,6 +8,8 @@ import test.cayla.descriptor.controller.arguments.support.sharedstringornull { S
 import test.cayla.descriptor.controller.arguments.support.shareddefaultstringornull001 { SharedDefaultStringOrNullIndex001 = Index }
 import test.cayla.descriptor.controller.arguments.support.shareddefaultstringornull002 { SharedDefaultStringOrNullIndex002 = Index }
 import test.cayla.descriptor.controller.arguments.support.sharedboolean { SharedBooleanIndex=Index }
+import test.cayla.descriptor.controller.arguments.support.sharedinteger { SharedIntegerIndex=Index }
+import test.cayla.descriptor.controller.arguments.support.shareddefaultinteger { SharedDefaultIntegerIndex = Index }
 
 shared test void testEmpty() {
     value controllers = scanControllersInPackage(`package test.cayla.descriptor.controller.arguments.support.empty`);
@@ -102,6 +104,31 @@ shared test void testSharedBoolean() {
     assertEquals(true, controller1.s);
     assertEquals(LazyMap({"s"->"true"}), controllerDesc.parameters(controller1));
     assertThatException(() => controllerDesc.instantiate("s"->"unparseable"));
+}
+
+shared test void testSharedInteger() {
+    value controllers = scanControllersInPackage(`package test.cayla.descriptor.controller.arguments.support.sharedinteger`);
+    assertEquals(1, controllers.size);
+    value controllerDesc = controllers.first;
+    assert(exists controllerDesc);
+    value controller1 = controllerDesc.instantiate("s"->"4");
+    assert(is SharedIntegerIndex controller1);
+    assertEquals(4, controller1.s);
+    assertEquals(LazyMap({"s"->"4"}), controllerDesc.parameters(controller1));
+    assertThatException(() => controllerDesc.instantiate("s"->"unparseable"));
+}
+
+shared test void testSharedDefaultInteger() {
+    value controllers = scanControllersInPackage(`package test.cayla.descriptor.controller.arguments.support.shareddefaultinteger`);
+    assertEquals(1, controllers.size);
+    value controllerDesc = controllers.first;
+    assert(exists controllerDesc);
+    Object controller1 = controllerDesc.instantiate();
+    assert(is SharedDefaultIntegerIndex controller1);
+    assertEquals(5, controller1.s);
+    Object controller2 = controllerDesc.instantiate("s"->"3");
+    assert(is SharedDefaultIntegerIndex controller2);
+    assertEquals(3, controller2.s);
 }
 
 shared test void testUnshared() {
