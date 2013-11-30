@@ -4,7 +4,9 @@ shared annotation Route route(String path, String* methods) => Route(path);
 
 "A route configuration"
 shared final annotation class Route("The route path" shared String path)
-		satisfies OptionalAnnotation<Route, Annotated> {}
+		satisfies OptionalAnnotation<Route, Annotated> {
+    shared actual String string => "Route(``path``)";
+}
 
 "Declares a binding to the GET http method"
 shared annotation Get get() => Get();

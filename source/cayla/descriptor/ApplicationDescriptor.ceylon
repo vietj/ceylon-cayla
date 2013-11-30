@@ -2,7 +2,7 @@ import ceylon.language.meta.declaration { Package }
 import cayla.router { Router, RouteMatch }
 import ceylon.collection { HashMap }
 import ceylon.net.uri { Path, Query, Parameter }
-import cayla { Controller }
+import cayla { Controller, Route }
 
 """Describes the application.
    """
@@ -18,12 +18,23 @@ shared class ApplicationDescriptor(Package|Object container) {
 		controllers = scanControllersInObject(container);
 	}
 
-	// Router
+    // The root controller
 	Router root = Router();
+	
+	// Utils function for creating a router (equivalent to a left fold)
+	Router createRouter({Route*} route) {
+		if (exists first = route.first) {
+			return createRouter(route.rest).mount(first.path);
+		} else {
+			return root;
+		}
+	}
+
+	// Router
 	value routers = HashMap({
 		for (controller in controllers)
 			if (exists route = controller.route)
-				root.mount(route.path)->controller
+				createRouter(route)->controller
 	});
 	
 	"Resolves a controller descriptor for a path"

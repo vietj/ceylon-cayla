@@ -3,7 +3,9 @@ import ceylon.language.meta.declaration { Package }
 import cayla.descriptor { ApplicationDescriptor, ControllerDescriptor }
 import test.cayla.descriptor.application.support.route001 { controllersRoute001=controllers }
 import test.cayla.descriptor.application.support.route002 { IndexRoute1=Index }
+import test.cayla.descriptor.application.support.route003 { fooRoute003=foo }
 import test.cayla.descriptor.application.support.decl002 { fooDecl002=foo }
+import ceylon.net.uri { Path, Query, PathSegment }
 
 shared test void testDecl001() {
 	Package pkg = `package test.cayla.descriptor.application.support.decl001`;
@@ -45,3 +47,16 @@ shared test void testRoute002() {
 	assertEquals("default_bar", controller.bar);
 }
 
+shared test void testRoute003() {
+    Package pkg = `package test.cayla.descriptor.application.support.route003`;
+    ApplicationDescriptor desc = ApplicationDescriptor(pkg);
+    assertEquals(1, desc.controllers.size);
+    value instance = fooRoute003.instance();
+    assertEquals([Path(true, PathSegment("foo"), PathSegment("bar")),Query()], desc.path(instance));
+    value matches = desc.resolve("/foo/bar");
+    assert(exists match = matches.first);
+    assertEquals(LazyMap({}), match.params);
+    value controller = match.target.instantiate(*match.params);
+    assert(fooRoute003.isIndex(controller));
+    assertEquals(0, desc.resolve("/foo").size);
+}

@@ -92,6 +92,23 @@
    `Greeter("Cayla")` will produce the *http://localhost:8080/greeter?name=Cayla* or the 
    *http://localhost:8080/greeter/Cayla* URL.
    
+   ### Routing
+   
+   Routing is declared with the [[route]] annotation. Valid controllers must have this annotation.
+   
+       route("/")
+       shared class Index() extends Controller() { ... }
+   
+   Objects wrapping controllers can optionally be annotated with the [[route]] annotation:
+   
+       route("/products")
+       object products {
+         route("/")
+         shared class Index() extends Controller() { ... }
+         route("/cars")
+         shared class Cars() extends Controller() { ... }
+       }
+   
    ## Controller logic
    
    During an invocation Cayla dispatches the request to the [[Controller.handle]] method. This method should implement

@@ -6,7 +6,11 @@ import cayla.descriptor { unmarshallers }
 import ceylon.net.http { Method, get, put, post, trace, head, delete, options, connect }
 
 """Describes a controller."""
-shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDeclaration classDecl) {
+shared class ControllerDescriptor(
+    Anything(Anything[]) factory,
+    shared ClassDeclaration classDecl,
+    "Returns the [[Route]] of this controller, it may be null"
+    shared {Route+}? route) {
 	
 	// Checks
 	for (parameterDecl in classDecl.parameterDeclarations) {
@@ -88,8 +92,6 @@ shared class ControllerDescriptor(Anything(Anything[]) factory, shared ClassDecl
 					parameterDecl.name->t.string
 		});
 	
-	"Returns the [[Route]] of this controller, it may be null"
-	shared Route? route => annotations(`Route`, classDecl);
 	
 	"Test if the specified controller is described by this descriptor instance"
 	shared Boolean isInstance("The controller to test" Controller controller) => type(controller).declaration.equals(classDecl);
