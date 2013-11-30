@@ -4,6 +4,7 @@ import test.cayla.descriptor.controller.parameters.support.app001 { Controllers0
 import test.cayla.descriptor.controller.parameters.support.app002 { Controllers002=Controllers }
 import test.cayla.descriptor.controller.parameters.support.app003 { Controllers003=Controllers }
 import test.cayla.descriptor.controller.parameters.support.app004 { Index004=Index }
+import test.cayla.descriptor.controller.parameters.support.app006 { Index006=Index }
 
 shared test void test001() {
 	value controllers = scanControllersInObject(Controllers001());
@@ -46,15 +47,21 @@ shared test void test004() {
 }
 
 shared test void test005() {
-	void f() {
-		scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app005`);
-	}
-	assertThatException(f);
+	assertThatException(() => scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app005`));
 }
 
 shared test void test006() {
-	void f() {
-		scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app006`);
-	}
-	assertThatException(f);
+    value controllers = scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app006`);
+    assertEquals(1, controllers.size);
+    value controllerDesc = controllers.first;
+    assert(exists controllerDesc);
+    value controller1 = controllerDesc.instantiate("s"->"true");
+    assert(is Index006 controller1);
+    assertEquals(true, controller1.s);
+    assertEquals(LazyMap({"s"->"true"}), controllerDesc.parameters(controller1));
+    assertThatException(() => controllerDesc.instantiate("s"->"unparseable"));
+}
+
+shared test void test007() {
+    assertThatException(() => scanControllersInPackage(`package test.cayla.descriptor.controller.parameters.support.app007`));
 }

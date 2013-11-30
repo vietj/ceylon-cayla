@@ -1,4 +1,4 @@
-import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration }
+import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
 import cayla { Route, Controller, Get, Put, Post, Trace, Head, Delete, Options, Connect }
 import ceylon.language.meta { annotations, type }
 import ceylon.collection { HashMap }
@@ -35,12 +35,23 @@ shared class ControllerDescriptor(
 	{Method*} m7 = annotations(`Connect`, classDecl) exists then {connect,*m6} else {*m6};
 	shared {Method*} methods = m7;
 	
+	// Helper for below
+	Anything defaultOf(OpenType type) {
+		Unmarshaller<Anything>? unmarshaller = unmarshallers.find(type);
+		if (exists unmarshaller) {
+			return unmarshaller.default;
+		} else {
+			throw Exception("Unsupported parameter type ``type``");
+		}
+	}
+	
 	// Determine default parameters using the minimal constructor we can find
 	// and then reading the values
 	value min = factory([
 			for (parameterDecl in classDecl.parameterDeclarations)
 				if (!parameterDecl.defaulted)
-					"foo"]);
+					defaultOf(parameterDecl.openType)
+	]);
 	assert(is Object min);
 	Map<String, Object> defaultParameters = HashMap([
 		for (parameterDecl in classDecl.parameterDeclarations)
@@ -62,14 +73,14 @@ shared class ControllerDescriptor(
 				value type = parameterDecl.openType;
 				String name = parameterDecl.name;
 				value argument = arguments.find((String->String elem) => elem.key.equals(name));
-				Anything(String?)? unmarshaller = unmarshallers.find(type);
+				Unmarshaller<Anything>? unmarshaller = unmarshallers.find(type);
 				if (exists unmarshaller) {
 					String? item = argument?.item;
 					if (!(item exists) && parameterDecl.defaulted) {
 						value default = defaultParameters[parameterDecl.name];
 						return [default,*rest];
 					} else {
-						Anything unmarshalled = unmarshaller(item);
+						Anything unmarshalled = unmarshaller.unmarshall(item);
 						return [unmarshalled,*rest];
 					}
 				} else {
