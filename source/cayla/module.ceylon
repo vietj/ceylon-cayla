@@ -7,7 +7,7 @@
    ### Import the Cayla module
    
        module my.app "1.0.0" {
-         import cayla "0.2.3";
+         import cayla "0.2.4";
        }
    
    ### Write the controller
@@ -140,7 +140,7 @@
        }
 
   """
-module cayla "0.2.3" {
+module cayla "0.2.4" {
 
 	shared import java.base "7";
 	shared import ceylon.net "1.0.0";
