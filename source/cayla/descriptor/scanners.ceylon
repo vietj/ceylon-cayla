@@ -33,12 +33,26 @@ Anything memberFactory(ClassDeclaration classDecl, Object o)(Anything[] argument
 
 shared ControllerDescriptor[] scanControllersInObject(Object obj) {
 	ClassModel<Object> classModel = type(obj);
-	value memberDecls = classModel.declaration.memberDeclarations<ClassDeclaration>();	
+	
+	print("analyzing ``obj`` ``type(obj)``");
+	
+	// Controllers in this object
+	value classDecls = classModel.declaration.memberDeclarations<ClassDeclaration>();	
 	ControllerDescriptor[] controllers = [*{
-		for (memberDecl in memberDecls)
-			if (exists x = memberDecl.extendedType, x.declaration.equals(`class Controller`))
-				ControllerDescriptor(memberFactory(memberDecl, obj), memberDecl)		
+		for (classDecl in classDecls)
+			if (exists x = classDecl.extendedType, x.declaration.equals(`class Controller`))
+				ControllerDescriptor(memberFactory(classDecl, obj), classDecl)		
 		}];
-	return controllers;
-}
+		
+    // Then recurse on anonymous nested values
+	value valueDecls = classModel.declaration.memberDeclarations<ValueDeclaration>();
+	ControllerDescriptor[] controllers2 = [*{
+		for (valueDecl in valueDecls)
+		  if (exists objectDecl = valueDecl.memberGet(obj), type(objectDecl).declaration.anonymous)
+    		  for (controllerDesc in scanControllersInObject(objectDecl)) 
+    		      controllerDesc
+	}];
 
+    //
+	return concatenate(controllers, controllers2);
+}
