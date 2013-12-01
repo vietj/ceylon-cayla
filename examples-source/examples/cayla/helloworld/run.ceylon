@@ -1,39 +1,39 @@
-import cayla { Response, route, Controller, Application }
-import cayla.template { Template, SimpleTemplate }
-"Run the module `examples.cayla.helloworld`."
+import cayla { Response, route, Controller, Application, ok }
+import cayla.template { ... }
 
-Template main = SimpleTemplate(
-    "<!DOCTYPE html>
-      <html>
-        <head>
-          <title>Hello World</title>
-          <link rel='stylesheet' href='//www.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css'>
-        </head>
-        <body style='padding-top: 32px'>
-          <div class='container'>
-          <div class='hero-unit'>
-            <div class='center'><h1>Hello ${name}</h1></div>
-          </div>
-          <div class='offset4 span4'>                                                
-          <form class='form-signin' action='${action}' method='get'>
-             <div class='control-group'>
-               <div class='controls'>
-                 <input type='text' name='name' placeholder='Your Name'>
-               </div>  
-             </div>
-             <div class='control-group'>
-               <div class='controls'> 
-                 <button type='submit' class='btn btn-default'>Say Hello</button>                                                         
-               </div>                                                                                                                
-             </div>                                                                                                                                                                                                                                                                                                                                            
-          </form>
-          </div>                                            
-          </div>
-        </body>
-      </html>");
+"Run the module `examples.cayla.helloworld`."
 
 route("/")
 class Index(shared String? name = null) extends Controller() {
+
+    DIV controlGroup(Child* children) =>
+    DIV { className = "control-group";
+     DIV { className= "controls"; children = children; } };
+
+    Template index(String name) =>
+    HTML {
+      HEAD {
+        TITLE { "Hello World" },
+        LINK { rel = "stylesheet"; href="//www.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css"; }
+      },
+      BODY { style = "padding-top: 32px";
+        DIV { className ="container";
+          DIV { className =  "hero-unit";
+            DIV { className="center";
+              H1 { () => "Hello ``name``" }
+            }
+          },
+          DIV { className = "offset4 span4";
+            FORM { className = "form-signin"; action = Index().string; method = "GET";
+              controlGroup(INPUT { type = "text"; name = "name"; }),
+              controlGroup(BUTTON { className = "btn btn-default"; type = "submit";
+                    "Say Hello" })
+            }
+          }
+        }
+      }
+    };
+
 	shared actual default Response handle() {
 		String s;
 		if (exists name) {
@@ -41,7 +41,7 @@ class Index(shared String? name = null) extends Controller() {
 		} else {
 			s = "World";
 		}
-        return main.ok({"action"->Index(),"name"->s}); 
+        return index(s).ok(); 
     }
 }
 

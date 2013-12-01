@@ -3,25 +3,25 @@ import cayla { Body, Status }
 shared interface Template {
     
     "Render the template"
-    shared formal void render(StringBuilder to, {<String->Object>*} values);
+    shared formal void render(StringBuilder to);
     
-    shared default Body ok({<String->Object>*} values) {
-        return status(200, values);
+    shared default Body ok() {
+        return status(200);
     }
     
     "Create an 404 status response"
-    shared default Status notFound({<String->Object>*} values) {
-        return status(404, values);
+    shared default Status notFound() {
+        return status(404);
     }
     
     "Create an 500 status response"
-    shared default Status error({<String->Object>*} values) {
-        return status(500, values);
+    shared default Status error() {
+        return status(500);
     }
 
-    shared default Body status(Integer code, {<String->Object>*} values) {
+    shared default Body status(Integer code) {
         StringBuilder buffer = StringBuilder();
-        render(buffer, values);
+        render(buffer);
         return Body(code, "text/html", buffer.string);
     }
 }

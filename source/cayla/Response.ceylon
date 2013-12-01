@@ -1,5 +1,4 @@
 import vietj.vertx.http { HttpServerResponse }
-import cayla.template { Template }
 
 "Create an 200 status response"
 shared Status ok() {
@@ -58,10 +57,6 @@ shared class Status(shared Integer code) extends Response() {
 		}
 	}
 
-    shared Body template(Template templateObject, {<String->Object>*} values) {
-        return templateObject.status(200, values);
-    }
-    
     shared actual default String string => "Status[``code``]";
 
 }

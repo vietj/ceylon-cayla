@@ -1,6 +1,6 @@
 import ceylon.file { File, current, Resource }
 
-shared SimpleTemplate loadSimpleTemplate(String|File file) {
+shared Template(<String->Object>*) loadSimpleTemplate(String|File file) {
     Resource r;
     switch (file)
     case (is String) {
@@ -17,27 +17,25 @@ shared SimpleTemplate loadSimpleTemplate(String|File file) {
                 sb.append(l);
                 sb.appendNewline();
             }
-            return SimpleTemplate(sb.string);
+            value chars = sb.string;
+            Template foo(<String->Object>* values) {
+                object binding satisfies Template {
+                    shared actual void render(StringBuilder to) {
+                        // Not efficient at all! but well for now it's ok
+                        variable String s = chars;
+                        for (k->v in values) {
+                            s = s.replace("${``k``}", v.string);
+                        }
+                        to.append(s);
+                    }
+                }
+                return binding;
+            }
+            return foo;
         } finally {
             reader.destroy();
         }
     } else {
         throw Exception("TEMPLATE ``file`` NOT FOUND");
     }
-}
-
-shared class SimpleTemplate(String chars) satisfies Template {
-
-    shared actual void render(StringBuilder to, {<String->Object>*} values) {
-        // Not efficient at all! but well for now it's ok
-        variable String s = chars;
-        for (k->v in values) {
-            s = s.replace("${``k``}", v.string);
-        }
-        to.append(s);
-    }
-    
-    
-    
-    
 }
