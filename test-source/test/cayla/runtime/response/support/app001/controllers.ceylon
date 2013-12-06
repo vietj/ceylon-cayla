@@ -6,7 +6,7 @@ shared object mycontroller {
 	shared class Index() extends Controller() {
 		shared actual Promise<Response> handle() {
 			Deferred<Response> response = Deferred<Response>();
-			response.resolve(ok().body("hello_promise"));
+			response.resolve(ok { "hello_promise"; });
 			return response.promise;
 		}
 	}

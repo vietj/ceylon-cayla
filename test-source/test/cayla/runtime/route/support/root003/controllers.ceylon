@@ -10,7 +10,7 @@ shared object mycontroller {
 			} else {
 				s = "null";
 			}
-			return ok().body(s);
+			return ok{s;};
 		}
 	}
 }

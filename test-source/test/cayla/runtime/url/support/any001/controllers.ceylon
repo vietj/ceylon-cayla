@@ -7,7 +7,7 @@ shared object path {
 route("/")
 shared class Index() extends Controller() {
 	shared actual Response handle() {
-		return ok().body("``Foo(path.val)``");
+		return ok{"``Foo(path.val)``";};
 	}
 }
 

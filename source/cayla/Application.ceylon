@@ -17,7 +17,9 @@ import vietj.vertx.http { HttpServer }
        object controllers {
          route("/")
          shared class Index() {
-           shared actual default Response handle() => Response.ok().body("Hello World");
+           shared actual default Response handle() => ok {
+             "Hello World";
+           };
          }
        }
        void run() {

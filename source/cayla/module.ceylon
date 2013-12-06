@@ -17,7 +17,9 @@
        object controllers {
          route("/")
          shared class Index() extends Controller() {
-           shared actual default Response handle() => ok().body("Hello World");
+           shared actual default Response handle() => ok {
+             "Hello World";
+           };
          }
        }
  
@@ -70,14 +72,18 @@
    
        route("/greeter")
        shared clas Greeter(String name) extends Controller() {
-         shared actual default Response handle() => ok().body("Hello ``name``");
+         shared actual default Response handle() => ok {
+           "Hello ``name``";
+         };
        }
    
    ### Path parameters
    
        route("/greeter/:name")
        shared clas Greeter(String name) extends Controller() {
-         shared actual default Response handle() => ok().body("Hello ``name``");
+         shared actual default Response handle() => ok {
+           "Hello ``name``";
+         };
        }
    
    Path parameters can match 
@@ -210,7 +216,9 @@
            };
    
        class Controller1(shared String param) extends Controller() {
-         shared actual default Response handle() => index(param).ok();
+         shared actual default Response handle() => ok {
+           index(param);
+         };
        }
    
    #### Encapsulate and reuse

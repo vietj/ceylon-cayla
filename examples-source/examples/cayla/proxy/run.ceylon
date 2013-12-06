@@ -11,7 +11,7 @@ class ProxyController(shared String path) extends Controller() {
         value request = client.request("GET", "/``path``").end();
         return request.response.
                 then__((HttpClientResponse response) => response.parseBody(textBody)).
-                then_((String body) => ok().body(body));
+                then_((String body) => ok { body; });
     }
 }
 

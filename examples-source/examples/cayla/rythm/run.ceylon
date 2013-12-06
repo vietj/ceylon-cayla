@@ -41,7 +41,9 @@ class Index(shared String? name = null) extends Controller() {
                  </div>
                </body>
              </html>", Index(), s);
-        return ok().body(html); 
+        return ok {
+            html; 
+        };
     }
 }
 

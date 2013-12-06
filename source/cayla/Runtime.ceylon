@@ -20,7 +20,9 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 				response.send(request.response);
 			}
 			void g(Exception reason) {
-				error().body(reason.message).send(request.response);
+				error {
+					reason.message;
+				}.send(request.response);
 			}
 			result.then_(f, g);
 		}
@@ -52,7 +54,9 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 					// missing parameter    -> 400
 					// invocation exception -> 500
 					// etc...
-					return error().body("Could not create controller for ``request.path`` with ``parameters``: ``e.message``");
+					return error {
+						"Could not create controller for ``request.path`` with ``parameters``: ``e.message``";
+					};
 				}
 				
 				//
@@ -62,14 +66,18 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 					return controller.invoke(context);
 				}
 				catch (Exception e) {
-					return error().body(e.message);
+					return error {
+						e.message;
+				    };
 				}
 				finally {
 					current.set(null);
 				}
 			}
 		}		
-		return notFound().body("Could not match a controller for ``request.path``");
+		return notFound {
+			"Could not match a controller for ``request.path``";
+		};
 	}
 	
 	"Stop the application"

@@ -34,7 +34,9 @@ import vietj.promises { Promise }
    
        route("/greeter/:name")
        shared class Greeter(String name) extends Controller() {
-         shared actual default Response handle() => Response.ok().body("Hello ``name``");
+         shared actual default Response handle() => ok {
+           "Hello ``name``"
+         };
        }
    
    The controller [[string]] produces an URL for invoking this controller, the URL is generated using:
@@ -45,7 +47,9 @@ import vietj.promises { Promise }
    
        route("/")
        shared class Index() extends Controller() {
-         shared actual default Response handle() => Response.ok().body("Say hello to <a href="``Greeter("Cayla")``">Cayla</a>");
+         shared actual default Response handle() => ok {
+           "Say hello to <a href="``Greeter("Cayla")``">Cayla</a>"
+         };
        }
    
    The response body will contain an URL that will look like *http://localhost:8080/greeter?name=Cayla*. The URL would be

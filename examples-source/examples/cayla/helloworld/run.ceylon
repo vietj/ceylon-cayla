@@ -41,7 +41,9 @@ class Index(shared String? name = null) extends Controller() {
 		} else {
 			s = "World";
 		}
-        return index(s).ok(); 
+        return ok {
+            index(s); 
+        };
     }
 }
 
