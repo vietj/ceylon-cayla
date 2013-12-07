@@ -41,3 +41,12 @@ shared class INPUT({Child*} children, Attr type, Attr name, String id = "", Attr
 
 shared class BUTTON({Child*} children, Attr type = "submit", String id = "", Attr className = "", Attr style = "")
         extends Element("button", id, className, style, LazyMap({"type"->type}), children) {}
+
+shared class P({Child*} children, String id = "", Attr className = "", Attr style = "")
+        extends Element("p", id, className, style, emptyMap, children) {}
+
+shared class BLOCKQUOTE({Child*} children, String id = "", Attr className = "", Attr style = "")
+        extends Element("blockquote", id, className, style, emptyMap, children) {}
+
+shared class SMALL({Child*} children, String id = "", Attr className = "", Attr style = "")
+        extends Element("small", id, className, style, emptyMap, children) {}
