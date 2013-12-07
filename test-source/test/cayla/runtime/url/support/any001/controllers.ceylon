@@ -1,16 +1,16 @@
-import cayla { Controller, route, Response, ok }
+import cayla { Handler, route, Response, ok }
 
 shared object path {
     shared variable String val = "";
 }
 
 route("/")
-shared class Index() extends Controller() {
+shared class Index() extends Handler() {
 	shared actual Response handle() {
 		return ok{"``Foo(path.val)``";};
 	}
 }
 
 route("/prefix/*bar")
-shared class Foo(shared String bar) extends Controller() {
+shared class Foo(shared String bar) extends Handler() {
 }

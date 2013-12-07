@@ -45,7 +45,7 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 				).chain(match.params);
 				
 				// Attempt to create controller
-				Controller controller;
+				Handler controller;
 				try {
 					controller = match.target.instantiate(*parameters);
 				} catch (Exception e) {

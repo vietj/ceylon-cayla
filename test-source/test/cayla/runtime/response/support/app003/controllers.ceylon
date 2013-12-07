@@ -1,8 +1,8 @@
-import cayla { Controller, route, Response }
+import cayla { Handler, route, Response }
 
 shared object mycontroller {
 	route("/")
-	shared class Index() extends Controller() {
+	shared class Index() extends Handler() {
 		shared actual Response handle() {
 			throw Exception();
 		}

@@ -1,10 +1,10 @@
-import cayla { Response, route, Controller, Application, ok }
+import cayla { Response, route, Handler, Application, ok }
 import cayla.template { ... }
 
 "Run the module `examples.cayla.helloworld`."
 
 route("/")
-class Index(shared String? name = null) extends Controller() {
+class Index(shared String? name = null) extends Handler() {
 
     DIV controlGroup(Child* children) =>
     DIV { className = "control-group";

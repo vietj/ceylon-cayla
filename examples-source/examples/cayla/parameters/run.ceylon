@@ -1,4 +1,4 @@
-import cayla { Response, route, Controller, Application, ok }
+import cayla { Response, route, Handler, Application, ok }
 import cayla.template { loadSimpleTemplate, Template }
 
 Template(<String->Object>*) index = loadSimpleTemplate("web/index.html");
@@ -6,7 +6,7 @@ Template(<String->Object>*) controller1 = loadSimpleTemplate("web/controller1.ht
 Template(<String->Object>*) controller2 = loadSimpleTemplate("web/controller2.html");
 
 route("/")
-class Index() extends Controller() {
+class Index() extends Handler() {
     shared actual default Response handle() => ok {
         index(
             "c1"->Controller1("the_param"),
@@ -16,7 +16,7 @@ class Index() extends Controller() {
 }
 
 route("/foo/:param")
-class Controller1(shared String param) extends Controller() {
+class Controller1(shared String param) extends Handler() {
     shared actual default Response handle() => ok {
         controller1(
             "index"->Index(),
@@ -27,7 +27,7 @@ class Controller1(shared String param) extends Controller() {
 }
 
 route("/bar")
-class Controller2(shared String param) extends Controller() {
+class Controller2(shared String param) extends Handler() {
     shared actual default Response handle() => ok {
         controller2(
             "index"->Index(),

@@ -1,8 +1,8 @@
-import cayla { Controller }
+import cayla { Handler }
 
 shared object foo {
     shared object bar {
-        shared class Index() extends Controller() {
+        shared class Index() extends Handler() {
         }
         shared Boolean isIndex(Object o) {
             return o is Index;

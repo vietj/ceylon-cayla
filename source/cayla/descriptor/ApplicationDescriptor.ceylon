@@ -2,23 +2,23 @@ import ceylon.language.meta.declaration { Package }
 import cayla.router { Router, RouteMatch }
 import ceylon.collection { HashMap }
 import ceylon.net.uri { Path, Query, Parameter }
-import cayla { Controller, Route }
+import cayla { Handler, Route }
 
 """Describes the application.
    """
 shared class ApplicationDescriptor(Package|Object container) {
 	
 	//
-	shared ControllerDescriptor[] controllers;
+	shared HandlerDescriptor[] handlers;
 	switch (container)
 	case (is Package) {
-		controllers = scanControllersInPackage(container);
+		handlers = scanHandlersInPackage(container);
 	}
 	else {
-		controllers = scanControllersInObject(container);
+		handlers = scanHandlersInObject(container);
 	}
 
-    // The root controller
+    // The top router
 	Router root = Router();
 	
 	// Utils function for creating a router (equivalent to a left fold)
@@ -32,25 +32,25 @@ shared class ApplicationDescriptor(Package|Object container) {
 
 	// Router
 	value routers = HashMap({
-		for (controller in controllers)
-			if (exists route = controller.route)
-				createRouter(route)->controller
+		for (handler in handlers)
+			if (exists route = handler.route)
+				createRouter(route)->handler
 	});
 	
-	"Resolves a controller descriptor for a path"
-	shared {RouteMatch<ControllerDescriptor>*} resolve("The path" String path) {
+	"Resolves an handler descriptor for a path"
+	shared {RouteMatch<HandlerDescriptor>*} resolve("The path" String path) {
 		return {
 			for (match in root.matches(path))
-				if (exists controller = routers.get(match.target))
-					match.as(controller)
+				if (exists handler = routers.get(match.target))
+					match.as(handler)
 		};
 	}
 	
-	"Renders the path of the specified controller, returns null when the controller does not belong to this application
+	"Renders the path of the specified handler, returns null when the handler does not belong to this application
 	 or the path could not be rendered."
-	shared [Path,Query]? path("The controller to render a path for" Controller controller) {
-		if (exists found = routers.find((Router->ControllerDescriptor elem) => elem.item.isInstance(controller))) {
-			Map<String, String> parameters = found.item.parameters(controller);
+	shared [Path,Query]? path("The handler to render a path for" Handler handler) {
+		if (exists found = routers.find((Router->HandlerDescriptor elem) => elem.item.isInstance(handler))) {
+			Map<String, String> parameters = found.item.parameters(handler);
 			if (exists render = found.key.path(parameters)) {
 				value path = Path(true);
 				for (segment in render[0]) {
@@ -66,10 +66,10 @@ shared class ApplicationDescriptor(Package|Object container) {
 		return null;
 	}
 
-	"Resolves a descriptor for the specified controller, returns null when the controller does not belong to this application."
-	shared ControllerDescriptor? describe(Controller controller) {
-		for (controllerDescriptor in controllers) {
-			if (controllerDescriptor.isInstance(controller)) {
+	"Resolves a descriptor for the specified handler, returns null when the handler does not belong to this application."
+	shared HandlerDescriptor? describe(Handler handler) {
+		for (controllerDescriptor in handlers) {
+			if (controllerDescriptor.isInstance(handler)) {
 				return controllerDescriptor;
 			}
 		}

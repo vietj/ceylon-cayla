@@ -1,11 +1,11 @@
-import cayla { Response, route, Controller, Application, RequestContext, ok, Config }
+import cayla { Response, route, Handler, Application, RequestContext, ok, Config }
 import vietj.promises { Promise }
 import vietj.vertx.http { HttpClientResponse, textBody }
 "Run the module `examples.cayla.proxy`."
 
 // Get some markup via the client and return it - should rewrite the markup URL
 route("/*path")
-class ProxyController(shared String path) extends Controller() {
+class ProxyController(shared String path) extends Handler() {
     shared actual default Promise<Response> invoke(RequestContext context) {
         value client = context.runtime.vertx.createHttpClient(80, "portail.free.fr");
         value request = client.request("GET", "/``path``").end();

@@ -1,9 +1,9 @@
-import cayla { Controller, route, Response }
+import cayla { Handler, route, Response }
 import vietj.promises { Deferred, Promise }
 
 shared object mycontroller {
 	route("/")
-	shared class Index() extends Controller() {
+	shared class Index() extends Handler() {
 		shared actual Promise<Response> handle() {
 			Deferred<Response> response = Deferred<Response>();
 			response.reject(Exception());

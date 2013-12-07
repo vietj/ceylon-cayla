@@ -1,22 +1,22 @@
 import ceylon.language.meta { type, annotations }
 import ceylon.language.meta.model { ClassModel }
 import ceylon.language.meta.declaration { ClassDeclaration, Package, ValueDeclaration, NestableDeclaration }
-import cayla { Controller, Route }
+import cayla { Handler, Route }
 
-shared ControllerDescriptor[] scanControllersInPackage(Package pkg) {
+shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
 	value memberDecls = pkg.members<NestableDeclaration>();
-	ControllerDescriptor[] controllers1 = [*{
+	HandlerDescriptor[] handlers1 = [*{
 		for (memberDecl in memberDecls)
 			if (is ValueDeclaration memberDecl, exists member = memberDecl.get())
-				for (controller in scanControllersInValueDeclaration({}, memberDecl, member))
-					controller
+				for (handler in scanHandlersInValueDeclaration({}, memberDecl, member))
+					handler
 	}];
-	ControllerDescriptor[] controllers2 = [*{
+	HandlerDescriptor[] handlers2 = [*{
 		for (memberDecl in memberDecls)
-			if (is ClassDeclaration memberDecl, exists x = memberDecl.extendedType, x.declaration.equals(`class Controller`))
-				ControllerDescriptor(factory(memberDecl), memberDecl, routeOf({}, memberDecl))
+			if (is ClassDeclaration memberDecl, exists x = memberDecl.extendedType, x.declaration.equals(`class Handler`))
+				HandlerDescriptor(factory(memberDecl), memberDecl, routeOf({}, memberDecl))
 	}];
-	return concatenate(controllers1, controllers2);
+	return concatenate(handlers1, handlers2);
 }
 
 Anything factory(ClassDeclaration classDecl)(Anything[] arguments) {
@@ -31,8 +31,8 @@ Anything memberFactory(ClassDeclaration classDecl, Object o)(Anything[] argument
 	};
 }
 
-shared ControllerDescriptor[] scanControllersInObject(Object obj) {
-    return scanControllersInValueDeclaration({}, null, obj);
+shared HandlerDescriptor[] scanHandlersInObject(Object obj) {
+    return scanHandlersInValueDeclaration({}, null, obj);
 }
 
 {Route+}? routeOf({Route*} routes, ClassDeclaration decl) {
@@ -43,7 +43,7 @@ shared ControllerDescriptor[] scanControllersInObject(Object obj) {
     return null;
 }
 
-ControllerDescriptor[] scanControllersInValueDeclaration({Route*} routes, ValueDeclaration? vs, Object obj) {
+HandlerDescriptor[] scanHandlersInValueDeclaration({Route*} routes, ValueDeclaration? vs, Object obj) {
 	ClassModel<Object> classModel = type(obj);
 	
 	//
@@ -54,23 +54,23 @@ ControllerDescriptor[] scanControllersInValueDeclaration({Route*} routes, ValueD
 		objRoutes = {};
 	}
 
-    // Controllers in this object
+    // Handlers in this object
 	value classDecls = classModel.declaration.memberDeclarations<ClassDeclaration>();	
-	ControllerDescriptor[] controllers = [*{
+	HandlerDescriptor[] handlers = [*{
 		for (classDecl in classDecls)
-			if (exists x = classDecl.extendedType, x.declaration.equals(`class Controller`))
-				ControllerDescriptor(memberFactory(classDecl, obj), classDecl, routeOf(objRoutes, classDecl))		
+			if (exists x = classDecl.extendedType, x.declaration.equals(`class Handler`))
+				HandlerDescriptor(memberFactory(classDecl, obj), classDecl, routeOf(objRoutes, classDecl))		
 		}];
 		
     // Then recurse on anonymous nested values
 	value valueDecls = classModel.declaration.memberDeclarations<ValueDeclaration>();
-	ControllerDescriptor[] controllers2 = [*{
+	HandlerDescriptor[] handlers2 = [*{
 		for (valueDecl in valueDecls)
 		  if (exists objectDecl = valueDecl.memberGet(obj), type(objectDecl).declaration.anonymous)
-    		  for (controllerDesc in scanControllersInValueDeclaration(objRoutes, valueDecl, objectDecl)) 
+    		  for (controllerDesc in scanHandlersInValueDeclaration(objRoutes, valueDecl, objectDecl)) 
     		      controllerDesc
 	}];
 
     //
-	return concatenate(controllers, controllers2);
+	return concatenate(handlers, handlers2);
 }

@@ -21,7 +21,7 @@ object current {
 shared class RequestContext(shared Runtime runtime, "The Vert.x request" shared HttpServerRequest request) {
 	
 	"Render an URL for the specified controller"
-	shared String url("The controller to create an URL for" Controller controller) {
+	shared String url("The controller to create an URL for" Handler controller) {
 		if (exists path = runtime.application.descriptor.path(controller)) {
 			value uri = Uri {
 				scheme = "http";

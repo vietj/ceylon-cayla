@@ -1,4 +1,4 @@
-import cayla { Response, route, Controller, Application, RequestContext, ok, error, Config }
+import cayla { Response, route, Handler, Application, RequestContext, ok, error, Config }
 import vietj.promises { Promise }
 import vietj.vertx.http { HttpClientResponse, jsonBody }
 import ceylon.json { JSonObject=Object }
@@ -25,7 +25,7 @@ Template index(String joke) =>
 
 // Get a Chuck Norris quote with Vert.x client and return it
 route("/*path")
-class ProxyController(shared String path) extends Controller() {
+class ProxyController(shared String path) extends Handler() {
     shared actual default Promise<Response> invoke(RequestContext context) {
         value client = context.runtime.vertx.createHttpClient(80, "api.icndb.com");
         value request = client.request("GET", "/jokes/random/").end();

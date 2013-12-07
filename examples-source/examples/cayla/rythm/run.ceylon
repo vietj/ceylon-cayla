@@ -1,8 +1,8 @@
 import org.rythmengine { Rythm }
-import cayla { Response, route, Controller, Application, ok }
+import cayla { Response, route, Handler, Application, ok }
 
 route("/")
-class Index(shared String? name = null) extends Controller() {
+class Index(shared String? name = null) extends Handler() {
     shared actual default Response handle() {
         String s;
         if (exists name) {

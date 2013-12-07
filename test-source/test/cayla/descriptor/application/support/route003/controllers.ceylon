@@ -1,4 +1,4 @@
-import cayla { Controller, route }
+import cayla { Handler, route }
 
 route("/foo")
 shared object foo {
@@ -7,19 +7,19 @@ shared object foo {
     shared object bar {
         
         route("/")
-        shared class Index() extends Controller() {
+        shared class Index() extends Handler() {
         }
         shared Boolean isIndex(Object o) {
             return o is Index;
         }
-        shared Controller instance() {
+        shared Handler instance() {
             return Index();
         }
     }
     shared Boolean isIndex(Object o) {
         return bar.isIndex(o);
     }
-    shared Controller instance() {
+    shared Handler instance() {
         return bar.instance();
     }
 }
