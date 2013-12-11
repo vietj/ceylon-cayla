@@ -1,24 +1,34 @@
-import cayla { Response, route, Handler, Application, ok }
-import cayla.template { loadSimpleTemplate, Template }
+import cayla {
+    route,
+    Handler,
+    Application,
+    ok
+}
+import cayla.template {
+    loadSimpleTemplate,
+    Template
+}
 
 Template(<String->Object>*) index = loadSimpleTemplate("web/index.html");
-Template(<String->Object>*) controller1 = loadSimpleTemplate("web/controller1.html");
-Template(<String->Object>*) controller2 = loadSimpleTemplate("web/controller2.html");
+Template(<String->Object>*) template1 = loadSimpleTemplate("web/template1.html");
+Template(<String->Object>*) template2 = loadSimpleTemplate("web/template2.html");
 
 route("/")
-class Index() extends Handler() {
-    shared actual default Response handle() => ok {
+class Index()
+        extends Handler() {
+    handle() => ok {
         index(
-            "c1"->Controller1("the_param"),
-            "c2"->Controller2("the_param")
+            "c1"->Controller1("hello"),
+            "c2"->Controller2("goodbye")
         );
     };
 }
 
 route("/foo/:param")
-class Controller1(shared String param) extends Handler() {
-    shared actual default Response handle() => ok {
-        controller1(
+class Controller1(shared String param)
+        extends Handler() {
+    handle() => ok {
+        template1(
             "index"->Index(),
             "c2"->Controller2(param),
             "param"->param
@@ -27,9 +37,10 @@ class Controller1(shared String param) extends Handler() {
 }
 
 route("/bar")
-class Controller2(shared String param) extends Handler() {
-    shared actual default Response handle() => ok {
-        controller2(
+class Controller2(shared String param)
+        extends Handler() {
+    handle() => ok {
+        template2(
             "index"->Index(),
             "c1"->Controller1(param),
             "param"->param
@@ -37,8 +48,6 @@ class Controller2(shared String param) extends Handler() {
     };
 }
 
-
-"Run the module `examples.cayla.parameters`."
 shared void run() {
     Application(`package examples.cayla.parameters`).run();
 }
