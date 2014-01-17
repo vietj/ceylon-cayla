@@ -53,12 +53,12 @@ shared class HandlerDescriptor(
 					defaultOf(parameterDecl.openType)
 	]);
 	assert(is Object min);
-	Map<String, Object> defaultParameters = HashMap([
+	value defaultParameters = HashMap {
 		for (FunctionOrValueDeclaration parameterDecl in classDecl.parameterDeclarations)
 			if (is ValueDeclaration parameterDecl, parameterDecl.defaulted)
 				if (is Object aaa = parameterDecl.memberGet(min))
 					parameterDecl.name->aaa
-	]);
+    };
 	
 	// Methods
 	
@@ -97,11 +97,11 @@ shared class HandlerDescriptor(
 	
 	"Extract the request parameters of a handler"
 	shared Map<String, String> parameters("The handler to examine" Handler handler) => 
-		LazyMap({
+		LazyMap {
 			for (FunctionOrValueDeclaration parameterDecl in classDecl.parameterDeclarations)
 				if (is ValueDeclaration parameterDecl, exists t = parameterDecl.memberGet(handler))
 					parameterDecl.name->t.string
-		});
+		};
 	
 	
 	"Test if the specified handler is described by this descriptor instance"
