@@ -1,5 +1,14 @@
-import cayla { Response, route, Handler, Application, ok }
-import cayla.template { loadSimpleTemplate, Template }
+import cayla {
+    Response,
+    route,
+    Handler,
+    Application,
+    ok
+}
+import cayla.template {
+    loadSimpleTemplate,
+    Template
+}
 
 Template(<String->Object>*) index = loadSimpleTemplate("web/index.html");
 Template(<String->Object>*) controller1 = loadSimpleTemplate("web/controller1.html");
@@ -38,7 +47,6 @@ class Controller2(shared String param) extends Handler() {
 }
 
 
-"Run the module `examples.cayla.parameters`."
 shared void run() {
     Application(`package examples.cayla.parameters`).run();
 }

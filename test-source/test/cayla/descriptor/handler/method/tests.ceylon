@@ -27,5 +27,5 @@ shared test void test003() {
 	assertEquals(1, controllers.size);
 	value controllerDesc = controllers.first;
 	assert(exists controllerDesc);
-	assertEquals(HashSet({put,post}), HashSet(controllerDesc.methods));
+	assertEquals(HashSet{put,post}, HashSet{*controllerDesc.methods});
 }

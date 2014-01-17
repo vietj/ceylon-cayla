@@ -18,7 +18,7 @@ shared class Pattern(String regex) {
 					shared actual Match|Finished next() {
 						if (matcher.find()) {
 							Integer length = matcher.groupCount();
-							Array<[Integer, Integer]> bounds = Array({ for (i in 0..length) [matcher.start(i), matcher.end(i)] });
+							value bounds = Array { for (i in 0..length) [matcher.start(i), matcher.end(i)] };
 							Match match = Match(s, bounds);
 							return match;
 						} else {

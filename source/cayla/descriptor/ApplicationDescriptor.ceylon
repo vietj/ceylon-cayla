@@ -31,11 +31,11 @@ shared class ApplicationDescriptor(Package|Object container) {
 	}
 
 	// Router
-	value routers = HashMap({
+	value routers = HashMap {
 		for (handler in handlers)
 			if (exists route = handler.route)
 				createRouter(route)->handler
-	});
+	};
 	
 	"Resolves an handler descriptor for a path"
 	shared {RouteMatch<HandlerDescriptor>*} resolve("The path" String path) {
