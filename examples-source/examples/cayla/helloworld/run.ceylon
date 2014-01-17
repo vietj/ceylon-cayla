@@ -1,73 +1,50 @@
-import cayla {
-    route,
-    Handler,
-    Application,
-    ok
-}
-import cayla.template {
-    ...
-}
+import cayla { Response, route, Handler, Application, ok }
+import cayla.template { ... }
 
-String bootstrapCss = "//www.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css";
+"Run the module `examples.cayla.helloworld`."
 
 route("/")
-class Index(shared String? name = null) 
-        extends Handler() {
-    
-    DIV controlGroup(Child* children) 
-            => DIV {
-        className = "control-group";
-        DIV {
-            className= "controls";
-            children = children;
-        }
-    };
-    
-    Template index(String name)
-            => HTML {
-        HEAD {
-            TITLE { "Hello World" },
-            LINK {
-                rel = "stylesheet"; 
-                href=bootstrapCss;
+class Index(shared String? name = null) extends Handler() {
+
+    DIV controlGroup(Child* children) =>
+    DIV { className = "control-group";
+     DIV { className= "controls"; children = children; } };
+
+    Template index(String name) =>
+    HTML {
+      HEAD {
+        TITLE { "Hello World" },
+        LINK { rel = "stylesheet"; href="//www.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css"; }
+      },
+      BODY { style = "padding-top: 32px";
+        DIV { className ="container";
+          DIV { className =  "hero-unit";
+            DIV { className="center";
+              H1 { () => "Hello ``name``" }
             }
-        },
-        BODY {
-            style = "padding-top: 32px";
-            DIV {
-                className ="container";
-                DIV {
-                    className =  "hero-unit";
-                    DIV {
-                        className="center";
-                        H1 {
-                            () => "Hello ``name``"
-                        }
-                    }
-                },
-                DIV {
-                    className = "offset4 span4";
-                    FORM {
-                        className = "form-signin";
-                        action = Index().string;
-                        method = "GET";
-                        controlGroup(INPUT {
-                            type = "text"; 
-                            name = "name"; 
-                        }),
-                        controlGroup(BUTTON {
-                            className = "btn btn-default";
-                            type = "submit";
-                            "Say Hello"
-                        })
-                    }
-                }
+          },
+          DIV { className = "offset4 span4";
+            FORM { className = "form-signin"; action = Index().string; method = "GET";
+              controlGroup(INPUT { type = "text"; name = "name"; }),
+              controlGroup(BUTTON { className = "btn btn-default"; type = "submit";
+                    "Say Hello" })
             }
+          }
         }
+      }
     };
 
-    handle() => ok { index(name else "World"); };
-    
+	shared actual default Response handle() {
+		String s;
+		if (exists name) {
+			s = name;
+		} else {
+			s = "World";
+		}
+        return ok {
+            index(s); 
+        };
+    }
 }
 
 shared void run() {
