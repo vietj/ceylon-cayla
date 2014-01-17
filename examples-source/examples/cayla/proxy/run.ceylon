@@ -1,7 +1,20 @@
-import cayla { Response, route, Handler, Application, RequestContext, ok, Config }
-import vietj.promises { Promise }
-import vietj.vertx.http { HttpClientResponse, textBody }
-"Run the module `examples.cayla.proxy`."
+import cayla {
+    Response,
+    route,
+    Handler,
+    Application,
+    RequestContext,
+    ok,
+    Config
+}
+
+import vietj.promises {
+    Promise
+}
+import vietj.vertx.http {
+    HttpClientResponse,
+    textBody
+}
 
 // Get some markup via the client and return it - should rewrite the markup URL
 route("/*path")
