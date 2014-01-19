@@ -1,4 +1,4 @@
-import cayla { Handler, route, Response, ok }
+import io.cayla.web { Handler, route, Response, ok }
 
 shared object path {
     shared variable String val = "";

@@ -1,7 +1,7 @@
-import cayla.descriptor { scanHandlersInObject }
+import io.cayla.web.descriptor { scanHandlersInObject }
 import ceylon.test { test, assertEquals }
 import test.cayla.descriptor.handler.route.support.app001 { Controller001=MyController }
-import cayla { Route }
+import io.cayla.web { Route }
 
 shared test void test001() {
 	value controllers = scanHandlersInObject(Controller001());

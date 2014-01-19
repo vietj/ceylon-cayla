@@ -1,4 +1,4 @@
-import cayla.pattern { ... }
+import io.cayla.web.pattern { ... }
 import ceylon.test { ... }
 
 shared test void testSimple() {

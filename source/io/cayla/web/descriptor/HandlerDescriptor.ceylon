@@ -1,8 +1,8 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
-import cayla { Route, Handler, Get, Put, Post, Trace, Head, Delete, Options, Connect }
+import io.cayla.web { Route, Handler, Get, Put, Post, Trace, Head, Delete, Options, Connect }
 import ceylon.language.meta { annotations, type }
 import ceylon.collection { HashMap }
-import cayla.descriptor { unmarshallers }
+import io.cayla.web.descriptor { unmarshallers }
 import ceylon.net.http { Method, get, put, post, trace, head, delete, options, connect }
 
 """Describes an handler."""

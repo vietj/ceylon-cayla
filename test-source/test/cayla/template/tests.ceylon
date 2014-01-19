@@ -1,5 +1,5 @@
 import ceylon.test { ... }
-import cayla.template { ... }
+import io.cayla.web.template { ... }
 
 shared test void testEmpty() {
     assertEquals("<div></div>", DIV {}.string);

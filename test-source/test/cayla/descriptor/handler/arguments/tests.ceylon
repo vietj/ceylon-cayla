@@ -1,6 +1,6 @@
-import cayla.descriptor { scanHandlersInPackage }
+import io.cayla.web.descriptor { scanHandlersInPackage }
 import ceylon.test { test, assertTrue, assertFalse, assertEquals, fail, assertThatException }
-import cayla { Handler }
+import io.cayla.web { Handler }
 import test.cayla.descriptor.handler.arguments.support.empty { EmptyIndex = Index }
 import test.cayla.descriptor.handler.arguments.support.sharedstring { SharedStringIndex = Index }
 import test.cayla.descriptor.handler.arguments.support.shareddefaultstring { SharedDefaultStringIndex = Index }

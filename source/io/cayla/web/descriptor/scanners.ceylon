@@ -1,7 +1,7 @@
 import ceylon.language.meta { type, annotations }
 import ceylon.language.meta.model { ClassModel }
 import ceylon.language.meta.declaration { ClassDeclaration, Package, ValueDeclaration, NestableDeclaration }
-import cayla { Handler, Route }
+import io.cayla.web { Handler, Route }
 
 shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
 	value memberDecls = pkg.members<NestableDeclaration>();

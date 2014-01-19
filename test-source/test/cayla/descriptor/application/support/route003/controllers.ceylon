@@ -1,4 +1,4 @@
-import cayla { Handler, route }
+import io.cayla.web { Handler, route }
 
 route("/foo")
 shared object foo {

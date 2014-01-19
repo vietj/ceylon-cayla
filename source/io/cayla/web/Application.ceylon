@@ -1,5 +1,5 @@
 import ceylon.promises { Promise }
-import cayla.descriptor { ApplicationDescriptor }
+import io.cayla.web.descriptor { ApplicationDescriptor }
 import ceylon.language.meta.declaration { Package }
 import io.vertx.ceylon { Vertx }
 import io.vertx.ceylon.http { HttpServer }

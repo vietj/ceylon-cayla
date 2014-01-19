@@ -1,4 +1,4 @@
-import cayla { Handler, route, Response, ok }
+import io.cayla.web { Handler, route, Response, ok }
 
 route("/")
 shared class Index() extends Handler() {

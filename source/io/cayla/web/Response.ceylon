@@ -1,5 +1,5 @@
 import io.vertx.ceylon.http { HttpServerResponse }
-import cayla.template { Template }
+import io.cayla.web.template { Template }
 
 shared Status status(Integer status = 200, <String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) {
     if (exists body) {

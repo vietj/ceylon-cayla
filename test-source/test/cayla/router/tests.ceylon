@@ -1,5 +1,5 @@
 import ceylon.test { ... }
-import cayla.router { ... }
+import io.cayla.web.router { ... }
 
 shared test void testSegmentMount() {
     Segment segment = Segment("hello");

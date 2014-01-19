@@ -1,5 +1,5 @@
 import java.util.regex { Pattern_=Pattern { compile }, Matcher_=Matcher }
-import cayla.pattern { Helper { cast } }
+import io.cayla.web.pattern { Helper { cast } }
 import java.lang { CharSequence }
 
 "Wraps java.util.regex"

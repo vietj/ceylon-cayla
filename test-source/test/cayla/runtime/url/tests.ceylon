@@ -1,6 +1,6 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { Package }
-import cayla { Application, Runtime }
+import io.cayla.web { Application, Runtime }
 import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse }
 import test.cayla.runtime.url.support.any001 { pathAny001=path }

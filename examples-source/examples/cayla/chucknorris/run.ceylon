@@ -1,4 +1,4 @@
-import cayla {
+import io.cayla.web {
     Response,
     route,
     Handler,
@@ -8,7 +8,7 @@ import cayla {
     error,
     Config
 }
-import cayla.template {
+import io.cayla.web.template {
     ...
 }
 

@@ -1,4 +1,4 @@
-import cayla { Handler, route, Response }
+import io.cayla.web { Handler, route, Response }
 
 shared object mycontroller {
 	route("/")

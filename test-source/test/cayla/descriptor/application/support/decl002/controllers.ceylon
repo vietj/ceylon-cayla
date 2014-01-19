@@ -1,4 +1,4 @@
-import cayla { Handler }
+import io.cayla.web { Handler }
 
 shared object foo {
     shared object bar {

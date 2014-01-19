@@ -1,10 +1,10 @@
-import cayla {
+import io.cayla.web {
     route,
     Handler,
     Application,
     ok
 }
-import cayla.template {
+import io.cayla.web.template {
     ...
 }
 

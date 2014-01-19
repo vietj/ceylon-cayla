@@ -1,4 +1,4 @@
-import cayla.descriptor { scanHandlersInObject }
+import io.cayla.web.descriptor { scanHandlersInObject }
 import ceylon.test { test, assertEquals }
 import test.cayla.descriptor.handler.method.support.app001 { Controller001=MyController }
 import test.cayla.descriptor.handler.method.support.app002 { Controller002=MyController }

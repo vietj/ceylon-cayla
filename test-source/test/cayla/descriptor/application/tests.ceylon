@@ -1,6 +1,6 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { Package }
-import cayla.descriptor { ApplicationDescriptor, HandlerDescriptor }
+import io.cayla.web.descriptor { ApplicationDescriptor, HandlerDescriptor }
 import test.cayla.descriptor.application.support.route001 { controllersRoute001=controllers }
 import test.cayla.descriptor.application.support.route002 { IndexRoute1=Index }
 import test.cayla.descriptor.application.support.route003 { fooRoute003=foo }

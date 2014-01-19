@@ -1,4 +1,4 @@
-import cayla { Body, Status }
+import io.cayla.web { Body, Status }
 "A template"
 shared interface Template {
     

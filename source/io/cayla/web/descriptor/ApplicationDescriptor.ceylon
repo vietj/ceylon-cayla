@@ -1,8 +1,8 @@
 import ceylon.language.meta.declaration { Package }
-import cayla.router { Router, RouteMatch }
+import io.cayla.web.router { Router, RouteMatch }
 import ceylon.collection { HashMap }
 import ceylon.net.uri { Path, Query, Parameter }
-import cayla { Handler, Route }
+import io.cayla.web { Handler, Route }
 
 """Describes the application.
    """

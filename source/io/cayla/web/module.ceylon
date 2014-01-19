@@ -248,7 +248,7 @@
    
    The engine is extensible, you can easily extends the engine with your own elements and tags.
   """
-module cayla "0.2.6" {
+module io.cayla.web "0.2.6" {
 
 	shared import java.base "7";
 	shared import ceylon.net "1.0.0";

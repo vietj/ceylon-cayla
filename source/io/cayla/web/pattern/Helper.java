@@ -1,4 +1,4 @@
-package cayla.pattern;
+package io.cayla.web.pattern;
 
 class Helper {
 	

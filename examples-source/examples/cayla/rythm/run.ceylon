@@ -1,4 +1,4 @@
-import cayla {
+import io.cayla.web {
     route,
     Handler,
     Application,

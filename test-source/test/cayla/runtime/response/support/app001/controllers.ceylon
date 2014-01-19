@@ -1,4 +1,4 @@
-import cayla { Handler, route, Response, ok }
+import io.cayla.web { Handler, route, Response, ok }
 import ceylon.promises { Deferred, Promise }
 
 shared object mycontroller {

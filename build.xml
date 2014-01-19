@@ -20,28 +20,28 @@
 
     <target name="compile" depends="ceylon-ant-taskdefs">
         <ceylon-compile encoding="${source.encoding}">
-            <module name="cayla"/>
+            <module name="io.cayla.web"/>
         </ceylon-compile>
     </target>
 
     <target name="compile-js" depends="ceylon-ant-taskdefs">
         <ceylon-compile-js encoding="${source.encoding}">
-            <module name="cayla"/>
+            <module name="io.cayla.web"/>
         </ceylon-compile-js>
     </target>
 
     <target name="doc" depends="ceylon-ant-taskdefs">
         <ceylon-doc encoding="${source.encoding}">
-            <module name="cayla"/>
+            <module name="io.cayla.web"/>
         </ceylon-doc>
     </target>
 
     <target name="run" depends="compile">
-        <ceylon-run module="cayla/0.2.6"/>
+        <ceylon-run module="io.cayla.web/0.2.6"/>
     </target>
 
     <target name="run-js" depends="compile-js">
-        <ceylon-run-js module="cayla/0.2.6"/>
+        <ceylon-run-js module="io.cayla.web/0.2.6"/>
     </target>
 
     <target name="test" depends="compile">
