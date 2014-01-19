@@ -1,8 +1,8 @@
-import vietj.promises { Promise }
+import ceylon.promises { Promise }
 import cayla.descriptor { ApplicationDescriptor }
 import ceylon.language.meta.declaration { Package }
-import vietj.vertx { Vertx }
-import vietj.vertx.http { HttpServer }
+import io.vertx.ceylon { Vertx }
+import io.vertx.ceylon.http { HttpServer }
 
 """A Cayla application.
    

@@ -1,6 +1,6 @@
 import java.lang { ThreadLocal }
 import ceylon.net.uri { Uri, Authority }
-import vietj.vertx.http { HttpServerRequest }
+import io.vertx.ceylon.http { HttpServerRequest }
 
 object current {
 	

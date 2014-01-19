@@ -8,10 +8,10 @@ import cayla {
     Config
 }
 
-import vietj.promises {
+import ceylon.promises {
     Promise
 }
-import vietj.vertx.http {
+import io.vertx.ceylon.http {
     HttpClientResponse,
     textBody
 }
@@ -21,7 +21,7 @@ route("/*path")
 class ProxyController(shared String path) extends Handler() {
     shared actual default Promise<Response> invoke(RequestContext context) {
         value client = context.runtime.vertx.createHttpClient(80, "portail.free.fr");
-        value request = client.request("GET", "/``path``").end();
+        value request = client.get("/``path``").end();
         return request.response.
                 then__((HttpClientResponse response) => response.parseBody(textBody)).
                 then_((String body) => ok { body; });

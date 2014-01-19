@@ -252,6 +252,6 @@ module cayla "0.2.6" {
 
 	shared import java.base "7";
 	shared import ceylon.net "1.0.0";
-	shared import vietj.vertx "0.3.4";
+	shared import io.vertx.ceylon "0.3.9";
 
 } 

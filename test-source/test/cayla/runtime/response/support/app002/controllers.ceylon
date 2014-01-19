@@ -1,5 +1,5 @@
 import cayla { Handler, route, Response }
-import vietj.promises { Deferred, Promise }
+import ceylon.promises { Deferred, Promise }
 
 shared object mycontroller {
 	route("/")

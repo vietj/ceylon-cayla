@@ -16,10 +16,10 @@ import ceylon.json {
     JSonObject=Object
 }
 
-import vietj.promises {
+import ceylon.promises {
     Promise
 }
-import vietj.vertx.http {
+import io.vertx.ceylon.http {
     HttpClientResponse,
     jsonBody
 }
@@ -56,7 +56,7 @@ class ProxyController(shared String path)
         extends Handler() {
     shared actual default Promise<Response> invoke(RequestContext context) {
         value client = context.runtime.vertx.createHttpClient(80, "api.icndb.com");
-        value request = client.request("GET", "/jokes/random/").end();
+        value request = client.get("/jokes/random/").end();
         Response transform(JSonObject body) {
             if (is JSonObject result = body["value"], 
                 is String joke = result["joke"]) {

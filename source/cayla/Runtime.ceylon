@@ -1,7 +1,7 @@
-import vietj.vertx { Vertx }
-import vietj.vertx.http { HttpServerRequest }
+import io.vertx.ceylon { Vertx }
+import io.vertx.ceylon.http { HttpServerRequest }
 import ceylon.net.http { parseMethod }
-import vietj.promises { Promise }
+import ceylon.promises { Promise }
 """The application runtime.
    
    The runtime is obtained from the [[Application.start]] method.
@@ -36,11 +36,11 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 			value desc = match.target;
 			
 			// Todo : make request return ceylon.net.http::Method instead
-			value method = parseMethod(request.method);
+			value method = request.method;
 			if (desc.methods.size == 0 || desc.methods.contains(method)) {
 
 				// Merge parameters
-				{<String->String>*} parameters = request.parameters.mapItems(
+				{<String->String>*} parameters = request.params.mapItems(
 					(String key, {String+} item) => item.first
 				).chain(match.params);
 				

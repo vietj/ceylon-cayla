@@ -1,4 +1,4 @@
-import vietj.vertx.http { HttpServerResponse }
+import io.vertx.ceylon.http { HttpServerResponse }
 import cayla.template { Template }
 
 shared Status status(Integer status = 200, <String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) {
@@ -35,9 +35,7 @@ shared class Status(shared Integer code, {<String->String>*} headers = {}) exten
 	"Send the response to the client via the Vert.x response"
 	shared actual default void send(HttpServerResponse resp) {
 		resp.status(code);
-		for (header in headers) {
-			resp.headers(header);
-		}
+		resp.headers(headers);
 	}
 
     shared actual default String string => "Status[``code``]";
