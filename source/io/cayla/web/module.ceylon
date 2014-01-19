@@ -7,12 +7,12 @@
    ### Import the Cayla module
    
        module my.app "1.0.0" {
-         import cayla "0.2.6";
+         import io.cayla.web "0.2.6";
        }
    
    ### Write the controller
    
-       import cayla { ... }
+       import io.cayla.web { ... }
 
        object controller {
          route("/")
@@ -71,7 +71,7 @@
    ### Query parameters
    
        route("/greeter")
-       shared clas Greeter(String name) extends Handler() {
+       shared class Greeter(shared String name) extends Handler() {
          shared actual default Response handle() => ok {
            "Hello ``name``";
          };
