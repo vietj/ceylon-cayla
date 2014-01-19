@@ -37,18 +37,18 @@
     </target>
 
     <target name="run" depends="compile">
-        <ceylon-run module="io.cayla.web/0.2.6"/>
+        <ceylon-run module="io.cayla.web/0.2.7"/>
     </target>
 
     <target name="run-js" depends="compile-js">
-        <ceylon-run-js module="io.cayla.web/0.2.6"/>
+        <ceylon-run-js module="io.cayla.web/0.2.7"/>
     </target>
 
     <target name="test" depends="compile">
         <ceylon-compile encoding="${source.encoding}" src="test-source">
             <module name="test.cayla"/>
         </ceylon-compile>
-        <ceylon-run module="test.cayla/0.2.6"/>
+        <ceylon-run module="test.cayla/0.2.7"/>
     </target>
 
 	<target name="clean">

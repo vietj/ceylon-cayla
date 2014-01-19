@@ -1,4 +1,4 @@
-# Cayla 0.2.4 : a web framework for Ceylon
+# Cayla 0.2.6 : a web framework for Ceylon
 
 Provides a programming model for the Ceylon language and make good use of Ceylon.
 
@@ -6,7 +6,7 @@ Build on top of
 * Vert.x
 * Promises
 
-Current deployed version 0.2.4, read the module [Documentation](https://modules.ceylon-lang.org/repo/1/cayla/0.2.4).
+Current deployed version 0.2.6, read the module [Documentation](https://modules.ceylon-lang.org/repo/1/io/cayla/web/0.2.6/module-doc/index.html).
 
 # Building current master
 
@@ -15,7 +15,7 @@ Current deployed version 0.2.4, read the module [Documentation](https://modules.
 # Testing current master
 
     ceylon compile --source test-source test.cayla
-    ceylon run test.cayla/0.2.5
+    ceylon run test.cayla/0.2.6
 
 # Example
 
