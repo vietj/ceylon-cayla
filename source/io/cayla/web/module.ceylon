@@ -17,7 +17,7 @@
        object controller {
          route("/")
          shared class Index() extends Handler() {
-           shared actual default Response handle() => ok {
+           Response handle() => ok {
              "Hello World";
            };
          }
@@ -72,7 +72,7 @@
    
        route("/greeter")
        shared class Greeter(shared String name) extends Handler() {
-         shared actual default Response handle() => ok {
+         Response handle() => ok {
            "Hello ``name``";
          };
        }
@@ -80,8 +80,8 @@
    ### Path parameters
    
        route("/greeter/:name")
-       shared clas Greeter(String name) extends Handler() {
-         shared actual default Response handle() => ok {
+       shared class Greeter(shared String name) extends Handler() {
+         Response handle() => ok {
            "Hello ``name``";
          };
        }
@@ -141,8 +141,8 @@
    [[get]], [[post]], [[head]], [[put]], etc...
 
        get route("/greeter")
-       shared clas Greeter(String name) extends Handler() {
-         shared actual default Response handle() => ok().body("Hello ``name``");
+       shared class Greeter(shared String name) extends Handler() {
+         Response handle() => ok().body("Hello ``name``");
        }
    
    ## Templating
@@ -216,7 +216,7 @@
            };
    
        class Controller1(shared String param) extends Controller() {
-         shared actual default Response handle() => ok {
+         Response handle() => ok {
            index(param);
          };
        }
