@@ -1,6 +1,6 @@
 import ceylon.language.meta { type, annotations }
 import ceylon.language.meta.model { ClassModel }
-import ceylon.language.meta.declaration { ClassDeclaration, Package, ValueDeclaration, NestableDeclaration }
+import ceylon.language.meta.declaration { ClassDeclaration, Package, ValueDeclaration, NestableDeclaration, OpenClassOrInterfaceType }
 import io.cayla.web { Handler, Route }
 
 shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
@@ -66,7 +66,10 @@ HandlerDescriptor[] scanHandlersInValueDeclaration({Route*} routes, ValueDeclara
 	value valueDecls = classModel.declaration.memberDeclarations<ValueDeclaration>();
 	HandlerDescriptor[] handlers2 = [*{
 		for (valueDecl in valueDecls)
-		  if (exists objectDecl = valueDecl.memberGet(obj), type(objectDecl).declaration.anonymous)
+		  if (is OpenClassOrInterfaceType valueTypeDeclType = valueDecl.openType,
+			is ClassDeclaration valueTypeDecl = valueTypeDeclType.declaration,
+			valueTypeDecl.anonymous,
+			exists objectDecl = valueDecl.memberGet(obj))
     		  for (controllerDesc in scanHandlersInValueDeclaration(objRoutes, valueDecl, objectDecl)) 
     		      controllerDesc
 	}];
