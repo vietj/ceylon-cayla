@@ -19,7 +19,7 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 			return form;
 		}
 		// Otherwise we fail but we just return an empty map
-		Map<String, {String+}> withoutForm(Exception ignore) {
+		Map<String, {String+}> withoutForm(Throwable ignore) {
 			return emptyMap;
 		}
 		
@@ -34,7 +34,7 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 				void f(Response response) {
 					response.send(request.response);
 				}
-				void g(Exception reason) {
+				void g(Throwable reason) {
 					error {
 						reason.message;
 					}.send(request.response);

@@ -1,4 +1,7 @@
-import ceylon.test { createTestRunner, SimpleLoggingListener }
+import ceylon.test { createTestRunner, assertEquals }
+import ceylon.test.core { DefaultLoggingListener }
+import ceylon.collection { LinkedList }
+
 "Run the module `test.cayla`."
 shared void run() {
 	value runner = createTestRunner([
@@ -13,7 +16,7 @@ shared void run() {
 		`package test.cayla.runtime.method`,
 		`package test.cayla.runtime.url`,
 		`package test.cayla.runtime.response`
-	], [SimpleLoggingListener()]);
+	], [DefaultLoggingListener()]);
     value _result = runner.run();
     print(_result);
     /*
@@ -23,4 +26,8 @@ shared void run() {
         }
     }
      */
+}
+
+shared void assertSameIterable<Element>({Element*} expected, {Element*} actual) {
+	assertEquals(LinkedList(expected), LinkedList(actual));
 }

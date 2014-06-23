@@ -18,7 +18,7 @@ shared test void testLazyTextContent() {
     value element = DIV { "``s``", () => "``s``" };
     assertEquals("<div>aa</div>", element.string);
     s = "b";
-    assertEquals("<div>ab</div>", element.string);
+    assertEquals("<div>bb</div>", element.string);
 }
 
 shared test void testMixedContent() {

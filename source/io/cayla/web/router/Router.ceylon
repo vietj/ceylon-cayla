@@ -1,3 +1,5 @@
+import ceylon.collection { HashSet, HashMap }
+
 shared alias Node => [Mount, Router];
 shared alias Path => {String*}|String;
 
@@ -95,7 +97,7 @@ shared class Router(
         {RouteMatch<Router>*} resolutions = {
             for (child in children)
                 for (match in child[0].match(path))
-                    for (found in child[1].resolve(path.skipping(match),{[child[0],path.taking(match)],*resolved}))
+                    for (found in child[1].resolve(path.skip(match),{[child[0],path.take(match)],*resolved}))
                         found
         };
         
@@ -118,7 +120,7 @@ shared class Router(
                     for (atom in match[1])
                         atom
             ];
-            value match = RouteMatch(this, matchPath, LazyMap(matchParameters));
+            value match = RouteMatch(this, matchPath, HashMap{ entries = matchParameters; });
             
             // Return the previous solutions + this match
             return concatenate(resolutions, {match});
@@ -136,7 +138,7 @@ shared class Router(
         case (is Map<String, String>) {
             ret = path_(parameters, emptySet);
         } else {
-            ret = path_(LazyMap(parameters), emptySet);
+            ret = path_(HashMap{ entries = parameters; }, emptySet);
         }
         // this makes a bug
         // value first = ret.first;
@@ -167,7 +169,7 @@ shared class Router(
             case (is Expression) {
                 if (exists val = parameters.get(mount.name)) {
                     segment = {val};
-                    nextPathParameters = pathParameters.union(LazySet({mount.name}));
+                    nextPathParameters = pathParameters.union(HashSet{mount.name});
                 } else {
                     return null;
                 }
@@ -175,7 +177,7 @@ shared class Router(
             case (is Any) {
                 if (exists val = parameters.get(mount.name)) {
                     segment = unwrap(val);
-                    nextPathParameters = pathParameters.union(LazySet({mount.name}));
+                    nextPathParameters = pathParameters.union(HashSet{mount.name});
                 } else {
                     return null;
                 }
@@ -183,7 +185,7 @@ shared class Router(
             case (is OneOrMore) {
                 if (exists val = parameters.get(mount.name), val.size > 0) {
                     segment = unwrap(val);
-                    nextPathParameters = pathParameters.union(LazySet({mount.name}));
+                    nextPathParameters = pathParameters.union(HashSet{mount.name});
                 } else {
                     return null;
                 }

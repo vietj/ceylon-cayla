@@ -10,6 +10,7 @@ import test.cayla.descriptor.handler.arguments.support.shareddefaultstringornull
 import test.cayla.descriptor.handler.arguments.support.sharedboolean { SharedBooleanIndex=Index }
 import test.cayla.descriptor.handler.arguments.support.sharedinteger { SharedIntegerIndex=Index }
 import test.cayla.descriptor.handler.arguments.support.shareddefaultinteger { SharedDefaultIntegerIndex = Index }
+import ceylon.collection { HashMap }
 
 shared test void testEmpty() {
     value controllers = scanHandlersInPackage(`package test.cayla.descriptor.handler.arguments.support.empty`);
@@ -21,7 +22,7 @@ shared test void testEmpty() {
     assertTrue(controllerDesc.isInstance(controller));
     object h extends Handler() {}
     assertFalse(controllerDesc.isInstance(h));
-    assertEquals(LazyMap({}), controllerDesc.parameters(controller));
+    assertEquals(HashMap{}, controllerDesc.parameters(controller));
 }
 
 shared test void testSharedString() {
@@ -37,7 +38,7 @@ shared test void testSharedString() {
     Object controller = controllerDesc.instantiate("s"->"s_value");
     assert(is SharedStringIndex controller);
     assertEquals("s_value", controller.s);
-    assertEquals(LazyMap({"s"->"s_value"}), controllerDesc.parameters(controller));
+    assertEquals(HashMap{"s"->"s_value"}, controllerDesc.parameters(controller));
 }
 
 shared test void testSharedDefaultString() {
@@ -61,11 +62,11 @@ shared test void testSharedStringOrNull() {
     Object controller1 = controllerDesc.instantiate();
     assert(is SharedStringOrNullIndex controller1);
     assertEquals(null, controller1.s);
-    assertEquals(LazyMap({}), controllerDesc.parameters(controller1));
+    assertEquals(HashMap{}, controllerDesc.parameters(controller1));
     Object controller2 = controllerDesc.instantiate("s"->"s_value");
     assert(is SharedStringOrNullIndex controller2);
     assertEquals("s_value", controller2.s);
-    assertEquals(LazyMap({"s"->"s_value"}), controllerDesc.parameters(controller2));
+    assertEquals(HashMap{"s"->"s_value"}, controllerDesc.parameters(controller2));
 }
 
 shared test void testSharedDefaultStringOrNull001() {
@@ -102,7 +103,7 @@ shared test void testSharedBoolean() {
     value controller1 = controllerDesc.instantiate("s"->"true");
     assert(is SharedBooleanIndex controller1);
     assertEquals(true, controller1.s);
-    assertEquals(LazyMap({"s"->"true"}), controllerDesc.parameters(controller1));
+    assertEquals(HashMap{"s"->"true"}, controllerDesc.parameters(controller1));
     assertThatException(() => controllerDesc.instantiate("s"->"unparseable"));
 }
 
@@ -114,7 +115,7 @@ shared test void testSharedInteger() {
     value controller1 = controllerDesc.instantiate("s"->"4");
     assert(is SharedIntegerIndex controller1);
     assertEquals(4, controller1.s);
-    assertEquals(LazyMap({"s"->"4"}), controllerDesc.parameters(controller1));
+    assertEquals(HashMap{"s"->"4"}, controllerDesc.parameters(controller1));
     assertThatException(() => controllerDesc.instantiate("s"->"unparseable"));
 }
 

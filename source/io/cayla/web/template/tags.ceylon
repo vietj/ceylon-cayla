@@ -9,7 +9,7 @@ shared Node each(Iterable<Child> nodes) {
     return impl;
 }
 
-shared class WhenNode<Value>(Value() evaluation, variable {[Value,{Child*}]*} evals, variable {Child*} otherwiseChildren) extends Node() given Value satisfies Object {
+shared class WhenNode<Value>(Value() evaluation, variable [[Value,{Child*}]*] evals, variable {Child*} otherwiseChildren) extends Node() given Value satisfies Object {
 
     shared actual void render(StringBuilder to) {
         value v = evaluation();
@@ -28,7 +28,7 @@ shared class WhenNode<Value>(Value() evaluation, variable {[Value,{Child*}]*} ev
     }
     
     shared WhenNode<Value> eval(Value to, {Child*} children) {
-        evals = {[to,children], *evals};
+        evals = [[to,children], *evals];
         return this;
     }
     
@@ -41,5 +41,5 @@ shared class WhenNode<Value>(Value() evaluation, variable {[Value,{Child*}]*} ev
 }
 
 shared WhenNode<Value> when<Value>(Value() val) given Value satisfies Object {
-    return WhenNode<Value>(val, {}, {});
+    return WhenNode<Value>(val, empty, {});
 }

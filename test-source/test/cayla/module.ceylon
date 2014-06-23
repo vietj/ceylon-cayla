@@ -1,4 +1,4 @@
-module test.cayla "0.2.7" {
-	shared import io.cayla.web "0.2.7";
-	import ceylon.test "1.0.0";
+module test.cayla "0.3.0" {
+	shared import io.cayla.web "0.3.0";
+	import ceylon.test "1.1.0";
 }

@@ -33,7 +33,8 @@ shared Template(<String->Object>*) loadSimpleTemplate(String|File file) {
             }
             return foo;
         } finally {
-            reader.destroy();
+            // Shouldn't be null the default value in the reader API ?
+            reader.destroy(null);
         }
     } else {
         throw Exception("TEMPLATE ``file`` NOT FOUND");

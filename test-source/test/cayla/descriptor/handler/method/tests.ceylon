@@ -3,6 +3,7 @@ import ceylon.test { test, assertEquals }
 import test.cayla.descriptor.handler.method.support.app001 { Controller001=MyController }
 import test.cayla.descriptor.handler.method.support.app002 { Controller002=MyController }
 import test.cayla.descriptor.handler.method.support.app003 { Controller003=MyController }
+import test.cayla { assertSameIterable }
 import ceylon.net.http { get, put, post }
 import ceylon.collection { HashSet }
 
@@ -11,7 +12,7 @@ shared test void test001() {
 	assertEquals(1, controllers.size);
 	value controllerDesc = controllers.first;
 	assert(exists controllerDesc);
-	assertEquals({}, controllerDesc.methods);
+	assertSameIterable({}, controllerDesc.methods);
 }
 
 shared test void test002() {
@@ -19,7 +20,7 @@ shared test void test002() {
 	assertEquals(1, controllers.size);
 	value controllerDesc = controllers.first;
 	assert(exists controllerDesc);
-	assertEquals({get}, controllerDesc.methods);
+	assertSameIterable({get}, controllerDesc.methods);
 }
 
 shared test void test003() {

@@ -97,7 +97,7 @@ shared class HandlerDescriptor(
 	
 	"Extract the request parameters of a handler"
 	shared Map<String, String> parameters("The handler to examine" Handler handler) => 
-		LazyMap {
+		HashMap {
 			for (FunctionOrValueDeclaration parameterDecl in classDecl.parameterDeclarations)
 				if (is ValueDeclaration parameterDecl, exists t = parameterDecl.memberGet(handler))
 					parameterDecl.name->t.string

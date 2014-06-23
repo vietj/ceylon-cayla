@@ -2,3 +2,8 @@
 [defaults]
 encoding=UTF-8
 
+
+[compiler]
+source=./source
+source=./test-source
+source=./examples-source
