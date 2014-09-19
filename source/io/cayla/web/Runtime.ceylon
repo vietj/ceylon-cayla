@@ -1,6 +1,6 @@
-import io.vertx.ceylon { Vertx }
-import io.vertx.ceylon.http { HttpServerRequest }
-import ceylon.promises { Promise }
+import io.vertx.ceylon.core { Vertx }
+import io.vertx.ceylon.core.http { HttpServerRequest }
+import ceylon.promise { Promise }
 import ceylon.collection { HashMap }
 """The application runtime.
    
@@ -39,18 +39,18 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 						reason.message;
 					}.send(request.response);
 				}
-				result.then_(f, g);
+				result.compose(f, g);
 			}
 		}
 		
 		// Chain stuff
-		request.formAttributes.then_(withForm, withoutForm).then_(dispatch);
+		request.formAttributes.compose(withForm, withoutForm).compose(dispatch);
 	}
 
 	"Handles the Vert.x request and dispatch it to a controller"
 	Promise<Response>|Response _handle(HttpServerRequest request, Map<String, {String+}> form) {
 
-		for (match in application.descriptor.resolve(request.uri.path.string)) {
+		for (match in application.descriptor.resolve(request.path)) {
 			
 			value desc = match.target;
 			

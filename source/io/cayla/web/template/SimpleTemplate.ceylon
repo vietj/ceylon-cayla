@@ -1,4 +1,5 @@
 import ceylon.file { File, current, Resource }
+import ceylon.collection { StringBuilder }
 
 shared Template(<String->Object>*) loadSimpleTemplate(String|File file) {
     Resource r;

@@ -1,8 +1,8 @@
-import ceylon.promises { Promise }
+import ceylon.promise { Promise }
 import io.cayla.web.descriptor { ApplicationDescriptor }
 import ceylon.language.meta.declaration { Package }
-import io.vertx.ceylon { Vertx }
-import io.vertx.ceylon.http { HttpServer }
+import io.vertx.ceylon.core { Vertx }
+import io.vertx.ceylon.core.http { HttpServer }
 
 """A Cayla application.
    
@@ -60,7 +60,7 @@ shared class Application(Package|Object container, Config config = Config(), Ver
 		Runtime runtime = Runtime(this, vertx);
 		server.requestHandler(runtime.handle);
 		Promise<HttpServer> promise = server.listen(config.port, config.hostName);
-		return promise.then_((HttpServer n) => runtime);
+		return promise.compose((HttpServer n) => runtime);
 	}
 
     "Run the application"
@@ -68,6 +68,6 @@ shared class Application(Package|Object container, Config config = Config(), Ver
 		Promise<Runtime> runtime = start();
 		runtime.always((Runtime|Throwable arg) => print(arg is Runtime then "started on port ``config.port``" else "failed: ``arg.string``"));
 		process.readLine();
-		runtime.then_((Runtime runtime) => runtime.stop()).then_((Anything anyting) => print("stopped"));
+		runtime.compose((Runtime runtime) => runtime.stop()).compose((Anything anyting) => print("stopped"));
 	}
 }

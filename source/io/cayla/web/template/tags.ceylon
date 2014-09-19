@@ -1,3 +1,5 @@
+import ceylon.collection { StringBuilder }
+
 shared Node each(Iterable<Child> nodes) {
     object impl extends Node() {
         shared actual void render(StringBuilder buffer) {

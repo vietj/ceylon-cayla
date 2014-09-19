@@ -13,13 +13,13 @@ import io.cayla.web.template {
 }
 
 import ceylon.json {
-    JSonObject=Object
+    JsonObject=Object
 }
 
-import ceylon.promises {
+import ceylon.promise {
     Promise
 }
-import io.vertx.ceylon.http {
+import io.vertx.ceylon.core.http {
     HttpClientResponse,
     jsonBody
 }
@@ -57,8 +57,8 @@ class ProxyController(shared String path)
     shared actual default Promise<Response> invoke(RequestContext context) {
         value client = context.runtime.vertx.createHttpClient(80, "api.icndb.com");
         value request = client.get("/jokes/random/").end();
-        Response transform(JSonObject body) {
-            if (is JSonObject result = body["value"], 
+        Response transform(JsonObject body) {
+            if (is JsonObject result = body["value"], 
                 is String joke = result["joke"]) {
                 return ok { index(joke); };
             }
@@ -67,8 +67,8 @@ class ProxyController(shared String path)
             }
         }
         return request.response.
-                then__((HttpClientResponse response) => response.parseBody(jsonBody)).
-                then_(transform);
+                compose<JsonObject>((HttpClientResponse response) => response.parseBody(jsonBody)).
+                compose(transform);
     }
 }
 

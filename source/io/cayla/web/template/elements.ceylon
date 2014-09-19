@@ -1,4 +1,4 @@
-import ceylon.collection { HashMap }
+import ceylon.collection { HashMap, StringBuilder }
 
 shared class DIV({Child*} children, String id = "", Attr className = "", Attr style = "")
         extends Element("div", id, className, style, emptyMap, children) {}

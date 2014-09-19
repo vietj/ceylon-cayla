@@ -1,3 +1,5 @@
+import ceylon.collection { StringBuilder }
+
 shared abstract class Mount() of Segment | Expression | Any | OneOrMore {
 	shared formal {Integer*} match({String*} s);
 	shared formal <String->String>? foo({String*} s);
@@ -77,7 +79,7 @@ shared class Any(String name_) extends Mount() {
         }
         else {
             value buffer = StringBuilder();
-            for (a in entries(s)) {
+            for (a in s.indexed) {
                 if (a.key > 0) {
                     buffer.append("/");
                 }
@@ -120,7 +122,7 @@ shared class OneOrMore(String name_) extends Mount() {
         }
         else {
             value buffer = StringBuilder();
-            for (a in entries(s)) {
+            for (a in s.indexed) {
                 if (a.key > 0) {
                     buffer.append("/");
                 }

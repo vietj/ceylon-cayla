@@ -60,6 +60,8 @@ shared class Router(
         }
     }
 
+    shared actual Boolean defines(Integer key) => get(key) exists;
+    
     "Build the string representation"
     String buildString() {
         if (exists parent) {
@@ -191,7 +193,7 @@ shared class Router(
                 }
             }
             if (exists parentMatch = parent[1].path_(parameters, nextPathParameters)) {
-                value path = segment.fold(parentMatch[0], ({String*} partial, String elem) => {elem,*partial});
+                value path = segment.fold(parentMatch[0])(({String*} partial, String elem) => {elem,*partial});
                 return [path,parentMatch[1]];  
             } else {
                 return null;
@@ -205,4 +207,5 @@ shared class Router(
             return [{},queryParameters];
         }
     }
+
 }

@@ -1,3 +1,5 @@
+import ceylon.collection { StringBuilder }
+
 void dispatch(Child child, StringBuilder buffer) {
     if (is String child) {
         buffer.append(child);

@@ -1,3 +1,4 @@
+import ceylon.collection { StringBuilder }
 
 shared abstract class Node() satisfies Template {
     

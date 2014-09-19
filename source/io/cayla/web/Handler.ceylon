@@ -1,4 +1,4 @@
-import ceylon.promises { Promise }
+import ceylon.promise { Promise }
 """The base class for web controller handlers. An controller handler must extend this class, its attributes are mapped to
    the request parameters.
    

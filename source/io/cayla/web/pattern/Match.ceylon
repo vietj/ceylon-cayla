@@ -12,10 +12,12 @@ shared class Match(String seq, Array<[Integer,Integer]> bounds) satisfies Corres
 		if (exists tmp = groups) {
 			abc = tmp;
 		} else {
-			{String*} a = { for (bound in bounds) seq.segment(bound[0], bound[1] - bound[0]) };
+			{String*} a = { for (bound in bounds) seq.span(bound[0], bound[1] - bound[0]) };
 			abc = Array(a);
 			groups = abc;
 		}
 		return abc[key];
 	}
+	shared actual Boolean defines(Integer key) => get(key) exists;
+	
 }
