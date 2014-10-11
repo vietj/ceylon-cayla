@@ -1,6 +1,6 @@
 import io.vertx.ceylon.core.http { HttpServerResponse }
 import io.cayla.web.template { Template }
-import ceylon.collection { StringBuilder }
+import ceylon.language { StringBuilder }
 
 shared Status status(Integer status = 200, <String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) {
     if (exists body) {

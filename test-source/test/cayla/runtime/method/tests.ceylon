@@ -20,11 +20,11 @@ void assertMethod(Package pkg, Method success, Method failure) {
 	assert(is Runtime runtime);
 	try {
 		variable Response response = assertRequest{ uri = "http://localhost:8080/"; method = success; };
-		assertEquals(200, response.status);
-		assertEquals("text/html", response.contentType);
-		assertEquals("hello", response.contents);
+		assertEquals(response.status, 200);
+		assertEquals(response.contentType, "text/html");
+		assertEquals(response.contents, "hello");
 		response = assertRequest { uri = "http://localhost:8080/"; method = failure; };
-		assertEquals(404, response.status);
+		assertEquals(response.status, 404);
 	} finally {
 		runtime.stop();
 	}

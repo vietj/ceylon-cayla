@@ -1,4 +1,4 @@
-import ceylon.collection { StringBuilder }
+import ceylon.language { StringBuilder }
 
 void dispatch(Child child, StringBuilder buffer) {
     if (is String child) {

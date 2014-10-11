@@ -1,4 +1,4 @@
-import ceylon.collection { StringBuilder }
+import ceylon.language { StringBuilder }
 
 shared class Element(
     shared String name,

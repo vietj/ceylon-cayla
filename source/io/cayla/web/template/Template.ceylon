@@ -1,5 +1,5 @@
 import io.cayla.web { Body, Status }
-import ceylon.collection { StringBuilder }
+import ceylon.language { StringBuilder }
 
 "A template"
 shared interface Template {

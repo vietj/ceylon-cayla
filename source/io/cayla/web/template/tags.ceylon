@@ -1,4 +1,4 @@
-import ceylon.collection { StringBuilder }
+import ceylon.language { StringBuilder }
 
 shared Node each(Iterable<Child> nodes) {
     object impl extends Node() {

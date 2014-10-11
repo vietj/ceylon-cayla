@@ -1,4 +1,4 @@
-import ceylon.collection { StringBuilder }
+import ceylon.language { StringBuilder }
 
 shared abstract class Mount() of Segment | Expression | Any | OneOrMore {
 	shared formal {Integer*} match({String*} s);
