@@ -3,7 +3,6 @@ import io.cayla.web { Route, Handler, Get, Put, Post, Trace, Head, Delete, Optio
 import ceylon.language.meta { annotations, type }
 import ceylon.collection { HashMap }
 import io.cayla.web.descriptor { unmarshallers }
-import ceylon.net.http { Method, get, put, post, trace, head, delete, options, connect }
 
 """Describes an handler."""
 shared class HandlerDescriptor(
@@ -25,15 +24,15 @@ shared class HandlerDescriptor(
 	}
 	
 	// Methods or empty (i.e all)
-	{Method*} m0 = annotations(`Get`, classDecl) exists then {get} else {};
-	{Method*} m1 = annotations(`Put`, classDecl) exists then {put,*m0} else {*m0};
-	{Method*} m2 = annotations(`Post`, classDecl) exists then {post,*m1} else {*m1};
-	{Method*} m3 = annotations(`Trace`, classDecl) exists then {trace,*m2} else {*m2};
-	{Method*} m4 = annotations(`Head`, classDecl) exists then {head,*m3} else {*m3};
-	{Method*} m5 = annotations(`Delete`, classDecl) exists then {delete,*m4} else {*m4};
-	{Method*} m6 = annotations(`Options`, classDecl) exists then {options,*m5} else {*m5};
-	{Method*} m7 = annotations(`Connect`, classDecl) exists then {connect,*m6} else {*m6};
-	shared {Method*} methods = m7;
+	{String*} m0 = annotations(`Get`, classDecl) exists then {"GET"} else {};
+	{String*} m1 = annotations(`Put`, classDecl) exists then {"PUT",*m0} else {*m0};
+	{String*} m2 = annotations(`Post`, classDecl) exists then {"POST",*m1} else {*m1};
+	{String*} m3 = annotations(`Trace`, classDecl) exists then {"TRACE",*m2} else {*m2};
+	{String*} m4 = annotations(`Head`, classDecl) exists then {"HEAD",*m3} else {*m3};
+	{String*} m5 = annotations(`Delete`, classDecl) exists then {"DELETE",*m4} else {*m4};
+	{String*} m6 = annotations(`Options`, classDecl) exists then {"OPTIONS",*m5} else {*m5};
+	{String*} m7 = annotations(`Connect`, classDecl) exists then {"CONNECT",*m6} else {*m6};
+	shared {String*} methods = m7;
 	
 	// Helper for below
 	Anything defaultOf(OpenType type) {

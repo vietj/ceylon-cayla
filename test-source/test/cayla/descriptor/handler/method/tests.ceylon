@@ -20,7 +20,7 @@ shared test void test002() {
 	assertEquals(1, controllers.size);
 	value controllerDesc = controllers.first;
 	assert(exists controllerDesc);
-	assertSameIterable({get}, controllerDesc.methods);
+	assertSameIterable({"GET"}, controllerDesc.methods);
 }
 
 shared test void test003() {
@@ -28,5 +28,5 @@ shared test void test003() {
 	assertEquals(1, controllers.size);
 	value controllerDesc = controllers.first;
 	assert(exists controllerDesc);
-	assertEquals(HashSet{put,post}, HashSet{*controllerDesc.methods});
+	assertEquals(HashSet{"PUT","POST"}, HashSet{*controllerDesc.methods});
 }

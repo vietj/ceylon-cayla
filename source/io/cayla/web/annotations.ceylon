@@ -13,7 +13,8 @@ shared annotation Get get() => Get();
 
 "Http GET"
 shared final annotation class Get()
-		satisfies OptionalAnnotation<Get, Annotated> {}
+		satisfies OptionalAnnotation<Get, Annotated> {
+}
 
 "Declares a binding to the PUT http method"
 shared annotation Put put() => Put();
