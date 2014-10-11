@@ -12,7 +12,7 @@ shared class Match(String seq, Array<[Integer,Integer]> bounds) satisfies Corres
 		if (exists tmp = groups) {
 			abc = tmp;
 		} else {
-			{String*} a = { for (bound in bounds) seq.span(bound[0], bound[1] - bound[0]) };
+			{String*} a = { for (bound in bounds) seq[bound[0]..(bound[1] - 1)] };
 			abc = Array(a);
 			groups = abc;
 		}
