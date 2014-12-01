@@ -1,9 +1,10 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { Package }
-import io.cayla.web { Application, Runtime }
+import io.cayla.web { Application }
 import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse, Parameter }
 import ceylon.net.http { Method, get, post }
+import test.cayla { assertResolve }
 
 shared Response assertGet(String uri, {<String->{String*}>*} headers = {}) {
     return prepareRequest(get, uri, headers).execute();
@@ -31,8 +32,7 @@ shared Request prepareRequest(Method method, String uri, {<String->{String*}>*} 
 shared test void testRoot001() {
 	Package pkg = `package test.cayla.runtime.route.support.root001`;
 	Application app = Application(pkg);
-	value runtime = app.start().future.get(1000);
-	assert(is Runtime runtime);
+	value runtime = assertResolve(app.start());
 	try {
 		Response response = assertGet("http://localhost:8080/");
 		assertEquals(200, response.status);
@@ -46,8 +46,7 @@ shared test void testRoot001() {
 shared test void testRoot002() {
     Package pkg = `package test.cayla.runtime.route.support.root002`;
     Application app = Application(pkg);
-    value runtime = app.start().future.get(1000);
-    assert(is Runtime runtime);
+    value runtime = assertResolve(app.start());
     try {
         
         // Get
@@ -76,8 +75,7 @@ shared test void testRoot002() {
 shared test void testRoot003() {
     Package pkg = `package test.cayla.runtime.route.support.root003`;
     Application app = Application(pkg);
-    value runtime = app.start().future.get(1000);
-    assert(is Runtime runtime);
+    value runtime = assertResolve(app.start());
     try {
         Response response1 = assertGet("http://localhost:8080/?foo=HellO");
         assertEquals(200, response1.status);
@@ -95,8 +93,7 @@ shared test void testRoot003() {
 shared test void testRoot004() {
     Package pkg = `package test.cayla.runtime.route.support.root004`;
     Application app = Application(pkg);
-    value runtime = app.start().future.get(1000);
-    assert(is Runtime runtime);
+    value runtime = assertResolve(app.start());
     try {
         Response response1 = assertGet("http://localhost:8080/?foo=HellO");
         assertEquals(200, response1.status);
@@ -114,8 +111,7 @@ shared test void testRoot004() {
 shared test void testRoot005() {
     Package pkg = `package test.cayla.runtime.route.support.root005`;
     Application app = Application(pkg);
-    value runtime = app.start().future.get(1000);
-    assert(is Runtime runtime);
+    value runtime = assertResolve(app.start());
     try {
         Response response1 = assertGet("http://localhost:8080/?foo=HellO");
         assertEquals(200, response1.status);
@@ -133,8 +129,7 @@ shared test void testRoot005() {
 shared test void testSegment001() {
 	Package pkg = `package test.cayla.runtime.route.support.segment001`;
 	Application app = Application(pkg);
-	value runtime = app.start().future.get(1000);
-	assert(is Runtime runtime);
+	value runtime = assertResolve(app.start());
 	try {
 		Response response1 = assertGet("http://localhost:8080/");
 		assertEquals(404, response1.status);
@@ -150,8 +145,7 @@ shared test void testSegment001() {
 shared test void testExpression001() {
 	Package pkg = `package test.cayla.runtime.route.support.expression001`;
 	Application app = Application(pkg);
-	value runtime = app.start().future.get(1000);
-	assert(is Runtime runtime);
+	value runtime = assertResolve(app.start());
 	try {
 		Response response1 = assertGet("http://localhost:8080/");
 		assertEquals(404, response1.status);
@@ -167,8 +161,7 @@ shared test void testExpression001() {
 shared test void testAny001() {
     Package pkg = `package test.cayla.runtime.route.support.any001`;
     Application app = Application(pkg);
-    value runtime = app.start().future.get(1000);
-    assert(is Runtime runtime);
+    value runtime = assertResolve(app.start());
     try {
         Response response1 = assertGet("http://localhost:8080/");
         assertEquals(200, response1.status);
@@ -190,8 +183,7 @@ shared test void testAny001() {
 shared test void testOneOrMore001() {
     Package pkg = `package test.cayla.runtime.route.support.oneormore001`;
     Application app = Application(pkg);
-    value runtime = app.start().future.get(1000);
-    assert(is Runtime runtime);
+    value runtime = assertResolve(app.start());
     try {
         Response response1 = assertGet("http://localhost:8080/");
         assertEquals(404, response1.status);

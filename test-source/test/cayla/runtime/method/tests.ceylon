@@ -1,9 +1,10 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { Package }
-import io.cayla.web { Application, Runtime }
+import io.cayla.web { Application }
 import ceylon.net.http { Method, get, post }
 import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse }
+import test.cayla { assertResolve }
 
 shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}, Method method = get) {
     Uri tmp = parse(uri);
@@ -16,8 +17,7 @@ shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}, M
 
 void assertMethod(Package pkg, Method success, Method failure) {
 	Application app = Application(pkg);
-	value runtime = app.start().future.get(1000);
-	assert(is Runtime runtime);
+	value runtime = assertResolve(app.start());
 	try {
 		variable Response response = assertRequest{ uri = "http://localhost:8080/"; method = success; };
 		assertEquals(response.status, 200);

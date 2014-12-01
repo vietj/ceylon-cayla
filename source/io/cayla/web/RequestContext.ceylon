@@ -1,6 +1,7 @@
 import java.lang { ThreadLocal }
 import ceylon.net.uri { Uri, Authority }
 import io.vertx.ceylon.core.http { HttpServerRequest }
+import ceylon.promise { Deferred }
 
 object current {
 	
@@ -19,6 +20,8 @@ object current {
    - generating an URL for a controller
    """
 shared class RequestContext(shared Runtime runtime, "The Vert.x request" shared HttpServerRequest request) {
+	
+	shared Deferred<Result> deferred<Result>() => runtime.vertx.executionContext.deferred<Result>();
 	
 	"Render an URL for the specified controller"
 	shared String url("The controller to create an URL for" Handler controller) {

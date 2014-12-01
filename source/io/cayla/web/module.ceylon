@@ -248,10 +248,10 @@
    
    The engine is extensible, you can easily extends the engine with your own elements and tags.
   """
-module io.cayla.web "0.3.0" {
+module io.cayla.web "0.4.0" {
 
 	shared import java.base "7";
-	shared import ceylon.net "1.1.0";
-	shared import io.vertx.ceylon.core "1.0.0";
+	shared import ceylon.net "1.1.1";
+	shared import io.vertx.ceylon.core "1.1.0";
 
 } 

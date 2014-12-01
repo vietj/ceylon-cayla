@@ -1,8 +1,9 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { Package }
-import io.cayla.web { Application, Runtime }
+import io.cayla.web { Application }
 import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse }
+import test.cayla { assertResolve }
 
 shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}) {
     Uri tmp = parse(uri);
@@ -16,8 +17,7 @@ shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}) {
 shared test void test001() {
 	Package pkg = `package test.cayla.runtime.response.support.app001`;
 	Application app = Application(pkg);
-	value runtime = app.start().future.get(1000);
-	assert(is Runtime runtime);
+	value runtime = assertResolve(app.start());
 	try {
 		Response response = assertRequest("http://localhost:8080/");
 		assertEquals(200, response.status);
@@ -31,8 +31,7 @@ shared test void test001() {
 shared test void test002() {
 	Package pkg = `package test.cayla.runtime.response.support.app002`;
 	Application app = Application(pkg);
-	value runtime = app.start().future.get(1000);
-	assert(is Runtime runtime);
+	value runtime = assertResolve(app.start());
 	try {
 		Response response = assertRequest("http://localhost:8080/");
 		assertEquals(500, response.status);
@@ -44,8 +43,7 @@ shared test void test002() {
 shared test void test003() {
 	Package pkg = `package test.cayla.runtime.response.support.app003`;
 	Application app = Application(pkg);
-	value runtime = app.start().future.get(1000);
-	assert(is Runtime runtime);
+	value runtime = assertResolve(app.start());
 	try {
 		Response response = assertRequest("http://localhost:8080/");
 		assertEquals(500, response.status);

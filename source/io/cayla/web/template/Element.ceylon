@@ -13,11 +13,8 @@ shared class Element(
         if (is String val) {
             s = val;
         }
-        else if (is String() val) {
-            s = val();
-        }
         else {
-            s = "";
+            s = val();
         }
         if (s.size > 0) {
             buffer.append(" ");

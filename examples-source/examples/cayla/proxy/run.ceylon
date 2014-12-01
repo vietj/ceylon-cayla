@@ -23,7 +23,7 @@ class ProxyController(shared String path) extends Handler() {
         value client = context.runtime.vertx.createHttpClient(80, "portail.free.fr");
         value request = client.get("/``path``").end();
         return request.response.
-                compose<String>((HttpClientResponse response) => response.parseBody(textBody)).
+                flatMap<String>((HttpClientResponse response) => response.parseBody(textBody)).
                 compose((String body) => ok { body; });
     }
 }

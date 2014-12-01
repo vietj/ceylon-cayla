@@ -1,9 +1,22 @@
 import ceylon.test { createTestRunner, assertEquals }
 import ceylon.test.core { DefaultLoggingListener }
 import ceylon.collection { LinkedList }
+import ceylon.promise { ExecutionContext, defineGlobalExecutionContext }
 
 "Run the module `test.cayla`."
 shared void run() {
+  
+  variable Integer executions = 0;
+  object ctx satisfies ExecutionContext {
+    shared actual ExecutionContext childContext() => this;
+    shared actual void run(void task()) {
+      executions++;
+      task();
+    }
+  }
+  
+  defineGlobalExecutionContext(ctx);
+  
 	value runner = createTestRunner([
 		`package test.cayla.pattern`,
 		`package test.cayla.router`,
@@ -26,6 +39,10 @@ shared void run() {
         }
     }
      */
+    
+    if (executions > 0) {
+      throw AssertionError("No global execution context should be used");
+    }
 }
 
 shared void assertSameIterable<Element>({Element*} expected, {Element*} actual) {

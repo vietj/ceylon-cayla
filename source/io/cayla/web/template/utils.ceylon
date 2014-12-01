@@ -7,10 +7,7 @@ void dispatch(Child child, StringBuilder buffer) {
     else if (is String() child) {
         buffer.append(child());
     }
-    else if (is Node child) {
+    else{
         child.render(buffer);
-    }
-    else {
-        print("not handled ``child``");
     }
 }
