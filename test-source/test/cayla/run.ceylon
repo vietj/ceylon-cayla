@@ -28,7 +28,8 @@ shared void run() {
 		`package test.cayla.runtime.route`,
 		`package test.cayla.runtime.method`,
 		`package test.cayla.runtime.url`,
-		`package test.cayla.runtime.response`
+		`package test.cayla.runtime.response`,
+		`package test.cayla.runtime.blocking`
 	], [DefaultLoggingListener()]);
     value _result = runner.run();
     print(_result);

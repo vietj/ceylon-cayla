@@ -2,11 +2,16 @@ import io.vertx.ceylon.core { Vertx }
 import io.vertx.ceylon.core.http { HttpServerRequest }
 import ceylon.promise { Promise }
 import ceylon.collection { HashMap }
+import java.util.concurrent { Executors }
+import java.lang { Runnable }
+
 """The application runtime.
    
    The runtime is obtained from the [[Application.start]] method.
    """
 shared class Runtime("The application" shared Application application, "Vert.x" shared Vertx vertx) {
+	
+	value executor = Executors.newCachedThreadPool();
 	
 	"Handles the Vert.x request and dispatch it to a controller"
 	shared void handle(HttpServerRequest request) {
@@ -68,10 +73,10 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 					parameters.put(param.key, param.item);
 				}
 				
-				// Attempt to create controller
-				Handler controller;
+				// Attempt to create handler
+				Handler handler;
 				try {
-					controller = match.target.instantiate(*parameters);
+					handler = match.target.instantiate(*parameters);
 				} catch (Exception e) {
 					// Somehow should distinguish the kind of error
 					// and return an appropriate status code
@@ -82,20 +87,21 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 						"Could not create controller for ``request.path`` with ``parameters``: ``e.message``";
 					};
 				}
-				
+
 				//
-				value context = RequestContext(this, request);
-				current.set(context);
-				try {
-					return controller.invoke(context);
-				}
-				catch (Exception e) {
-					return error {
-						e.message;
-				    };
-				}
-				finally {
-					current.set(null);
+				if (match.target.blocking) {
+					// Create a promise that will run on Vert.x context
+					value promise = vertx.executionContext.deferred<Response>();
+					object task satisfies Runnable {
+						shared actual void run() {
+							value result = execute(request, handler);
+							promise.fulfill(result);
+						}
+					}
+					executor.execute(task);
+					return promise.promise;
+				} else {
+					return execute(request, handler);
 				}
 			}
 		}		
@@ -104,8 +110,26 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 		};
 	}
 	
+	Response|Promise<Response> execute(HttpServerRequest request, Handler handler) {
+		value context = RequestContext(this, request);
+		current.set(context);
+		current.set(context);
+		try {
+			return handler.invoke(context);
+		}
+		catch (Exception e) {
+			return error {
+				e.message;
+			};
+		}
+		finally {
+			current.set(null);
+		}
+	}
+	
 	"Stop the application"
 	shared void stop() {
+		executor.shutdown();
 		vertx.stop();
 	}
 }

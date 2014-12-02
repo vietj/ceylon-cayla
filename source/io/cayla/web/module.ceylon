@@ -135,6 +135,21 @@
    
        return notFound().body("Not found!!!!");
    
+   ## Blocking responses
+   
+   An handler is considered by default as non blocking, that means it should return as soon as possible and not
+   block the event loop. The handler class can be annotated with the [[blocking]] annotation to run the handler
+   on a separate thread pool. This can be used for instace with _ceylon.dbc_ or any other blocking framework:
+   
+       blocking post route("/update")
+       shared class Greeter(shared String name) extends Handler() {
+         Response handle() {
+           value data = blockingComputation(); // Blocking call
+           return ok().body(data);
+         }
+         ...
+       }
+   
    ## Http methods
    
    By default an handler is bound to a route for all Http methods. This can be restricted by using annotations like

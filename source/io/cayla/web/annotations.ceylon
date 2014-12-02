@@ -8,6 +8,14 @@ shared final annotation class Route("The route path" shared String path)
     shared actual String string => "Route(``path``)";
 }
 
+"An annotation to declare a blocking behavior"
+shared annotation Blocking blocking() => Blocking();
+
+"The blocking annotation class"
+shared final annotation class Blocking()
+    satisfies OptionalAnnotation<Blocking, Annotated> {
+}
+
 "Declares a binding to the GET http method"
 shared annotation Get get() => Get();
 

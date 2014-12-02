@@ -1,5 +1,6 @@
 import ceylon.language.meta.declaration { ClassDeclaration, FunctionOrValueDeclaration, ValueDeclaration, OpenType }
-import io.cayla.web { Route, Handler, Get, Put, Post, Trace, Head, Delete, Options, Connect }
+import io.cayla.web { Route, Handler, Get, Put, Post, Trace, Head, Delete, Options, Connect,
+  Blocking }
 import ceylon.language.meta { annotations, type }
 import ceylon.collection { HashMap }
 import io.cayla.web.descriptor { unmarshallers }
@@ -22,6 +23,8 @@ shared class HandlerDescriptor(
 			throw Exception("Type ``parameterDecl.openType`` of parameter ``parameterDecl.name`` of ``classDecl`` is not yet supported");
 		}
 	}
+
+	shared Boolean blocking = annotations(`Blocking`, classDecl) exists;
 	
 	// Methods or empty (i.e all)
 	{String*} m0 = annotations(`Get`, classDecl) exists then {"GET"} else {};
