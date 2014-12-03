@@ -1,7 +1,7 @@
 import io.cayla.web.descriptor { scanHandlersInPackage }
 import ceylon.test { test, assertTrue, assertFalse, assertEquals, fail, assertThatException }
 import io.cayla.web { Handler }
-import test.cayla.descriptor.handler.arguments.support.empty { EmptyIndex = Index }
+import test.cayla.descriptor.handler.arguments.support.noargs { NoArgsIndex = Index }
 import test.cayla.descriptor.handler.arguments.support.sharedstring { SharedStringIndex = Index }
 import test.cayla.descriptor.handler.arguments.support.shareddefaultstring { SharedDefaultStringIndex = Index }
 import test.cayla.descriptor.handler.arguments.support.sharedstringornull { SharedStringOrNullIndex = Index }
@@ -12,13 +12,13 @@ import test.cayla.descriptor.handler.arguments.support.sharedinteger { SharedInt
 import test.cayla.descriptor.handler.arguments.support.shareddefaultinteger { SharedDefaultIntegerIndex = Index }
 import ceylon.collection { HashMap }
 
-shared test void testEmpty() {
-    value controllers = scanHandlersInPackage(`package test.cayla.descriptor.handler.arguments.support.empty`);
+shared test void testNoArgs() {
+    value controllers = scanHandlersInPackage(`package test.cayla.descriptor.handler.arguments.support.noargs`);
     assertEquals(1, controllers.size);
     value controllerDesc = controllers.first;
     assert(exists controllerDesc);
     Object controller = controllerDesc.instantiate();
-    assert(is EmptyIndex controller);
+    assert(is NoArgsIndex controller);
     assertTrue(controllerDesc.isInstance(controller));
     object h extends Handler() {}
     assertFalse(controllerDesc.isInstance(h));

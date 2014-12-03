@@ -13,10 +13,21 @@ shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
 	}];
 	HandlerDescriptor[] handlers2 = [*{
 		for (memberDecl in memberDecls)
-			if (is ClassDeclaration memberDecl, exists x = memberDecl.extendedType, x.declaration.equals(`class Handler`))
+			if (is ClassDeclaration memberDecl,
+			    !memberDecl.abstract,
+			    memberDecl.shared,
+			    extendsHandler(memberDecl))
 				HandlerDescriptor(factory(memberDecl), memberDecl, routeOf({}, memberDecl))
 	}];
 	return concatenate(handlers1, handlers2);
+}
+
+Boolean extendsHandler(ClassDeclaration classDecl) {
+  if (exists x = classDecl.extendedType) {
+    value superClassDecl = x.declaration;
+    return superClassDecl.equals(`class Handler`) || extendsHandler(superClassDecl);
+  }
+  return false;
 }
 
 Anything factory(ClassDeclaration classDecl)(Anything[] arguments) {

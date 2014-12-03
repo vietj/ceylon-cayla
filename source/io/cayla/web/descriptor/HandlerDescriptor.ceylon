@@ -109,4 +109,6 @@ shared class HandlerDescriptor(
 	"Test if the specified handler is described by this descriptor instance"
 	shared Boolean isInstance("The handler to test" Handler handler) => type(handler).declaration.equals(classDecl);
 
+  shared actual String string => "HandlerDescriptor[``classDecl.qualifiedName``]";
+
 }
