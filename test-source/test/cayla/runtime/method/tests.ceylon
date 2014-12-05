@@ -26,7 +26,7 @@ void assertMethod(Package pkg, Method success, Method failure) {
 		response = assertRequest { uri = "http://localhost:8080/"; method = failure; };
 		assertEquals(response.status, 404);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 

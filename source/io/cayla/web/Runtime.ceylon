@@ -1,5 +1,6 @@
 import io.vertx.ceylon.core { Vertx }
-import io.vertx.ceylon.core.http { HttpServerRequest }
+import io.vertx.ceylon.core.http { HttpServerRequest,
+  HttpServer }
 import ceylon.promise { Promise }
 import ceylon.collection { HashMap }
 import java.util.concurrent { Executors }
@@ -9,7 +10,10 @@ import java.lang { Runnable }
    
    The runtime is obtained from the [[Application.start]] method.
    """
-shared class Runtime("The application" shared Application application, "Vert.x" shared Vertx vertx) {
+shared class Runtime(
+  "The application" shared Application application,
+  "Vert.x" shared Vertx vertx,
+  "The http server" HttpServer server) {
 	
 	value executor = Executors.newCachedThreadPool();
 	
@@ -128,9 +132,11 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 	}
 	
 	"Stop the application"
-	shared void stop() {
+	shared Promise<Anything> stop() {
+		value done = server.close();
 		executor.shutdown();
 		vertx.stop();
+		return done;
 	}
 }
 

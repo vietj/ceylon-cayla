@@ -10,7 +10,7 @@ shared T assertResolve<T>(Promise<T> promise) {
       latch.countDown();
     }
   };
-  if (latch.await(20000, TimeUnit.\iMICROSECONDS)) {
+  if (latch.await(20000, TimeUnit.\iMILLISECONDS)) {
     assert(exists r = result);
     if (is Throwable r) {
       throw r;

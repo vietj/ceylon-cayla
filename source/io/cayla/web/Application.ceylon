@@ -57,7 +57,7 @@ shared class Application(Package|Object container, Config config = Config(), Ver
 	"Start the application and returns a [[Runtime]] [[Promise]]"
 	shared Promise<Runtime> start() {
 		HttpServer server = vertx.createHttpServer();
-		Runtime runtime = Runtime(this, vertx);
+		Runtime runtime = Runtime(this, vertx, server);
 		server.requestHandler(runtime.handle);
 		Promise<HttpServer> promise = server.listen(config.port, config.hostName);
 		return promise.compose((HttpServer n) => runtime);
@@ -68,6 +68,6 @@ shared class Application(Package|Object container, Config config = Config(), Ver
 		Promise<Runtime> runtime = start();
 		runtime.always((Runtime|Throwable arg) => print(arg is Runtime then "started on port ``config.port``" else "failed: ``arg.string``"));
 		process.readLine();
-		runtime.compose((Runtime runtime) => runtime.stop()).compose((Anything anyting) => print("stopped"));
+		runtime.flatMap((Runtime runtime) => runtime.stop()).onComplete((Anything anyting) => print("stopped"));
 	}
 }

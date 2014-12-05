@@ -24,6 +24,6 @@ shared test void test001() {
 		assertEquals("text/html", response.contentType);
 		assertEquals("false", response.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }

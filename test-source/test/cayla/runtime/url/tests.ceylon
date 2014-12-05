@@ -25,7 +25,7 @@ void assertOK(String expected, Package pkg) {
 		assertEquals("text/html", response.contentType);
 		assertEquals(expected, response.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 

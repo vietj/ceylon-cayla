@@ -39,7 +39,7 @@ shared test void testRoot001() {
 		assertEquals("text/html", response.contentType);
 		assertEquals("hello", response.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
@@ -68,7 +68,7 @@ shared test void testRoot002() {
         Response response3 = assertGet("http://localhost:8080/");
         assertEquals(500, response3.status);
     } finally {
-        runtime.stop();
+      assertResolve(runtime.stop());
     }
 }
 
@@ -86,7 +86,7 @@ shared test void testRoot003() {
         assertEquals("text/html", response2.contentType);
         assertEquals("null", response2.contents);
     } finally {
-        runtime.stop();
+      assertResolve(runtime.stop());
     }
 }
 
@@ -104,7 +104,7 @@ shared test void testRoot004() {
         assertEquals("text/html", response2.contentType);
         assertEquals(">the_default<", response2.contents);
     } finally {
-        runtime.stop();
+      assertResolve(runtime.stop());
     }
 }
 
@@ -122,7 +122,7 @@ shared test void testRoot005() {
         assertEquals("text/html", response2.contentType);
         assertEquals("null", response2.contents);
     } finally {
-        runtime.stop();
+      assertResolve(runtime.stop());
     }
 }
 
@@ -138,7 +138,7 @@ shared test void testSegment001() {
 		assertEquals("text/html", response2.contentType);
 		assertEquals("foo", response2.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
@@ -154,7 +154,7 @@ shared test void testExpression001() {
 		assertEquals("text/html", response2.contentType);
 		assertEquals(">bar<", response2.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
@@ -176,7 +176,7 @@ shared test void testAny001() {
         assertEquals("text/html", response3.contentType);
         assertEquals(">bar/juu<", response3.contents);
     } finally {
-        runtime.stop();
+      assertResolve(runtime.stop());
     }
 }
 
@@ -196,6 +196,6 @@ shared test void testOneOrMore001() {
         assertEquals("text/html", response3.contentType);
         assertEquals(">bar/juu<", response3.contents);
     } finally {
-        runtime.stop();
+      assertResolve(runtime.stop());
     }
 }

@@ -24,7 +24,7 @@ shared test void test001() {
 		assertEquals("text/html", response.contentType);
 		assertEquals("hello_promise", response.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
@@ -36,7 +36,7 @@ shared test void test002() {
 		Response response = assertRequest("http://localhost:8080/");
 		assertEquals(500, response.status);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
@@ -48,6 +48,6 @@ shared test void test003() {
 		Response response = assertRequest("http://localhost:8080/");
 		assertEquals(500, response.status);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
