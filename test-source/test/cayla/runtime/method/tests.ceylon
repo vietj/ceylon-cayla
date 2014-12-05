@@ -4,6 +4,9 @@ import io.cayla.web { Application, Runtime }
 import ceylon.net.http { Method, get, post }
 import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse }
+import test.cayla {
+    assertResolve
+}
 
 shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}, Method method = get) {
     Uri tmp = parse(uri);
@@ -26,7 +29,7 @@ void assertMethod(Package pkg, Method success, Method failure) {
 		response = assertRequest { uri = "http://localhost:8080/"; method = failure; };
 		assertEquals(response.status, 404);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 

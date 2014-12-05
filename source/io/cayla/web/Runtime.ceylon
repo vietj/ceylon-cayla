@@ -1,12 +1,16 @@
 import io.vertx.ceylon.core { Vertx }
-import io.vertx.ceylon.core.http { HttpServerRequest }
+import io.vertx.ceylon.core.http { HttpServerRequest,
+  HttpServer }
 import ceylon.promise { Promise }
 import ceylon.collection { HashMap }
 """The application runtime.
    
    The runtime is obtained from the [[Application.start]] method.
    """
-shared class Runtime("The application" shared Application application, "Vert.x" shared Vertx vertx) {
+shared class Runtime(
+  "The application" shared Application application,
+  "Vert.x" shared Vertx vertx,
+  "The http server" HttpServer server) {
 	
 	"Handles the Vert.x request and dispatch it to a controller"
 	shared void handle(HttpServerRequest request) {
@@ -119,8 +123,10 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 	}
 	
 	"Stop the application"
-	shared void stop() {
+	shared Promise<Anything> stop() {
+		value done = server.close();
 		vertx.stop();
+		return done;
 	}
 }
 

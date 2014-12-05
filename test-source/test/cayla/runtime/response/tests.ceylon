@@ -3,6 +3,9 @@ import ceylon.language.meta.declaration { Package }
 import io.cayla.web { Application, Runtime }
 import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse }
+import test.cayla {
+    assertResolve
+}
 
 shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}) {
     Uri tmp = parse(uri);
@@ -24,7 +27,7 @@ shared test void test001() {
 		assertEquals("text/html", response.contentType);
 		assertEquals("hello_promise", response.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
@@ -37,7 +40,7 @@ shared test void test002() {
 		Response response = assertRequest("http://localhost:8080/");
 		assertEquals(500, response.status);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
@@ -50,6 +53,6 @@ shared test void test003() {
 		Response response = assertRequest("http://localhost:8080/");
 		assertEquals(500, response.status);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }

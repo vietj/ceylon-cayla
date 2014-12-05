@@ -5,6 +5,9 @@ import ceylon.net.http.client { Response, Request }
 import ceylon.net.uri { Uri, parse }
 import test.cayla.runtime.url.support.any001 { pathAny001=path }
 import test.cayla.runtime.url.support.oneormore001 { pathOneOrMore001=path }
+import test.cayla {
+    assertResolve
+}
 
 shared Response assertRequest(String uri, {<String->{String*}>*} headers = {}) {
     Uri tmp = parse(uri);
@@ -25,7 +28,7 @@ void assertOK(String expected, Package pkg) {
 		assertEquals("text/html", response.contentType);
 		assertEquals(expected, response.contents);
 	} finally {
-		runtime.stop();
+		assertResolve(runtime.stop());
 	}
 }
 
