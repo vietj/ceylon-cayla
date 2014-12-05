@@ -15,17 +15,11 @@ shared void run() {
 		`package test.cayla.runtime.route`,
 		`package test.cayla.runtime.method`,
 		`package test.cayla.runtime.url`,
-		`package test.cayla.runtime.response`
-	], [DefaultLoggingListener()]);
-    value _result = runner.run();
-    print(_result);
-    /*
-    for(result in _result.results) {
-        if (exists a = result.exception) {
-            a.printStackTrace();
-        }
-    }
-     */
+		`package test.cayla.runtime.response`,
+		`package test.cayla.runtime.assets`
+		], [DefaultLoggingListener()]);
+	value _result = runner.run();
+	print(_result);
 }
 
 shared void assertSameIterable<Element>({Element*} expected, {Element*} actual) {

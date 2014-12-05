@@ -144,6 +144,35 @@
        shared class Greeter(shared String name) extends Handler() {
          Response handle() => ok().body("Hello ``name``");
        }
+       
+   ## Asset serving
+   
+   Asset can be served using the [[io.cayla.web.asset::AssetHandler]] handler:
+   
+   ```
+   route("/assets/*path")
+   class Asset(shared String path) extends AssetHandler("myassets/``path``") {
+   }
+   ```
+   
+   In this example the handler will mount the server path `/assets/*` to the content of the `myassets`
+   directory.
+   
+   Asset urls can be created using the handler `string` method:
+   
+   ```
+   <!DOCTYPE html>
+   <html>
+   <head>
+   <script src="``Asset("myscript.js")``"></script>
+   </head>
+   ...
+   </html>
+   ```
+   
+   Asset serving is handled by Vert.x using the [[io.vertx.ceylon.core.http::HttpServerResponse#sendFile]]
+   method that streams the content from disk to the outgoing connection bypassing userspace altogether in
+   a very efficient manner.
    
    ## Templating
    
