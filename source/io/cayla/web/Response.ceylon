@@ -18,6 +18,10 @@ shared Status ok(<String|Template>? body = null, String mimeType = "text/html", 
 shared Status notFound(<String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) =>
         status(404, body, mimeType, headers);
 
+"Create an 403 status response"
+shared Status forbidden(<String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) =>
+    status(403, body, mimeType, headers);
+
 "Create an 500 status response"
 shared Status error(<String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) =>
         status(500, body, mimeType, headers);
@@ -44,7 +48,7 @@ shared class Status(shared Integer code, {<String->String>*} headers = {}) exten
 }
 
 "The body response extends the [[Status]] with a body"
-shared class Body(Integer code, String mimeType, <String|Template> data, {<String->String>*} headers = {}) extends Status(code) {
+shared class Body(Integer code, String mimeType, BodyData data, {<String->String>*} headers = {}) extends Status(code) {
 	
 	shared actual default void send(HttpServerResponse resp) {
 		try {

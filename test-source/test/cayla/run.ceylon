@@ -29,18 +29,11 @@ shared void run() {
 		`package test.cayla.runtime.method`,
 		`package test.cayla.runtime.url`,
 		`package test.cayla.runtime.response`,
-		`package test.cayla.runtime.blocking`
+		`package test.cayla.runtime.blocking`,
+    `package test.cayla.runtime.assets`
 	], [DefaultLoggingListener()]);
     value _result = runner.run();
     print(_result);
-    /*
-    for(result in _result.results) {
-        if (exists a = result.exception) {
-            a.printStackTrace();
-        }
-    }
-     */
-    
     if (executions > 0) {
       throw AssertionError("No global execution context should be used");
     }
