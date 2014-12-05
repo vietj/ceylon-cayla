@@ -4,19 +4,15 @@ import ceylon.language.meta.declaration { ClassDeclaration, Package, ValueDeclar
 import io.cayla.web { Handler, Route }
 
 shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
-	value memberDecls = pkg.members<NestableDeclaration>();
 	HandlerDescriptor[] handlers1 = [*{
-		for (memberDecl in memberDecls)
-			if (is ValueDeclaration memberDecl, exists member = memberDecl.get())
+		for (memberDecl in pkg.members<ValueDeclaration>())
+			if (exists member = memberDecl.get())
 				for (handler in scanHandlersInValueDeclaration({}, memberDecl, member))
 					handler
 	}];
 	HandlerDescriptor[] handlers2 = [*{
-		for (memberDecl in memberDecls)
-			if (is ClassDeclaration memberDecl,
-			    !memberDecl.abstract,
-			    memberDecl.shared,
-			    extendsHandler(memberDecl))
+		for (memberDecl in pkg.members<ClassDeclaration>())
+			if (!memberDecl.abstract, memberDecl.shared, extendsHandler(memberDecl))
 				HandlerDescriptor(factory(memberDecl), memberDecl, routeOf({}, memberDecl))
 	}];
 	return concatenate(handlers1, handlers2);
@@ -69,7 +65,7 @@ HandlerDescriptor[] scanHandlersInValueDeclaration({Route*} routes, ValueDeclara
 	value classDecls = classModel.declaration.memberDeclarations<ClassDeclaration>();	
 	HandlerDescriptor[] handlers = [*{
 		for (classDecl in classDecls)
-			if (exists x = classDecl.extendedType, x.declaration.equals(`class Handler`))
+			if (!classDecl.abstract, classDecl.shared, extendsHandler(classDecl))
 				HandlerDescriptor(memberFactory(classDecl, obj), classDecl, routeOf(objRoutes, classDecl))		
 		}];
 		
