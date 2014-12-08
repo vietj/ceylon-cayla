@@ -1,19 +1,19 @@
 import ceylon.language.meta { type, annotations }
 import ceylon.language.meta.model { ClassModel }
-import ceylon.language.meta.declaration { ClassDeclaration, Package, ValueDeclaration, NestableDeclaration, OpenClassOrInterfaceType }
+import ceylon.language.meta.declaration { ClassDeclaration, Package, ValueDeclaration, OpenClassOrInterfaceType }
 import io.cayla.web { Handler, Route }
 
 shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
 	HandlerDescriptor[] handlers1 = [*{
-		for (memberDecl in pkg.members<ValueDeclaration>())
-			if (exists member = memberDecl.get())
-				for (handler in scanHandlersInValueDeclaration({}, memberDecl, member))
+		for (valueDecl in pkg.members<ValueDeclaration>())
+			if (exists valueDeclValue = valueDecl.get())
+				for (handler in scanHandlersInValueDeclaration({}, valueDecl, valueDeclValue))
 					handler
 	}];
 	HandlerDescriptor[] handlers2 = [*{
-		for (memberDecl in pkg.members<ClassDeclaration>())
-			if (!memberDecl.abstract, memberDecl.shared, extendsHandler(memberDecl))
-				HandlerDescriptor(factory(memberDecl), memberDecl, routeOf({}, memberDecl))
+		for (classDecl in pkg.members<ClassDeclaration>())
+			if (!classDecl.abstract, classDecl.shared, extendsHandler(classDecl))
+				HandlerDescriptor(factory(classDecl), classDecl, routeOf({}, classDecl))
 	}];
 	return concatenate(handlers1, handlers2);
 }
