@@ -1,63 +1,38 @@
 import ceylon.test { ... }
 import ceylon.language.meta.declaration { Package }
-import io.cayla.web.descriptor { ApplicationDescriptor, HandlerDescriptor }
-import test.cayla.descriptor.application.support.route001 { controllersRoute001=controllers }
-import test.cayla.descriptor.application.support.route002 { IndexRoute1=Index }
-import test.cayla.descriptor.application.support.route003 { fooRoute003=foo }
-import test.cayla.descriptor.application.support.decl002 { fooDecl002=foo }
-import ceylon.net.uri { Path, Query, PathSegment }
-import ceylon.collection { HashMap }
-
-shared test void testDecl001() {
-	Package pkg = `package test.cayla.descriptor.application.support.decl001`;
-	ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-	assertEquals(1, desc.handlers.size);
-	HandlerDescriptor? controller = desc.handlers[0];
-	assert(exists controller);
+import io.cayla.web.descriptor { ApplicationDescriptor }
+import ceylon.language.meta { type }
+import ceylon.collection {
+  LinkedList
 }
 
-shared test void testDecl002() {
-    Package pkg = `package test.cayla.descriptor.application.support.decl002`;
-    ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-    assert(exists match = desc.handlers.first);
-    value controller = match.instantiate();
-    assert(fooDecl002.isIndex(controller));
+shared test void testApp001() =>
+    assertHandler(`package test.cayla.descriptor.application.support.app001`, "Index");
+
+shared test void testApp002() =>
+    assertHandler(`package test.cayla.descriptor.application.support.app002`, "Index");
+
+shared test void testApp003() =>
+    assertHandler(`package test.cayla.descriptor.application.support.app003`, "controllers.Index");
+
+shared test void testApp004() =>
+    assertNoHandlers(`package test.cayla.descriptor.application.support.app004`);
+
+shared test void testApp005() =>
+    assertHandler(`package test.cayla.descriptor.application.support.app005`, "foo.bar.Index");
+
+shared test void testApp006() =>
+    assertNoHandlers(`package test.cayla.descriptor.application.support.app006`);
+
+void assertHandler(Package pkg, String expectedQualifiedName) {
+  ApplicationDescriptor app = ApplicationDescriptor(pkg);
+  assertEquals(1, app.handlers.size);
+  assert(exists desc = app.handlers.first);
+  value handler = desc.instantiate();
+  assertEquals(type(handler).declaration.qualifiedName, pkg.qualifiedName + "::" + expectedQualifiedName);
 }
 
-shared test void testRoute001() {
-	Package pkg = `package test.cayla.descriptor.application.support.route001`;
-	ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-	value matches = desc.resolve("/foo_value/bar");
-	assert(exists match = matches.first);
-	assertEquals(HashMap{"foo"->"foo_value"}, match.params);
-	value controller = match.target.instantiate(*match.params);
-	assert(exists index = controllersRoute001.isInstance(controller));
-	assertEquals("foo_value", index.foo);
-	assertEquals("default_bar", index.bar);
-}
-
-shared test void testRoute002() {
-	Package pkg = `package test.cayla.descriptor.application.support.route002`;
-	ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-	value matches = desc.resolve("/foo_value/bar");
-	assert(exists match = matches.first);
-	assertEquals(HashMap{"foo"->"foo_value"}, match.params);
-	value controller = match.target.instantiate(*match.params);
-	assert(is IndexRoute1 controller);
-	assertEquals("foo_value", controller.foo);
-	assertEquals("default_bar", controller.bar);
-}
-
-shared test void testRoute003() {
-    Package pkg = `package test.cayla.descriptor.application.support.route003`;
-    ApplicationDescriptor desc = ApplicationDescriptor(pkg);
-    assertEquals(1, desc.handlers.size);
-    value instance = fooRoute003.instance();
-    assertEquals([Path(true, PathSegment("foo"), PathSegment("bar")),Query()], desc.path(instance));
-    value matches = desc.resolve("/foo/bar");
-    assert(exists match = matches.first);
-    assertEquals(HashMap{}, match.params);
-    value controller = match.target.instantiate(*match.params);
-    assert(fooRoute003.isIndex(controller));
-    assertEquals(0, desc.resolve("/foo").size);
+void assertNoHandlers(Package pkg) {
+  ApplicationDescriptor app = ApplicationDescriptor(pkg);
+  assertEquals(LinkedList(), LinkedList(app.handlers));
 }

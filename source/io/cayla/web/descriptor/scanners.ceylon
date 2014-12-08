@@ -12,7 +12,7 @@ shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
 	}];
 	HandlerDescriptor[] handlers2 = [*{
 		for (classDecl in pkg.members<ClassDeclaration>())
-			if (!classDecl.abstract, classDecl.shared, extendsHandler(classDecl))
+			if (!classDecl.abstract, extendsHandler(classDecl))
 				HandlerDescriptor(factory(classDecl), classDecl, routeOf({}, classDecl))
 	}];
 	return concatenate(handlers1, handlers2);
