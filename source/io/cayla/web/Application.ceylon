@@ -54,6 +54,10 @@ shared class Application(Package|Object container, Config config = Config(), Ver
 	"The application descriptor"
 	shared ApplicationDescriptor descriptor = ApplicationDescriptor(container);
 	
+	if (config.runMode == dev) {
+		print("Handlers ``descriptor.handlers``");
+	}
+	
 	"Start the application and returns a [[Runtime]] [[Promise]]"
 	shared Promise<Runtime> start() {
 		HttpServer server = vertx.createHttpServer();

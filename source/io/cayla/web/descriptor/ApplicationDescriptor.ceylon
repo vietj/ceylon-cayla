@@ -18,7 +18,7 @@ shared class ApplicationDescriptor(Package|Object container) {
 		handlers = scanHandlersInObject(container);
 	}
 
-    // The top router
+  // The top router
 	Router root = Router();
 	
 	// Utils function for creating a router (equivalent to a left fold)
