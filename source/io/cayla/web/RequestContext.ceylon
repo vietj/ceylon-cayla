@@ -17,9 +17,15 @@ object current {
 
 """The request context provides the information available during a request such as:
    - the Vert.x request
+   - the request parameters
    - generating an URL for a controller
    """
-shared class RequestContext(shared Runtime runtime, "The Vert.x request" shared HttpServerRequest request) {
+shared class RequestContext(
+  "The runtime"
+  shared Runtime runtime,
+  "The request aggregated parameters from the query part, the optional form and the path parameters"
+  shared Map<String, [String+]> params,
+  "The Vert.x request" shared HttpServerRequest request) {
 	
 	shared Deferred<Result> deferred<Result>() => runtime.vertx.executionContext.deferred<Result>();
 	
