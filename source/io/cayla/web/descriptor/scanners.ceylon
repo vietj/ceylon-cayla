@@ -13,7 +13,9 @@ shared HandlerDescriptor[] scanHandlersInPackage(Package pkg) {
 	}];
 	HandlerDescriptor[] handlers2 = [*{
 		for (memberDecl in memberDecls)
-			if (is ClassDeclaration memberDecl, exists x = memberDecl.extendedType, x.declaration.equals(`class Handler`))
+			if (is ClassDeclaration memberDecl,
+			     memberDecl.typeParameterDeclarations.empty,
+			     memberDecl.apply<Object>().subtypeOf(`Handler`))
 				HandlerDescriptor(factory(memberDecl), memberDecl, routeOf({}, memberDecl))
 	}];
 	return concatenate(handlers1, handlers2);
