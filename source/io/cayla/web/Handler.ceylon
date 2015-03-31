@@ -64,7 +64,7 @@ import ceylon.promise { Promise }
    The [[RequestContext]] class provides access to the full content of the request.
    """
 shared abstract class Handler() {
-	
+  
 	"Invoke the handler with the specified request context"
 	shared default Promise<Response>|Response invoke(RequestContext context) {
 		return handle();

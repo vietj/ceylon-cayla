@@ -58,3 +58,8 @@ shared test void testOneOrMore001() {
     pathOneOrMore001.val = "juu/daa";
     assertOK("http://localhost:8080/prefix/juu/daa", `package test.cayla.runtime.url.support.oneormore001`);
 }
+
+shared test void testPromise001() {
+  assertOK("http://localhost:8080", `package test.cayla.runtime.url.support.promise001`);
+}
+

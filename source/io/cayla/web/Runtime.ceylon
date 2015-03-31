@@ -15,6 +15,8 @@ shared class Runtime(
   "Vert.x" shared Vertx vertx,
   "The http server" HttpServer server) {
 	
+	value a = installListener; // Make sure we installed the listener
+	
 	value executor = Executors.newCachedThreadPool();
 	
 	"Handles the Vert.x request and dispatch it to a controller"
@@ -34,21 +36,29 @@ shared class Runtime(
 		
 		// Dispatch now the request + form in Cayla
 		void dispatch(Map<String, {String+}> form) {
-			value result = _handle(request, form);
-			switch (result)
-			case (is Response) {
-				result.send(request.response);
-			}
-			case (is Promise<Response>) {
-				void f(Response response) {
-					response.send(request.response);
+			try {
+				value result = _handle(request, form);
+				switch (result)
+				case (is Response) {
+					result.send(request.response);
 				}
-				void g(Throwable reason) {
-					error {
-						reason.message;
-					}.send(request.response);
+				case (is Promise<Response>) {
+					void f(Response response) {
+						response.send(request.response);
+					}
+					void g(Throwable reason) {
+						error {
+							reason.message;
+						}.send(request.response);
+					}
+					// We propagate the context here
+					result.compose(f, g);
 				}
-				result.compose(f, g);
+			} finally {
+				// We unset the context here because we need it to be present
+				// when a Promise<Response> is returned and we need it to propagate the 
+				// context
+				current.set(null);
 			}
 		}
 		
@@ -117,7 +127,6 @@ shared class Runtime(
 	Response|Promise<Response> execute(HttpServerRequest request, Handler handler) {
 		value context = RequestContext(this, request);
 		current.set(context);
-		current.set(context);
 		try {
 			return handler.invoke(context);
 		}
@@ -125,9 +134,6 @@ shared class Runtime(
 			return error {
 				e.message;
 			};
-		}
-		finally {
-			current.set(null);
 		}
 	}
 	
