@@ -95,7 +95,7 @@ shared class Runtime("The application" shared Application application, "Vert.x" 
 				    };
 				}
 				finally {
-					current.set(null);
+					//current.set(null);
 				}
 			}
 		}		
