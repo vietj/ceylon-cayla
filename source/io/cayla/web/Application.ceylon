@@ -49,7 +49,7 @@ import io.vertx.ceylon.core.http { HttpServer }
        Promise<Runtime> runtime = application.start(); 
        runtime.always((Runtime|Exception arg) => print(arg is Runtime then "started" else "failed: ``arg.string``"));
    """
-shared class Application(Package|Object container, Config config = Config(), Vertx vertx = Vertx()) {
+shared class Application(Package|Object container, shared Config config = Config(), Vertx vertx = Vertx()) {
 
 	"The application descriptor"
 	shared ApplicationDescriptor descriptor = ApplicationDescriptor(container);

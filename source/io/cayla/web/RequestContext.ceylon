@@ -26,8 +26,8 @@ shared class RequestContext(shared Runtime runtime, "The Vert.x request" shared 
 			value uri = Uri {
 				scheme = "http";
 				authority = Authority {
-					host = "localhost";
-					port = 8080;
+					host = runtime.application.config.hostName else "localhost";
+					port = runtime.application.config.port;
 				};  
 				path = path[0]; 
 				query = path[1]; };
