@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="com.redhat.ceylon.eclipse.ui.cpcontainer.RUNTIME_CONTAINER/default"/>
 	<classpathentry kind="con" path="com.redhat.ceylon.eclipse.ui.cpcontainer.CEYLON_CONTAINER/default"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ceylon-vertx"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
