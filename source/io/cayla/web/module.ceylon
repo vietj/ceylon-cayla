@@ -252,6 +252,6 @@ module io.cayla.web "0.3.0.stef" {
 
 	shared import java.base "7";
 	shared import ceylon.net "1.1.0";
-	shared import io.vertx.ceylon.core "1.0.0";
+	shared import io.vertx.ceylon.core "1.0.0.stef";
 
 } 
