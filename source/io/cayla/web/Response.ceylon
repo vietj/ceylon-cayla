@@ -48,6 +48,16 @@ shared class Status(shared Integer code, {<String->String>*} headers = {}) exten
 
 	"Send the response to the client via the Vert.x response"
 	shared actual default void send(HttpServerResponse resp) {
+		try{
+			work(resp);
+	    } finally {
+	        resp.end();
+	        resp.close();
+	    }
+	}
+	
+	"Do the work of sending code and headers but does not end the response or close it"
+	shared default void work(HttpServerResponse resp){
 		resp.status(code);
 		resp.headers(headers);
 	}
@@ -61,7 +71,7 @@ shared class Body(Integer code, String mimeType, <String|Template> data, {<Strin
 	
 	shared actual default void send(HttpServerResponse resp) {
 		try {
-			super.send(resp);
+			super.work(resp);
 			String s;
 			switch (data) 
 			case (is Template) {
