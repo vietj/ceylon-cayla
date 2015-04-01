@@ -14,12 +14,23 @@ object current {
 	
 }
 
+"Returns the current request context, if any, or throws"
+shared RequestContext requestContext {
+    assert(exists ret = current.get);
+    return ret;
+}
+
 """The request context provides the information available during a request such as:
    - the Vert.x request
    - generating an URL for a controller
    """
-shared class RequestContext(shared Runtime runtime, "The Vert.x request" shared HttpServerRequest request) {
-	
+shared class RequestContext(
+    "The runtime"
+    shared Runtime runtime,
+    "The request aggregated parameters from the query part, the optional form and the path parameters"
+    shared Map<String, [String+]> params,
+    "The Vert.x request" shared HttpServerRequest request) {
+
 	"Render an URL for the specified controller"
 	shared String url("The controller to create an URL for" Handler controller) {
 		if (exists path = runtime.application.descriptor.path(controller)) {
