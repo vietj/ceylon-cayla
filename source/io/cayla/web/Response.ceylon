@@ -14,6 +14,19 @@ shared Status status(Integer status = 200, <String|Template>? body = null, Strin
 shared Status ok(<String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) =>
         status(200, body, mimeType, headers);
 
+"Create an 303 status response"
+shared Status seeOther(String|Handler location, <String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) {
+    String uri;
+    switch(location)
+    case(is Handler){
+        uri = location.string;
+    }
+    case(is String){
+        uri = location;
+    }
+    return status(303, body, mimeType, headers.follow("Location" -> uri));
+}
+
 "Create an 404 status response"
 shared Status notFound(<String|Template>? body = null, String mimeType = "text/html", {<String->String>*} headers = {}) =>
         status(404, body, mimeType, headers);
