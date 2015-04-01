@@ -6,7 +6,7 @@ shared Status status(Integer status = 200, <String|Template>? body = null, Strin
     if (exists body) {
         return Body(status, mimeType, body, headers);
     } else {
-        return Status(status);
+        return Status(status, headers);
     }
 }
 
@@ -44,7 +44,7 @@ shared class Status(shared Integer code, {<String->String>*} headers = {}) exten
 }
 
 "The body response extends the [[Status]] with a body"
-shared class Body(Integer code, String mimeType, <String|Template> data, {<String->String>*} headers = {}) extends Status(code) {
+shared class Body(Integer code, String mimeType, <String|Template> data, {<String->String>*} headers = {}) extends Status(code, headers) {
 	
 	shared actual default void send(HttpServerResponse resp) {
 		try {
