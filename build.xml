@@ -9,7 +9,7 @@
     <property name="ceylon.home" value="/Users/julien/java/ceylon-1.0.0"/>
     <property name="ceylon.ant.lib" value="${ceylon.home}/lib/ceylon-ant.jar"/>
     <property name="source.encoding" value="UTF-8"/>
-	<property name="source.version" value="0.3.0"/>
+	<property name="source.version" value="0.3.0.stef"/>
 
     <target name="ceylon-ant-taskdefs">
         <path id="ant-tasks">
