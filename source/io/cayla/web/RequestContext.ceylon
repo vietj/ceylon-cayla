@@ -54,16 +54,27 @@ shared class RequestContext(
     }
 
 	"Render an URL for the specified controller"
-	shared String url("The controller to create an URL for" Handler controller) {
+	shared String url("The controller to create an URL for" Handler controller,
+	"Set to true for absolute URLs" Boolean absolute = false) {
 		if (exists path = runtime.application.descriptor.path(controller)) {
-			value uri = Uri {
-				scheme = "http";
-				authority = Authority {
-					host = runtime.application.config.hostName else "localhost";
-					port = runtime.application.config.port;
-				};  
-				path = path[0]; 
-				query = path[1]; };
+			Uri uri;
+			if(absolute){
+				value config = runtime.application.config;
+				uri = Uri {
+					scheme = "http";
+					authority = Authority {
+						host = config.externalHostName else config.hostName else "localhost";
+						port = config.externalPort else config.port;
+					};  
+					path = path[0]; 
+					query = path[1];
+				};
+			}else{
+				uri = Uri {
+					path = path[0]; 
+					query = path[1];
+				};
+			}
 			return uri.string;
 		} else {
 			// Could not resolve : handle this better

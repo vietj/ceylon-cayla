@@ -19,7 +19,7 @@ shared Status seeOther(String|Handler location, <String|Template>? body = null, 
     String uri;
     switch(location)
     case(is Handler){
-        uri = location.string;
+        uri = requestContext.url(location, true); // we need absolute URIs
     }
     case(is String){
         uri = location;
