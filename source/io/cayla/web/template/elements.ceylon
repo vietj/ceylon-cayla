@@ -48,6 +48,9 @@ shared class BUTTON({Child*} children, Attr type = "submit", String id = "", Att
 shared class P({Child*} children, String id = "", Attr className = "", Attr style = "")
         extends Element("p", id, className, style, emptyMap, children) {}
 
+shared class SPAN({Child*} children, String id = "", Attr className = "", Attr style = "")
+        extends Element("span", id, className, style, emptyMap, children) {}
+
 shared class BLOCKQUOTE({Child*} children, String id = "", Attr className = "", Attr style = "")
         extends Element("blockquote", id, className, style, emptyMap, children) {}
 
