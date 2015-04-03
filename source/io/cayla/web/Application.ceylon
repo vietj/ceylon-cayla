@@ -3,6 +3,9 @@ import io.cayla.web.descriptor { ApplicationDescriptor }
 import ceylon.language.meta.declaration { Package }
 import io.vertx.ceylon.core { Vertx }
 import io.vertx.ceylon.core.http { HttpServer }
+import java.lang {
+    Thread
+}
 
 """A Cayla application.
    
@@ -69,5 +72,21 @@ shared class Application(Package|Object container, shared Config config = Config
 		runtime.always((Runtime|Throwable arg) => print(arg is Runtime then "started on port ``config.port``" else "failed: ``arg.string``"));
 		process.readLine();
 		runtime.compose((Runtime runtime) => runtime.stop()).onComplete((Anything anyting) => print("stopped"));
+	}
+
+	"Run the application forever"
+	shared void runBlocking() {
+		Promise<Runtime> runtime = start();
+		runtime.always((Runtime|Throwable arg) => print(arg is Runtime then "started on port ``config.port``" else "failed: ``arg.string``"));
+		object daemon extends Thread(){
+			shared actual void run(){
+				print("Daemon thread running");
+				join();
+			}
+		}
+		daemon.daemon = true;
+		daemon.start();
+		// wait for it
+		daemon.join();
 	}
 }
