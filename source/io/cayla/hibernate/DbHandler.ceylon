@@ -31,6 +31,7 @@ shared abstract class DbHandler() extends Handler(){
             throw t;
         }finally{
             context.unbind(`Session`);
+            session.close();
         }
     }
     shared formal Response execute();
