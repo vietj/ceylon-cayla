@@ -3,3 +3,4 @@
 classes
 modules
 /.exploded
+.ceylon/config.old

@@ -7,3 +7,6 @@ encoding=UTF-8
 source=source
 source=test-source
 source=examples-source
+
+[repositories]
+remote=aether

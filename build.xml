@@ -9,27 +9,32 @@
     <property name="ceylon.home" value="/Users/julien/java/ceylon-1.0.0"/>
     <property name="ceylon.ant.lib" value="${ceylon.home}/lib/ceylon-ant.jar"/>
     <property name="source.encoding" value="UTF-8"/>
-	<property name="source.version" value="0.3.0.stef"/>
+	<property name="source.version" value="0.3.1"/>
 
-    <target name="ceylon-ant-taskdefs">
         <path id="ant-tasks">
             <pathelement location="${ceylon.ant.lib}"/>
         </path>
         <typedef resource="com/redhat/ceylon/ant/antlib.xml" classpathref="ant-tasks"/>
-    </target>
 	
+    <moduleset id="modules">
+        <module name="io.cayla.web"/>
+        <module name="io.cayla.hibernate"/>
+    </moduleset>
+    
     <target name="default" depends="doc, run">
     </target>
 
-    <target name="compile" depends="ceylon-ant-taskdefs">
+    <target name="compile">
         <ceylon-compile encoding="${source.encoding}">
-            <module name="io.cayla.web"/>
+            <rep url="aether"/>
+            <moduleset refid="modules"/>
         </ceylon-compile>
     </target>
 
-    <target name="doc" depends="ceylon-ant-taskdefs">
+    <target name="doc">
         <ceylon-doc encoding="${source.encoding}">
-            <module name="io.cayla.web"/>
+            <rep url="aether"/>
+            <moduleset refid="modules"/>
         </ceylon-doc>
     </target>
 
@@ -45,9 +50,14 @@
     </target>
 
     <target name="install" depends="test">
-            <ceylon-compile out="+USER" encoding="${source.encoding}">
-                <module name="io.cayla.web"/>
-            </ceylon-compile>
+        <ceylon-compile out="+USER" encoding="${source.encoding}">
+            <rep url="aether"/>
+            <moduleset refid="modules"/>
+        </ceylon-compile>
+        <ceylon-doc out="+USER" encoding="${source.encoding}">
+            <rep url="aether"/>
+            <moduleset refid="modules"/>
+        </ceylon-doc>
     </target>
 	
 	<target name="clean">
