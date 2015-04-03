@@ -14,7 +14,13 @@ shared class AssetHandler(String path, Boolean(String) pathValidation = pathVali
     } else {
       object stream extends Response() {
         shared actual void send(HttpServerResponse resp) {
-          resp.sendFile(path);
+            value applicationPath = context.runtime.application.config.applicationPath;
+            if(exists applicationPath){
+                String prefixedPath = applicationPath + operatingSystem.fileSeparator + path;
+                resp.sendFile(prefixedPath);
+            }else{
+                resp.sendFile(path);
+            }
         }
       }
       return stream;

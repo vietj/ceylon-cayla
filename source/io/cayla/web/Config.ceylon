@@ -10,6 +10,8 @@ shared class Config(
     shared String? externalHostName = null,
     "If your application is reacheable via a port number that differs from where we listen for HTTP, 
      if you have a proxy or load-balancer for example, then this will be used to generate absolute URIs"
-    shared Integer? externalPort = null) {
+    shared Integer? externalPort = null,
+    "The application path, if not in the current working directory. This is used to find assets"
+    shared String? applicationPath = null) {
     
 }
