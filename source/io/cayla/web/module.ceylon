@@ -7,7 +7,7 @@
    ### Import the Cayla module
    
        module my.app "1.0.0" {
-         import io.cayla.web "0.3.0";
+         import io.cayla.web "0.3.1";
        }
    
    ### Write the controller
@@ -277,10 +277,10 @@
    
    The engine is extensible, you can easily extends the engine with your own elements and tags.
   """
-module io.cayla.web "0.3.0.stef" {
+module io.cayla.web "0.3.1" {
 
 	shared import java.base "7";
 	shared import ceylon.net "1.1.0";
-	shared import io.vertx.ceylon.core "1.0.0.stef";
+	shared import io.vertx.ceylon.core "1.0.1";
 
 } 
