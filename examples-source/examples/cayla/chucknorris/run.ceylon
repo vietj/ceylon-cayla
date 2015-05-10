@@ -68,7 +68,7 @@ class ProxyController(shared String path)
         }
         return request.response.
                 flatMap<JsonObject>((HttpClientResponse response) => response.parseBody(jsonBody)).
-                compose(transform);
+                map(transform);
     }
 }
 

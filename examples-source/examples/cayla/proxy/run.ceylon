@@ -24,7 +24,7 @@ class ProxyController(shared String path) extends Handler() {
         value request = client.get("/``path``").end();
         return request.response.
                 flatMap<String>((HttpClientResponse response) => response.parseBody(textBody)).
-                compose((String body) => ok { body; });
+                map((String body) => ok { body; });
     }
 }
 

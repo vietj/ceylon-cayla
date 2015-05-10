@@ -52,7 +52,7 @@ shared class Runtime(
 						}.send(request.response);
 					}
 					// We propagate the context here
-					result.compose(f, g);
+					result.map(f, g);
 				}
 			} finally {
 				// We unset the context here because we need it to be present
@@ -63,7 +63,7 @@ shared class Runtime(
 		}
 		
 		// Chain stuff
-		request.formAttributes.compose(withForm, withoutForm).compose(dispatch);
+		request.formAttributes.map(withForm, withoutForm).completed(dispatch);
 	}
 
 	"Handles the Vert.x request and dispatch it to a controller"

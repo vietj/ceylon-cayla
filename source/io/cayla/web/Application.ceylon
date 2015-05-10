@@ -64,13 +64,13 @@ shared class Application(Package|Object container, Config config = Config(), Ver
 		Runtime runtime = Runtime(this, vertx, server);
 		server.requestHandler(runtime.handle);
 		Promise<HttpServer> promise = server.listen(config.port, config.hostName);
-		return promise.compose((HttpServer n) => runtime);
+		return promise.map((HttpServer n) => runtime);
 	}
 
     "Run the application"
 	shared void run("Current thread is blocked until the console reads a line" Boolean block = true) {
 		Promise<Runtime> runtime = start();
-		runtime.always((Runtime|Throwable arg) => print(arg is Runtime then "started on port ``config.port``" else "failed: ``arg.string``"));
+		runtime.onComplete((Runtime|Throwable arg) => print(arg is Runtime then "started on port ``config.port``" else "failed: ``arg.string``"));
 		process.readLine();
 		runtime.flatMap((Runtime runtime) => runtime.stop()).onComplete((Anything anyting) => print("stopped"));
 	}

@@ -9,9 +9,9 @@ shared class Index() extends Handler() {
 	shared actual Promise<Response> invoke(RequestContext context) {
 		value deferred = context.deferred<String>();
 		context.runtime.vertx.runOnContext(void () {
-			deferred.resolve("whatever");
+			deferred.complete("whatever");
 		});
-		return deferred.promise.compose {
+		return deferred.promise.map {
 			Response onFulfilled(String s) {
 				return ok {
 					"``Index()``";
