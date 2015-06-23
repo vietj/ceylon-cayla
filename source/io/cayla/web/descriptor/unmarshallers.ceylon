@@ -9,6 +9,23 @@ object stringOrNullUnmarshaller extends Unmarshaller<String?>() {
     
 }
 
+object integerOrNullUnmarshaller extends Unmarshaller<Integer?>() {
+    shared actual Integer? unmarshall(String? s) {
+        if (exists s) {
+            if (exists i = parseInteger(s)) {
+                return i;
+            } else {
+                throw Exception("String value ``s`` cannot be parsed to Integer");
+            }
+        } else {
+            return null;
+        }
+    }
+    
+    shared actual Integer? default = null;
+    
+}
+
 object stringUnmarshaller extends Unmarshaller<String>() {
     shared actual String unmarshall(String? s) {
         if (exists s) {
@@ -58,10 +75,15 @@ object booleanUnmarshaller extends Unmarshaller<Boolean>() {
 
 String? returnStringOrNull() { return "foo"; }
 OpenType stringOrNullType = `function returnStringOrNull`.openType;
+Integer? returnIntegerOrNull() { return null; }
+OpenType integerOrNullType = `function returnIntegerOrNull`.openType;
+
 object unmarshallers {
 	shared Unmarshaller<Anything>? find(OpenType type) {
 		if (type.equals(stringOrNullType)) {
 			return stringOrNullUnmarshaller;
+		} else if (type.equals(integerOrNullType)) {
+			return integerOrNullUnmarshaller;
 		} else if (type.equals(`class String`.openType)) {
 			return stringUnmarshaller;
 		} else if (type.equals(`class Integer`.openType)) {
