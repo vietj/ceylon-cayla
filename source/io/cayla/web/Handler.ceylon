@@ -65,6 +65,12 @@ import ceylon.promise { Promise }
    """
 shared abstract class Handler() {
 	
+	"Invoked before invoke or handle"
+	shared default void before(RequestContext context){}
+
+	"Invoked after invoke or handle"
+	shared default void after(Throwable? thrown = null){}
+	
 	"Invoke the handler with the specified request context"
 	shared default Promise<Response>|Response invoke(RequestContext context) {
 		return handle();

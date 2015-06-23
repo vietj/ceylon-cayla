@@ -15,23 +15,27 @@ import ceylon.language.meta.declaration {
 shared abstract class DbHandler() extends Handler(){
     shared late Session session;
     shared late RequestContext context;
-    shared actual Response invoke(RequestContext context){
+    shared actual void before(RequestContext context){
         this.context = context;
         session = sessionFactory.openSession();
         session.transaction.begin();
         context.bind(`Session`, session);
-        try{
-            Response ret = execute();
-            // FIXME: this will not work with actions in templates which are eval'ed later
-            session.transaction.commit();
-            return ret;
-        }catch(Throwable t){
+    }
+    shared actual void after(Throwable? thrown){
+        if(exists thrown){
             session.transaction.rollback();
+        }else{
+            session.transaction.commit();
+        }
+        context.unbind(`Session`);
+        session.close();
+    }
+    shared actual Response invoke(RequestContext context){
+        try{
+            return execute();
+        }catch(Throwable t){
             t.printStackTrace();
             throw t;
-        }finally{
-            context.unbind(`Session`);
-            session.close();
         }
     }
     shared formal Response execute();

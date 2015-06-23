@@ -31,19 +31,43 @@ shared class Runtime(
 		void dispatch(Map<String, [String+]> form) {
 			value result = _handle(request, form);
 			switch (result)
-			case (is Response) {
+			case (is Response){
+				// we did not find a controller
 				result.send(request.response);
 			}
-			case (is Promise<Response>) {
-				void f(Response response) {
-					response.send(request.response);
+			case (is [RequestContext, Handler]){
+				RequestContext context = result[0];
+				Handler controller = result[1];
+				current.set(context);
+				variable Response|Promise<Response> response;
+				try {
+					controller.before(context);
+					response = controller.invoke(context);
 				}
-				void g(Throwable reason) {
-					error {
-						reason.message;
-					}.send(request.response);
+				catch (Exception e) {
+					response = error {
+						e.message;
+					};
 				}
-				result.compose(f, g);
+				value defResponse = response;
+				switch (defResponse)
+				case (is Response) {
+					defResponse.send(request.response);
+					controller.after();
+				}
+				case (is Promise<Response>) {
+					void f(Response response) {
+						response.send(request.response);
+						controller.after();
+					}
+					void g(Throwable reason) {
+						error {
+							reason.message;
+						}.send(request.response);
+						controller.after(reason);
+					}
+					defResponse.compose(f, g);
+				}
 			}
 		}
 		
@@ -52,7 +76,7 @@ shared class Runtime(
 	}
 
 	"Handles the Vert.x request and dispatch it to a controller"
-	Promise<Response>|Response _handle(HttpServerRequest request, Map<String, [String+]> form) {
+	[RequestContext,Handler]|Response _handle(HttpServerRequest request, Map<String, [String+]> form) {
 
 		for (match in application.descriptor.resolve(request.path)) {
 			
@@ -101,20 +125,8 @@ shared class Runtime(
 					};
 				}
 				
-				//
 				value context = RequestContext(this, parameters, request);
-				current.set(context);
-				try {
-					return controller.invoke(context);
-				}
-				catch (Exception e) {
-					return error {
-						e.message;
-				    };
-				}
-				finally {
-					//current.set(null);
-				}
+				return [context, controller];
 			}
 		}		
 		return notFound {
