@@ -56,3 +56,6 @@ shared class BLOCKQUOTE({Child*} children, String id = "", Attr className = "", 
 
 shared class SMALL({Child*} children, String id = "", Attr className = "", Attr style = "")
         extends Element("small", id, className, style, emptyMap, children) {}
+
+shared class Br(String id = "", Attr className = "", Attr style = "")
+        extends Element("br", id, className, style, emptyMap, {}) {}

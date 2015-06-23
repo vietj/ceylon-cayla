@@ -45,3 +45,34 @@ shared class WhenNode<Value>(Value() evaluation, variable [[Value,{Child*}]*] ev
 shared WhenNode<Value> when<Value>(Value() val) given Value satisfies Object {
     return WhenNode<Value>(val, empty, {});
 }
+
+shared class IfNode(Boolean condition, {Child*} onTrue, {Child*} onFalse = {}) extends Node() {
+    
+    shared actual void render(StringBuilder to) {
+        if(condition){
+            for (child in onTrue) {
+                dispatch(child, to);
+            }
+        }else{
+            for (child in onFalse) {
+                dispatch(child, to);
+            }
+        }
+    }
+}
+
+shared class IfExistsNode<Type>(Type? element, {Child*} onTrue(Type element), {Child*} onFalse = {}) extends Node() 
+    given Type satisfies Object {
+    
+    shared actual void render(StringBuilder to) {
+        if(exists element){
+            for (child in onTrue(element)) {
+                dispatch(child, to);
+            }
+        }else{
+            for (child in onFalse) {
+                dispatch(child, to);
+            }
+        }
+    }
+}
