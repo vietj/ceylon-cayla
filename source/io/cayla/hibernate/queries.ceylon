@@ -46,7 +46,7 @@ shared T? find<T>(String hql, {<String->Object>*} params = {}){
 "List all entities of the type `T`, with an optional query"
 shared List<T> list<T>(String query = "", {<String->Object>*} params = {}){
     assert(is Class<T,[]> model = `T`);
-    return package.query<T>("FROM ``model.declaration.name`` ``query``");
+    return package.query<T>("FROM ``model.declaration.name`` ``query``", params);
 }
 
 "Delte all entities of the type `T`, with an optional query or entity ID"
