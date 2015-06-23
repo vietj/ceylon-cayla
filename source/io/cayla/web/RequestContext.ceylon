@@ -7,6 +7,9 @@ import ceylon.language.meta.model {
 import ceylon.collection {
     HashMap
 }
+import ceylon.language.meta {
+    type
+}
 
 object current {
 	
@@ -75,9 +78,14 @@ shared class RequestContext(
 					query = path[1];
 				};
 			}
-			return uri.string;
+			value stringUri = uri.string;
+			// make sure that for relative URI to the root ("") we turn it into a "/"
+			// Note that it won't happen for absolute URIs where http://foo.com is good
+			return stringUri.empty then "/" else stringUri;
 		} else {
 			// Could not resolve : handle this better
+			// DO NOT use controller.string as in most cases it would call this very method and run out of stack
+			print("Could not find path for controller ``type(controller)``");
 			return "";
 		}
 	}
