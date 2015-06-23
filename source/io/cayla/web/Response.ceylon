@@ -88,6 +88,8 @@ shared class Body(Integer code, String mimeType, BodyData data, {<String->String
 			}
 			resp.contentType(mimeType);
 			resp.end(s);
+		} catch(Throwable t ){
+			t.printStackTrace();
 		} finally {
 			resp.close();
 		}
